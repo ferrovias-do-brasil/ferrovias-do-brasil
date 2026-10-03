@@ -5,8 +5,8 @@ gauge_mm: 1600
 network: cp
 summary: >-
   A companhia formada por fazendeiros de café para levar os trilhos de Jundiaí ao interior. Começou
-  em 1872 com Jundiaí–Campinas, em bitola larga, e chegou a Rio Claro em 1876. Nesta primeira etapa,
-  só a Linha Tronco até Rio Claro.
+  em 1872 com Jundiaí–Campinas, em bitola larga, chegou a Rio Claro em 1876 e, com as linhas da
+  Companhia Rio-Clarense compradas em 1892, a Bauru em 1910, onde encontra a Noroeste.
 operators:
   - { company: cia-paulista, from: '1872', to: '1971', source: wikipedia-pt-cpef }
   - { company: fepasa, from: '1971', source: wikipedia-pt-cpef }

@@ -1,12 +1,13 @@
-# Companhia Paulista de Estradas de Ferro — Linha Tronco, Jundiaí → Campinas → Rio Claro (1872–1876)
+# Companhia Paulista de Estradas de Ferro — Linha Tronco (Jundiaí → Rio Claro, 1872–1876)
+# e Tronco Oeste até Bauru (antigas linhas da Companhia Rio-Clarense, 1884–1887, e ramais da Paulista até 1910)
 #
 # Datas de abertura tiradas dos relatórios da Diretoria da Companhia Paulista
 # (Arquivo Público do Estado / Memória Ferroviária), conferidas com Giesbrecht.
 # Bitola larga (1,60 m). Geometria do OpenStreetMap (cache estadual da malha-sp).
 
 line: cp
-name: Companhia Paulista — Linha Tronco (Jundiaí–Rio Claro)
-bbox: [ -47.70, -23.25, -46.80, -22.30 ]
+name: Companhia Paulista — Jundiaí–Rio Claro–Bauru
+bbox: [ -49.15, -23.25, -46.80, -22.10 ]
 osm_cache: malha-sp
 
 nodes:
@@ -53,6 +54,49 @@ nodes:
     station: rio-claro
     snap: old
     coords: [ -47.55846, -22.407075 ]
+
+  - id: jct-santa-gertrudes
+    name: Junção de Santa Gertrudes
+    kind: junction
+    coords: [ -47.525604, -22.453998 ]
+    note: Onde a Variante Santa Gertrudes–Itirapina (1980) deixa a linha de Rio Claro; ponto aproximado.
+  - id: itirapina
+    name: Itirapina
+    kind: station
+    station: itirapina
+    coords: [ -47.817831, -22.258849 ]
+    note: Estação de 1916, na bifurcação das linhas para São Carlos e para Jaú.
+  - id: campo-alegre
+    name: Campo Alegre
+    kind: station
+    station: campo-alegre
+    coords: [ -47.962362, -22.243445 ]
+  - id: brotas
+    name: Brotas
+    kind: station
+    station: brotas
+    coords: [ -48.111314, -22.286666 ]
+  - id: dois-corregos
+    name: Dois Córregos
+    kind: station
+    station: dois-corregos
+    coords: [ -48.378475, -22.37113 ]
+  - id: jau
+    name: Jaú
+    kind: station
+    station: jau
+    coords: [ -48.556471, -22.305295 ]
+  - id: pederneiras
+    name: Pederneiras
+    kind: station
+    station: pederneiras
+    coords: [ -48.773939, -22.358203 ]
+  - id: bauru-paulista
+    name: Bauru (Paulista)
+    kind: station
+    station: bauru-paulista
+    coords: [ -49.073791, -22.318124 ]
+    note: Ponto de encontro com a Noroeste e com a Sorocabana.
 
 segments:
   - id: cp-jundiai-valinhos
@@ -155,12 +199,12 @@ segments:
         note: Abertas as estações de Tatu e Limeira.
       - *cr-freight
 
-  - id: cp-limeira-rio-claro
-    name: Limeira – Cordeiro – Santa Gertrudes – Rio Claro
+  - id: cp-limeira-santa-gertrudes
+    name: Limeira – Cordeiro – Santa Gertrudes
     from: limeira
-    to: rio-claro
+    to: jct-santa-gertrudes
     alignment: original
-    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.45372, -22.48129 ], [ -47.52800, -22.45329 ] ] }
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.45372, -22.48129 ] ] }
     geometry_confidence: high
     status_history:
       - status: open
@@ -168,3 +212,154 @@ segments:
         sources: [ cpef-rel-1876-set ]
         note: Tráfego provisório até "a cidade de S. João do Rio Claro".
       - *cr-freight
+
+  - id: cp-santa-gertrudes-rio-claro
+    name: Santa Gertrudes – Rio Claro
+    from: jct-santa-gertrudes
+    to: rio-claro
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1876-08-11'
+        sources: [ cpef-rel-1876-set ]
+      - *cr-freight
+
+  # ------------------------------------------------------------------
+  # Rio Claro → Itirapina: Companhia Rio-Clarense (1884), bitola larga por Batovi (1916), variante (1980)
+  # ------------------------------------------------------------------
+  - id: cp-rio-claro-itirapina
+    name: Rio Claro – Batovi – Itirapina
+    from: rio-claro
+    to: itirapina
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.642, -22.370 ], [ -47.722, -22.312 ] ] }
+    geometry_confidence: medium
+    geometry_note: >-
+      Leito da linha de bitola larga de 1916, por Batovi, arrancado depois de 1980 (OSM). A linha métrica original da Rio-Clarense (1884) seguia por Estrela e Feijão (Visconde do Rio Claro) e só coincide em parte; perto de Itirapina o OSM guarda um pedaço dela.
+    status_history:
+      - status: open
+        from:
+          - { value: '1884-12-01', source: giesbrecht-visconde-rio-claro-velha, preferred: true, note: 'Linha Rio Claro–São Carlos da Companhia Rio-Clarense, bitola métrica; data "segundo a Companhia Paulista".' }
+          - { value: '1884-10-15', source: giesbrecht-visconde-rio-claro-velha, note: Data dada como possível na mesma página. }
+        note: Comprada pela Paulista em 1892; refeita em bitola larga, com a nova estação de Itirapina e a de Batovi, em 1/6/1916.
+      - status: removed
+        from: '1980'
+        sources: [ giesbrecht-batovi ]
+        note: Batovi está "sem trilhos" desde 1980, quando foi construída a variante Santa Gertrudes–Itirapina.
+
+  - id: cp-variante-santa-gertrudes-itirapina
+    name: Variante Santa Gertrudes – Itirapina (1980)
+    from: jct-santa-gertrudes
+    to: itirapina
+    alignment: variant
+    replaces: [ cp-rio-claro-itirapina ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1980'
+        sources: [ giesbrecht-batovi ]
+      - &to-freight
+        status: freight_only
+        from: '2001-03-15'
+        sources: [ giesbrecht-itirapina, giesbrecht-jau ]
+        note: Último trem de passageiros, operado pela Ferroban.
+
+  # ------------------------------------------------------------------
+  # Itirapina → Jaú: Ramal de Jaú da Companhia Rio-Clarense (1885–1887), Tronco Oeste em 1941
+  # ------------------------------------------------------------------
+  - id: cp-itirapina-campo-alegre
+    name: Itirapina – Campo Alegre
+    from: itirapina
+    to: campo-alegre
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: >-
+      Traçado atual. Até 1916 o ramal saía de Visconde do Rio Claro (Feijão) e passava pela velha Itirapina (Morro Pelado), cerca de 1 km dali; Campo Alegre "sempre permaneceu no mesmo local".
+    status_history:
+      - status: open
+        from: '1885-07-01'
+        sources: [ giesbrecht-campo-alegre, giesbrecht-itirapina-velha ]
+        note: Ramal de Jaú da Companhia Rio-Clarense, bitola métrica. Bitola larga a partir de 1941.
+      - *to-freight
+
+  - id: cp-campo-alegre-brotas
+    name: Campo Alegre – Brotas (aproximado)
+    from: campo-alegre
+    to: brotas
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: low
+    geometry_note: >-
+      Desenhado sobre o traçado atual. Em 1929 a linha foi retificada e a estação de Brotas, "a terceira desde 1885", foi construída fora da cidade; o leito antigo ainda não está mapeado.
+    status_history:
+      - status: open
+        from:
+          - { value: '1885', source: giesbrecht-brotas, note: Brotas tem estação desde 1885. }
+      - *to-freight
+
+  - id: cp-brotas-dois-corregos
+    name: Brotas – Dois Córregos (aproximado)
+    from: brotas
+    to: dois-corregos
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: low
+    geometry_note: Desenhado sobre o traçado atual; o ramal métrico original foi retificado entre 1929 e 1941.
+    status_history:
+      - status: open
+        from: '1886-09-07'
+        sources: [ giesbrecht-dois-corregos ]
+      - *to-freight
+
+  - id: cp-dois-corregos-jau
+    name: Dois Córregos – Jaú (aproximado)
+    from: dois-corregos
+    to: jau
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: low
+    geometry_note: >-
+      Desenhado sobre o traçado atual. O ramal original passava por Mineiros; em 1941 o Tronco Oeste passou a seguir por Lacerda Franco, com nova estação em Jaú (15/11/1941). O leito antigo ainda não está mapeado.
+    status_history:
+      - status: open
+        from: '1887'
+        sources: [ giesbrecht-jau, giesbrecht-dois-corregos ]
+        note: Ponta do Ramal de Jaú da Rio-Clarense.
+      - *to-freight
+
+  # ------------------------------------------------------------------
+  # Jaú → Pederneiras (1903) → Bauru (1910): ramais da Paulista, unidos ao Tronco Oeste em 1941
+  # ------------------------------------------------------------------
+  - id: cp-jau-pederneiras
+    name: Jaú – Pederneiras
+    from: jau
+    to: pederneiras
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Traçado atual; o trecho foi incorporado ao Tronco Oeste em 1941 e pode ter sido retificado.
+    status_history:
+      - status: open
+        from: '1903-10-01'
+        sources: [ giesbrecht-pederneiras ]
+        note: Pederneiras abre como ponta do ramal de Agudos, em bitola métrica.
+      - *to-freight
+
+  - id: cp-pederneiras-bauru
+    name: Pederneiras – Bauru (Ramal de Bauru)
+    from: pederneiras
+    to: bauru-paulista
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Traçado atual; bitola larga desde 15/6/1947.
+    status_history:
+      - status: open
+        from: '1910-08-08'
+        sources: [ giesbrecht-bauru-cp, giesbrecht-pederneiras ]
+        note: A Paulista chega a Bauru e encontra a Noroeste e a Sorocabana.
+      - *to-freight

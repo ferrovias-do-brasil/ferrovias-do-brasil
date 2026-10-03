@@ -49,8 +49,28 @@ Pendências:
 - **Samambaia (1872)**: o relatório cita uma estação provisória; o ponto no mapa é aproximado.
 - **Estações intermediárias** não modeladas: Hortolândia (Jacuba), Nova Odessa, Recanto, São
   Jerônimo, Itaipu, Ibicaba, Cordeirópolis (Cordeiro), Santa Gertrudes.
-- **Próximos trechos**: Rio Claro em diante (compra da Cia. Rio Claro, 1892; Tronco Oeste até Bauru)
-  e ramais (Descalvado, 1877; Cordeiro–Mogi Guaçu).
+- **Próximos trechos**: ramais (Descalvado, 1877; Cordeiro–Mogi Guaçu), Itirapina–São Carlos–Araraquara
+  e Bauru em diante (Tronco Oeste até Panorama, 1962).
+
+## Companhia Paulista — Rio Claro → Bauru
+
+Feito em 2026-10-03: 9 trechos (Rio-Clarense 1884–1887, Paulista 1903–1910, variante de 1980), 8
+estações, 11 eventos. Quilometragens de 1958 conferidas: Rio Claro → Batovi → Itirapina dentro de 0,4%.
+O traçado Itirapina → Bauru atual mede 161,9 km contra 165,4 km nas quilometragens do Tronco Oeste (−2%).
+
+Pendências:
+- **Linha métrica original da Rio-Clarense (1884)** entre Rio Claro e Itirapina, por Estrela e Feijão
+  (Visconde do Rio Claro-velha): hoje desenhada sobre o leito de bitola larga de 1916, por Batovi. O OSM
+  tem 7,6 km dela perto de Itirapina ("Companhia Rio-Clarense").
+- **Retificações de 1929–1941** (Brotas, Dois Córregos–Mineiros–Jaú): trechos marcados como aproximados;
+  falta mapear os leitos antigos e localizar as estações anteriores de Brotas e a de Jaú de 1887.
+- **Datas exatas**: a chegada a Brotas (1885) e a Jaú (1887) só têm o ano. Os relatórios da
+  Rio-Clarense não estão na coleção do Memória Ferroviária; os da Paulista de 1892 em diante devem
+  trazer as datas das retificações e do alargamento (1916, 1941, 1947).
+- **Rio Claro depois de 1980**: a estação ficou fora da variante. Como os trens de passageiros chegavam
+  até lá até 2001?
+- **Estações não modeladas**: Camaquã, Ubá, Estrela, Aterrado, Espraiado, Torrinha, Ventania, Mineiros,
+  Lacerda Franco, Banharão, Ave Maria, Airosa Galvão, Carajás, Triagem.
 
 ## Próximas linhas
 
