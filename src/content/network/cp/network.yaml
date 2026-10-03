@@ -86,6 +86,17 @@ nodes:
     kind: station
     station: jau
     coords: [ -48.556471, -22.305295 ]
+  - id: ayrosa-galvao
+    name: Ayrosa Galvão (bifurcação)
+    kind: junction
+    coords: [ -48.677256, -22.365415 ]
+    note: Estação de 1941 na bifurcação do Tronco Oeste com o Ramal dos Agudos; a de 1903 ficava nas proximidades, em ponto não localizado.
+  - id: campos-salles
+    name: Campos Salles
+    kind: station
+    snap: none
+    coords: [ -48.5931, -22.4408 ]
+    note: Posição ESTIMADA pela localidade de Campos Sales (OSM); estação aberta em 1/7/1899, no Ramal dos Agudos.
   - id: pederneiras
     name: Pederneiras
     kind: station
@@ -243,7 +254,7 @@ segments:
         from:
           - { value: '1884-12-01', source: giesbrecht-visconde-rio-claro-velha, preferred: true, note: 'Linha Rio Claro–São Carlos da Companhia Rio-Clarense, bitola métrica; data "segundo a Companhia Paulista".' }
           - { value: '1884-10-15', source: giesbrecht-visconde-rio-claro-velha, note: Data dada como possível na mesma página. }
-        note: Comprada pela Paulista em 1892; refeita em bitola larga, com a nova estação de Itirapina e a de Batovi, em 1/6/1916.
+        note: 'Comprada pela Paulista em 1/4/1892; refeita em bitola larga em 1/6/1916, "inaugurando-se no mesmo dia as estações de Batovy, Itapé, Gramma, Ityrapina" (relatório de 1917).'
       - status: removed
         from: '1980'
         sources: [ giesbrecht-batovi ]
@@ -294,7 +305,7 @@ segments:
     geometry: { method: osm-current }
     geometry_confidence: low
     geometry_note: >-
-      Desenhado sobre o traçado atual. Em 1929 a linha foi retificada e a estação de Brotas, "a terceira desde 1885", foi construída fora da cidade; o leito antigo ainda não está mapeado.
+      Desenhado sobre o traçado atual. "Em 1929 foi concluída a construcção da variante das proximidades da cidade de Brotas e a da de Torrinha a Dous Córregos" (relatório de 1930); a estação de Brotas, "a terceira desde 1885", foi construída fora da cidade. O leito antigo ainda não está mapeado.
     status_history:
       - status: open
         from:
@@ -308,47 +319,117 @@ segments:
     alignment: original
     geometry: { method: osm-current }
     geometry_confidence: low
-    geometry_note: Desenhado sobre o traçado atual; o ramal métrico original foi retificado entre 1929 e 1941.
+    geometry_note: Desenhado sobre o traçado atual; a variante de Torrinha a Dois Córregos é de 1929 (relatório de 1930) e a variante na serra de Brotas estava em obras em 1930.
     status_history:
       - status: open
         from: '1886-09-07'
         sources: [ giesbrecht-dois-corregos ]
       - *to-freight
 
-  - id: cp-dois-corregos-jau
-    name: Dois Córregos – Jaú (aproximado)
+  - id: cp-ramal-jau-mineiros
+    name: Ramal de Jaú — Dois Córregos – Mineiros – Jaú (esquemático)
     from: dois-corregos
     to: jau
-    alignment: original
-    geometry: { method: osm-current }
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -48.4505, -22.4133 ] ] }
     geometry_confidence: low
     geometry_note: >-
-      Desenhado sobre o traçado atual. O ramal original passava por Mineiros; em 1941 o Tronco Oeste passou a seguir por Lacerda Franco, com nova estação em Jaú (15/11/1941). O leito antigo ainda não está mapeado.
+      Linha reta passando por Mineiros: o leito do ramal métrico original (Dois Córregos, Mineiros, Banharão, Jaú) ainda não está mapeado. A estação de Jaú de 1887 ficava em outro ponto.
     status_history:
       - status: open
         from: '1887'
         sources: [ giesbrecht-jau, giesbrecht-dois-corregos ]
-        note: Ponta do Ramal de Jaú da Rio-Clarense.
+        note: Ponta do Ramal de Jaú da Companhia Rio-Clarense.
+      - status: closed
+        from:
+          - { value: '1941-11-15', source: giesbrecht-jau, preferred: true, note: Inauguração da nova estação de Jaú, no Tronco Oeste. }
+          - { value: '1941', source: cpef-rel-1942-abril, note: '"Foram suprimidos os trechos ... de Mineiros a Jaú, com 23,742 quilômetros." O trecho Dois Córregos–Mineiros seguiu como ramal; sua data de fechamento ainda precisa de fonte.' }
+
+  - id: cp-tronco-oeste-dois-corregos-jau
+    name: Tronco Oeste — Dois Córregos – Lacerda Franco – Jaú (1941)
+    from: dois-corregos
+    to: jau
+    alignment: variant
+    replaces: [ cp-ramal-jau-mineiros ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - &to-1941
+        status: open
+        from:
+          - { value: '1941-11-15', source: giesbrecht-jau, preferred: true, note: Inauguração da nova estação de Jaú; a eletrificação Itirapina–Jaú também ficou pronta em 15/11/1941. }
+          - { value: '1941', source: cpef-rel-1942-abril, note: '"Foram inaugurados ... o trecho da nova linha de Dous Córregos a Jaú e à margem esquerda do Tietê, com a extensão de 43,472 quilômetros."' }
       - *to-freight
 
   # ------------------------------------------------------------------
-  # Jaú → Pederneiras (1903) → Bauru (1910): ramais da Paulista, unidos ao Tronco Oeste em 1941
+  # Ramal dos Agudos (Paulista, bitola métrica): Dois Córregos → Campos Salles (1899) → Pederneiras (1903)
   # ------------------------------------------------------------------
-  - id: cp-jau-pederneiras
-    name: Jaú – Pederneiras
-    from: jau
+  - id: cp-agudos-dois-corregos-campos-salles
+    name: Ramal dos Agudos — Dois Córregos – Capim Fino – Campos Salles (esquemático)
+    from: dois-corregos
+    to: campos-salles
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -48.4388, -22.4562 ] ] }
+    geometry_confidence: low
+    geometry_note: Linha reta passando por Capim Fino; o leito (Saldanha Marinho, Capim Fino, Falcão Filho, Campos Salles) ainda não está mapeado.
+    status_history:
+      - status: open
+        from: '1899-07-01'
+        sources: [ cpef-rel-1903-jun ]
+        note: '"Em 1.º de Julho de 1899 inauguraram-se Saldanha Marinho, Capim Fino, Falcão Filho e Campos Salles."'
+      - status: closed
+        from: '1941'
+        sources: [ cpef-rel-1942-abril ]
+        note: Suprimido o trecho Dois Córregos–Capim Fino (17,242 km); Capim Fino–Campos Salles passou a ser servido por uma nova ligação a partir de Mineiros.
+
+  - id: cp-agudos-campos-salles-ayrosa
+    name: Ramal dos Agudos — Campos Salles – Iguatemi – Ayrosa Galvão (esquemático)
+    from: campos-salles
+    to: ayrosa-galvao
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -48.6223, -22.4211 ] ] }
+    geometry_confidence: low
+    geometry_note: Linha reta passando por Iguatemi; o leito ainda não está mapeado.
+    status_history:
+      - status: open
+        from: '1903-03-25'
+        sources: [ cpef-rel-1904-jun ]
+        note: '"Em data de 25 de março ficou concluído e abriu-se ao trafego o trecho do ramal dos Agudos comprehendido entre as estações de Campos Salles e Ayrosa Galvão."'
+      - status: closed
+        from: '1941'
+        sources: [ cpef-rel-1942-abril ]
+        note: Suprimido o trecho de Iguatemi ao km 56,332 (14,307 km), substituído pela bifurcação de Airosa Galvão no Tronco Oeste.
+
+  - id: cp-agudos-ayrosa-pederneiras
+    name: Ayrosa Galvão – ponte do Tietê – Pederneiras
+    from: ayrosa-galvao
     to: pederneiras
     alignment: original
     geometry: { method: osm-current }
     geometry_confidence: medium
-    geometry_note: Traçado atual; o trecho foi incorporado ao Tronco Oeste em 1941 e pode ter sido retificado.
+    geometry_note: Traçado atual, que cruza o Tietê; a ponte metálica de 400 m de 1903 provavelmente ficava no mesmo ponto (a confirmar).
     status_history:
       - status: open
         from: '1903-10-01'
-        sources: [ giesbrecht-pederneiras ]
-        note: Pederneiras abre como ponta do ramal de Agudos, em bitola métrica.
+        sources: [ cpef-rel-1904-jun ]
+        note: '"Foi inaugurado o prolongamento do mesmo ramal até á villa de Pederneiras, na margem esquerda do Tietê, tendo a linha atravessado o rio por meio de notável ponte metálica de 400 metros de comprimento, a mais extensa que existe hoje em território de S. Paulo."'
       - *to-freight
 
+  - id: cp-tronco-oeste-jau-ayrosa
+    name: Tronco Oeste — Jaú – Ave Maria – Ayrosa Galvão (1941)
+    from: jau
+    to: ayrosa-galvao
+    alignment: variant
+    replaces: [ cp-agudos-campos-salles-ayrosa ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *to-1941
+      - *to-freight
+
+  # ------------------------------------------------------------------
+  # Pederneiras → Bauru (1910)
+  # ------------------------------------------------------------------
   - id: cp-pederneiras-bauru
     name: Pederneiras – Bauru (Ramal de Bauru)
     from: pederneiras
@@ -360,6 +441,6 @@ segments:
     status_history:
       - status: open
         from: '1910-08-08'
-        sources: [ giesbrecht-bauru-cp, giesbrecht-pederneiras ]
-        note: A Paulista chega a Bauru e encontra a Noroeste e a Sorocabana.
+        sources: [ cpef-rel-1911-jun, giesbrecht-bauru-cp ]
+        note: '"O ramal de Pederneiras a Bauru, que se inaugurou a 8 de agosto de 1910" (88 km acrescidos à rede). Ali a Paulista encontra a Noroeste e a Sorocabana.'
       - *to-freight

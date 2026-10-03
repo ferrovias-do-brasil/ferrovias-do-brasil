@@ -7,7 +7,7 @@ summary: >-
 km:
   - { value: 143.135, year: 1958, source: giesbrecht-batovi }
 opened:
-  - { value: '1916-06-01', source: giesbrecht-batovi }
+  - { value: '1916-06-01', source: cpef-rel-1917-jun }
 closed:
   - { value: '1980', source: giesbrecht-batovi, note: "Linha arrancada com a variante Santa Gertrudes–Itirapina." }
 sites:

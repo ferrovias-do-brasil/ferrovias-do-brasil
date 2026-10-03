@@ -5,5 +5,5 @@ type: variant
 summary: "A Paulista abre a linha de bitola larga Rio Claro–Itirapina, com as novas estações de Batovi e Itirapina."
 stations: [batovi, itirapina]
 segments: [cp-rio-claro-itirapina]
-sources: [giesbrecht-batovi, giesbrecht-itirapina]
+sources: [cpef-rel-1917-jun, giesbrecht-batovi, giesbrecht-itirapina]
 ---

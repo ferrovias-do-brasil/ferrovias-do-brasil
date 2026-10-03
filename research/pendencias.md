@@ -58,19 +58,34 @@ Feito em 2026-10-03: 9 trechos (Rio-Clarense 1884–1887, Paulista 1903–1910, 
 estações, 11 eventos. Quilometragens de 1958 conferidas: Rio Claro → Batovi → Itirapina dentro de 0,4%.
 O traçado Itirapina → Bauru atual mede 161,9 km contra 165,4 km nas quilometragens do Tronco Oeste (−2%).
 
+Datas conferidas nos relatórios da própria Paulista (2026-10-03):
+
+| Fato | Relatório |
+|---|---|
+| Compra da Rio Claro Railway, 1/4/1892 | 1903, 1917 |
+| Ramal dos Agudos até Campos Salles, 1/7/1899 | 1903 |
+| Campos Salles–Ayrosa Galvão, 25/3/1903; Pederneiras, 1/10/1903 (ponte de 400 m sobre o Tietê) | 1904 |
+| Pederneiras–Bauru, 8/8/1910 | 1911 |
+| Duplicação Jundiaí–km 43, 7/9/1914; até Campinas e bitola larga Rio Claro–Itirapina, 1/6/1916 | 1917 |
+| Variantes de Brotas e de Torrinha–Dois Córregos concluídas em 1929 | 1930 |
+| Tronco Oeste: nova linha Dois Córregos–Jaú–margem esquerda do Tietê (43,472 km) e supressão de Mineiros–Jaú, Dois Córregos–Capim Fino e Iguatemi–km 56,332, em 1941 | 1942 |
+
+**Correção feita graças aos relatórios:** até 1941, Pederneiras não era alcançada a partir de Jaú, mas
+pelo Ramal dos Agudos, que saía de Dois Córregos por Capim Fino, Campos Salles, Iguatemi e Ayrosa Galvão.
+
 Pendências:
-- **Linha métrica original da Rio-Clarense (1884)** entre Rio Claro e Itirapina, por Estrela e Feijão
-  (Visconde do Rio Claro-velha): hoje desenhada sobre o leito de bitola larga de 1916, por Batovi. O OSM
-  tem 7,6 km dela perto de Itirapina ("Companhia Rio-Clarense").
-- **Retificações de 1929–1941** (Brotas, Dois Córregos–Mineiros–Jaú): trechos marcados como aproximados;
-  falta mapear os leitos antigos e localizar as estações anteriores de Brotas e a de Jaú de 1887.
-- **Datas exatas**: a chegada a Brotas (1885) e a Jaú (1887) só têm o ano. Os relatórios da
-  Rio-Clarense não estão na coleção do Memória Ferroviária; os da Paulista de 1892 em diante devem
-  trazer as datas das retificações e do alargamento (1916, 1941, 1947).
-- **Rio Claro depois de 1980**: a estação ficou fora da variante. Como os trens de passageiros chegavam
-  até lá até 2001?
-- **Estações não modeladas**: Camaquã, Ubá, Estrela, Aterrado, Espraiado, Torrinha, Ventania, Mineiros,
-  Lacerda Franco, Banharão, Ave Maria, Airosa Galvão, Carajás, Triagem.
+- **Datas sem fonte primária**: as da Rio-Clarense (1884–1887; os relatórios da Paulista só começam a
+  cronologia na compra de 1892), o dia de 1941 (o relatório dá só o ano; usamos 15/11/1941, de Giesbrecht)
+  e o alargamento até Bauru em 15/6/1947 (os relatórios de 1947 e 1948 não estão no acervo).
+- **Leitos esquemáticos**: o Ramal de Jaú por Mineiros e o Ramal dos Agudos por Capim Fino, Campos
+  Salles e Iguatemi não estão no OSM; as posições de Campos Salles e Iguatemi são estimadas pelas
+  localidades.
+- **Dois Córregos–Mineiros** seguiu como ramal depois de 1941; falta a data de fechamento. Também falta
+  a nova ligação Mineiros–Capim Fino (7,43 km, 1941).
+- **Linha métrica original da Rio-Clarense (1884)** entre Rio Claro e Itirapina, por Estrela e Feijão:
+  desenhada sobre o leito de bitola larga de 1916.
+- **Brotas e Jaú**: estações antigas não localizadas.
+- **Rio Claro depois de 1980**: como os trens de passageiros chegavam lá até 2001?
 
 ## Próximas linhas
 

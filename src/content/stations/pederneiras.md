@@ -3,9 +3,9 @@ name: "Pederneiras"
 line: cp
 detail: minimal
 summary: >-
-  Aberta em 1903 como ponta do ramal de Agudos; de 1910 em diante, ponto de partida do Ramal de Bauru. O prédio de 1913 é hoje centro cultural.
+  Aberta em 1/10/1903 como ponta do Ramal dos Agudos, que vinha de Dois Córregos e cruzava o Tietê; de 1910 em diante, ponto de partida do Ramal de Bauru. O prédio de 1913 é hoje centro cultural.
 opened:
-  - { value: '1903-10-01', source: giesbrecht-pederneiras }
+  - { value: '1903-10-01', source: cpef-rel-1904-jun }
 passenger_end:
   - { value: '2001-03-15', source: giesbrecht-pederneiras }
 sites:
