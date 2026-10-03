@@ -104,9 +104,9 @@ Para redesenhar uma linha sobre um mapa antigo, grave o traçado em pixels em
 `research/georef/<id>/traces/*.json`, marque o trecho como `geometry: { method: manual, traced_on: <id> }`
 e rode `npm run apply-traces -- <id>`.
 
-### A malha cinza (linhas sem história)
+### A malha em violeta (linhas sem história)
 
-As linhas em cinza vêm do OpenStreetMap (`npm run import-malha`) e mostram a situação de **hoje**.
+As linhas em violeta vêm do OpenStreetMap (`npm run import-malha`) e mostram a situação de **hoje**.
 Para dar história a uma delas, crie uma rede em `src/content/network/<linha>/network.yaml`, como a da
 Noroeste, com trechos, datas e fontes. Ela passa a aparecer em cor, com linha do tempo.
 

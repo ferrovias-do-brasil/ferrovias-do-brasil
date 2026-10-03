@@ -40,9 +40,10 @@ export const PALETTE = {
     stationEnded: '#b9b1aa',
     label: '#2b211b',
     halo: '#ffffff',
-    ctxActive: '#7d736b',
-    ctxDisused: '#978e86',
-    ctxOld: '#ada59e',
+    ctxActive: '#5a4a9c',
+    ctxDisused: '#8577bd',
+    ctxOld: '#9d93c9',
+    ctxTies: '#ffffff',
   },
   dark: {
     closed: '#9c9c9c',
@@ -54,9 +55,10 @@ export const PALETTE = {
     stationEnded: '#5a524c',
     label: '#efe7dd',
     halo: '#0c0c0c',
-    ctxActive: '#9d948c',
-    ctxDisused: '#857c75',
-    ctxOld: '#6c645e',
+    ctxActive: '#b3a3ff',
+    ctxDisused: '#8f82d6',
+    ctxOld: '#7a70b3',
+    ctxTies: '#0c0c0c',
   },
 } satisfies Record<Theme, Record<string, string>>;
 
@@ -71,7 +73,9 @@ export const COLORS = {
 export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations' | 'ctx_a' | 'ctx_d' | 'ctx_o';
 
 /** Legend entries, drawn with the same colours and dash patterns as the map layers. */
-export const LEGEND: { key: LegendKey; label: string; color: string; width: number; dash?: string; opacity?: number }[] = [
+type LegendItem = { key: LegendKey; label: string; color: string; width: number; dash?: string; opacity?: number };
+
+export const LEGEND: LegendItem[] = [
   { key: 'open', label: 'Em operação', color: 'var(--line-nob)', width: 4 },
   { key: 'freight_only', label: 'Só carga (sem passageiros)', color: 'var(--line-nob)', width: 2.5 },
   { key: 'approx', label: 'Traçado aproximado', color: 'var(--line-nob)', width: 3, dash: '4.5 3.6' },
@@ -81,36 +85,81 @@ export const LEGEND: { key: LegendKey; label: string; color: string; width: numb
 ];
 
 /** Context layer (railways without researched history yet). */
-export const CONTEXT_LEGEND: typeof LEGEND = [
-  { key: 'ctx_a', label: 'em uso hoje', color: 'var(--ctx-active)', width: 1.8 },
-  { key: 'ctx_d', label: 'desativada hoje', color: 'var(--ctx-disused)', width: 1.5, dash: '4 3' },
-  { key: 'ctx_o', label: 'leito antigo (sem trilhos)', color: 'var(--ctx-old)', width: 1.5, dash: '1.5 2.5' },
+export const CONTEXT_LEGEND: (LegendItem & { ties?: boolean })[] = [
+  { key: 'ctx_a', label: 'em uso hoje', color: 'var(--ctx-active)', width: 3, ties: true },
+  { key: 'ctx_d', label: 'desativada hoje', color: 'var(--ctx-disused)', width: 2, dash: '5 3' },
+  { key: 'ctx_o', label: 'leito antigo (sem trilhos)', color: 'var(--ctx-old)', width: 2, dash: '1.5 2.5' },
 ];
 
 export const LEGEND_KEYS: LegendKey[] = [...LEGEND.map((l) => l.key), 'stations', ...CONTEXT_LEGEND.map((l) => l.key)];
 
-/** Context layers, drawn below the researched lines. */
+/** Width that grows with zoom: thin over the whole state, bolder in close-ups. */
+const byZoom = (z5: number, z12: number): ExpressionSpecification => ['interpolate', ['linear'], ['zoom'], 5, z5, 12, z12];
+
+/** Context layers, drawn below the researched lines, in their own hue so they never read as roads. */
 export function malhaLayers(theme: Theme): { id: string; key: LegendKey; layer: LineLayer }[] {
   const c = PALETTE[theme];
   return [
     {
       id: 'malha-o',
       key: 'ctx_o',
-      layer: { type: 'line', filter: ['==', ['get', 'k'], 'o'], paint: { 'line-color': c.ctxOld, 'line-width': 1.4, 'line-dasharray': [1, 1.8] } },
+      layer: {
+        type: 'line',
+        filter: ['==', ['get', 'k'], 'o'],
+        layout: { 'line-cap': 'round' },
+        paint: { 'line-color': c.ctxOld, 'line-width': byZoom(1.3, 2.6), 'line-dasharray': [0.6, 2] },
+      },
     },
     {
       id: 'malha-d',
       key: 'ctx_d',
-      layer: { type: 'line', filter: ['==', ['get', 'k'], 'd'], paint: { 'line-color': c.ctxDisused, 'line-width': 1.4, 'line-dasharray': [3, 2] } },
+      layer: {
+        type: 'line',
+        filter: ['==', ['get', 'k'], 'd'],
+        paint: { 'line-color': c.ctxDisused, 'line-width': byZoom(1.3, 2.8), 'line-dasharray': [3, 2] },
+      },
     },
     {
       id: 'malha-a',
       key: 'ctx_a',
-      layer: { type: 'line', filter: ['==', ['get', 'k'], 'a'], layout: { 'line-join': 'round' }, paint: { 'line-color': c.ctxActive, 'line-width': 1.7 } },
+      layer: {
+        type: 'line',
+        filter: ['==', ['get', 'k'], 'a'],
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': c.ctxActive, 'line-width': byZoom(1.6, 5) },
+      },
+    },
+    {
+      // Classic railway symbol: light "sleepers" inside the line, once there is room for them.
+      id: 'malha-a-ties',
+      key: 'ctx_a',
+      layer: {
+        type: 'line',
+        minzoom: 8.5,
+        filter: ['==', ['get', 'k'], 'a'],
+        paint: { 'line-color': c.ctxTies, 'line-width': byZoom(0.6, 2.6), 'line-dasharray': [0.5, 3] },
+      },
     },
   ];
 }
-export const MALHA_LAYER_IDS = ['malha-o', 'malha-d', 'malha-a'];
+export const MALHA_LAYER_IDS = ['malha-o', 'malha-d', 'malha-a', 'malha-a-ties'];
+
+/**
+ * Tone down the basemap so railways stand out: roads fade, the basemap's own railways are hidden
+ * (we draw our own), road labels and shields soften.
+ */
+export function dimBasemap(map: { getStyle(): { layers?: { id: string; type: string; 'source-layer'?: string }[] }; setLayoutProperty(id: string, k: string, v: unknown): void; setPaintProperty(id: string, k: string, v: unknown): void }, theme: Theme) {
+  for (const l of map.getStyle().layers ?? []) {
+    const sl = l['source-layer'];
+    if (sl === 'transportation' && l.type === 'line') {
+      if (l.id.startsWith('railway')) map.setLayoutProperty(l.id, 'visibility', 'none');
+      else map.setPaintProperty(l.id, 'line-opacity', theme === 'dark' ? 0.32 : 0.4);
+    } else if (sl === 'transportation_name' && l.type === 'symbol') {
+      map.setPaintProperty(l.id, 'text-opacity', 0.55);
+      map.setPaintProperty(l.id, 'icon-opacity', 0.45);
+    }
+  }
+}
 
 /** Feature active at decimal year t. */
 export function activeAt(t: number): ExpressionSpecification {

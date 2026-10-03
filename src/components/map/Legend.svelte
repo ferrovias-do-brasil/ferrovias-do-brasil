@@ -56,7 +56,15 @@
           <label class:off={hidden.has(item.key)}>
             <input type="checkbox" checked={!hidden.has(item.key)} onchange={() => toggle(item.key)} />
             <svg width="30" height="10" aria-hidden="true"
-              ><line x1="1" y1="5" x2="29" y2="5" stroke={item.color} stroke-width={item.width} stroke-dasharray={item.dash} /></svg
+              ><line x1="1" y1="5" x2="29" y2="5" stroke={item.color} stroke-width={item.width} stroke-dasharray={item.dash} />{#if item.ties}<line
+                  x1="1"
+                  y1="5"
+                  x2="29"
+                  y2="5"
+                  stroke="var(--ctx-ties)"
+                  stroke-width="1.2"
+                  stroke-dasharray="1.5 3"
+                />{/if}</svg
             >
             {item.label}
           </label>

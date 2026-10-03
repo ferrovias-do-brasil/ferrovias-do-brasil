@@ -223,7 +223,7 @@
     <h2>{year}</h2>
     <p class="stat">
       <strong>{operatingKm.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} km</strong> de linhas pesquisadas em operação
-      <span class="note">(por enquanto, só a Noroeste; o resto da malha aparece em cinza, sem datas)</span>
+      <span class="note">(por enquanto, só a Noroeste; o resto da malha aparece em violeta, sem datas)</span>
     </p>
     {#if yearEvents.length}
       <h3>Neste ano</h3>

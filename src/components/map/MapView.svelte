@@ -25,6 +25,7 @@
     segmentFilter,
     segmentLayers,
     malhaLayers,
+    dimBasemap,
     type LegendKey,
   } from './style';
   import type { Theme } from '../../lib/theme';
@@ -81,6 +82,7 @@
     if (window.innerWidth > 720) map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right');
     // Fires for the first style and after every theme switch: our sources and layers are added on top.
     map.on('style.load', () => {
+      dimBasemap(map!, appliedTheme ?? 'light');
       addLayers(map!, appliedTheme ?? 'light');
       ready = true;
     });

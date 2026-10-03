@@ -35,7 +35,7 @@ uma retificação anterior perto de Monlevade.
 
 ## Próximas linhas
 
-A malha paulista inteira já aparece em cinza (OpenStreetMap). Candidatas a ganhar história, pela
+A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela
 quantidade de leito no OSM: Sorocabana (≈800 km nomeados), Paulista (tronco, Itirapina–Panorama,
 Nova Granada), Mogiana (ramais de Mococa, Guaxupé), São Paulo Railway (Santos–Jundiaí), Bragantina,
 Campos do Jordão e o Tramway da Cantareira.
