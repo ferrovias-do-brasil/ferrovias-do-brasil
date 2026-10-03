@@ -25,12 +25,22 @@ export const METHOD_LABEL = {
 export const COLORS = {
   closed: '#8a8a8a',
   removed: '#a8a8a8',
-  flooded: '#3b82c4',
+  flooded: '#1d63b5',
   added: '#1a9850',
   removedCompare: '#d73027',
   unchanged: '#9a9a9a',
   highlight: '#f2b705',
 };
+
+/** Legend entries, drawn with the same colours and dash patterns as the map layers. */
+export const LEGEND: { label: string; color: string; width: number; dash?: string; opacity?: number }[] = [
+  { label: 'Em operação', color: 'var(--line-nob)', width: 4 },
+  { label: 'Só carga (sem trens de passageiros)', color: 'var(--line-nob)', width: 2.5 },
+  { label: 'Traçado aproximado (posição incerta)', color: 'var(--line-nob)', width: 3, dash: '4.5 3.6' },
+  { label: 'Desativado (sem trens)', color: COLORS.closed, width: 2.2, dash: '4.4 4.4' },
+  { label: 'Trilhos retirados', color: COLORS.removed, width: 1.5, dash: '1.5 3', opacity: 0.8 },
+  { label: 'Submerso por represa', color: COLORS.flooded, width: 3, dash: '3 3.6' },
+];
 
 /** Feature active at decimal year t. */
 export function activeAt(t: number): ExpressionSpecification {
@@ -51,7 +61,7 @@ export const SEGMENT_LAYERS: { id: string; base: ExpressionSpecification; layer:
   {
     id: 'seg-flooded',
     base: status('flooded'),
-    layer: { type: 'line', paint: { 'line-color': COLORS.flooded, 'line-width': 2, 'line-opacity': 0.8, 'line-dasharray': [1, 1.5] } },
+    layer: { type: 'line', paint: { 'line-color': COLORS.flooded, 'line-width': 3, 'line-opacity': 0.95, 'line-dasharray': [1, 1.2] } },
   },
   {
     id: 'seg-closed',

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatDatePt, endOfYear, toDecimalYear } from '../../lib/dates';
   import { hasConflict } from '../../lib/claims';
-  import { CONFIDENCE_LABEL, METHOD_LABEL, STATUS_LABEL } from './style';
+  import { CONFIDENCE_LABEL, LEGEND, METHOD_LABEL, STATUS_LABEL } from './style';
   import type { Catalog, Selection } from './types';
 
   interface Item {
@@ -27,6 +27,8 @@
   const segment = $derived(selection?.kind === 'segment' ? catalog.segments[selection.id] : undefined);
   const yearEvents = $derived(catalog.events.filter((e) => Math.floor(e.t) === year));
   const currentPeriod = $derived(segment?.periods.find((p) => p.start <= t && t < p.end));
+  /** A later flooding, to explain why the line runs "through" a reservoir on today's map. */
+  const futureFlood = $derived(segment?.periods.find((p) => p.status === 'flooded' && p.start > t));
   const currentSite = $derived(
     station?.sites.find((s) => toDecimalYear(s.from) <= t && (!s.to || toDecimalYear(s.to) > t)),
   );
@@ -121,6 +123,13 @@
       Em {year}:
       <strong>{currentPeriod ? STATUS_LABEL[currentPeriod.status] : 'ainda não existia'}</strong>
     </p>
+    {#if futureFlood}
+      <p class="flood-note">
+        Hoje este trecho está debaixo d'água: foi submerso por uma represa a partir de
+        {formatDatePt(futureFlood.from, futureFlood.circa)}. Em {year} o rio ainda não tinha sido represado; por isso a
+        linha parece passar por dentro do lago no mapa atual.
+      </p>
+    {/if}
 
     <h3>Linha do tempo do trecho</h3>
     <ol class="periods">
@@ -190,11 +199,25 @@
     {:else}
       <p class="muted">Nenhum evento registrado neste ano. Use <em>evento »</em> para pular ao próximo.</p>
     {/if}
+    <h3>Legenda</h3>
+    <ul class="plain legend">
+      {#each LEGEND as item (item.label)}
+        <li>
+          <svg width="34" height="10" aria-hidden="true"
+            ><line x1="1" y1="5" x2="33" y2="5" stroke={item.color} stroke-width={item.width} stroke-dasharray={item.dash}
+              stroke-opacity={item.opacity ?? 1} /></svg
+          >{item.label}
+        </li>
+      {/each}
+    </ul>
+    <p class="note">
+      O fundo é o mapa de hoje. As represas do Tietê e do Paraná só existem desde 1968–1991: antes disso, trechos que
+      hoje aparecem dentro d'água corriam pela margem do rio.
+    </p>
     <h3>Como usar</h3>
     <ul class="plain help">
       <li>Arraste o ano ou clique em <em>Animar</em> para ver a linha crescer.</li>
       <li>Clique numa linha ou estação para ver sua história e as fontes.</li>
-      <li><span class="key k-dashed"></span> traçado esquemático, de baixa confiança; <span class="key k-closed"></span> desativado; <span class="key k-flooded"></span> submerso.</li>
       <li><em>Comparar dois anos</em> mostra em verde o que surgiu e em vermelho o que sumiu.</li>
     </ul>
   {/if}
@@ -323,18 +346,21 @@
   .more {
     font-weight: 600;
   }
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .flood-note {
+    font-size: 0.85rem;
+    background: color-mix(in srgb, #1d63b5 14%, transparent);
+    border-left: 3px solid #1d63b5;
+    border-radius: 0 6px 6px 0;
+    padding: 6px 8px;
+  }
   .help li {
     margin-bottom: 4px;
-  }
-  .key {
-    display: inline-block;
-    width: 22px;
-    height: 0;
-    vertical-align: middle;
-    border-top: 3px dashed var(--accent);
-  }
-  .k-closed {
-    border-top-color: #8a8a8a;
   }
   .swatch {
     display: inline-block;
@@ -349,8 +375,5 @@
   }
   .swatch.removed {
     background: #d73027;
-  }
-  .k-flooded {
-    border-top: 3px dotted #3b82c4;
   }
 </style>
