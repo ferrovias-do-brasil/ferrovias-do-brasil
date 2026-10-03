@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { preferredClaim } from '../../lib/claims';
+import { formatDatePt } from '../../lib/dates';
+
+const stations = (await getCollection('stations')).sort((a, b) =>
+  preferredClaim(a.data.opened).value.localeCompare(preferredClaim(b.data.opened).value),
+);
+const base = import.meta.env.BASE_URL;
+const status = {
+  active: 'em operação', freight: 'só carga', closed: 'fechada', demolished: 'demolida',
+  cultural: 'uso cultural', flooded: 'submersa', unknown: 'desconhecido',
+} as const;
+---
+
+<Base title="Estações">
+  <div class="prose">
+    <h1>Estações</h1>
+    <p>Estações registradas até agora, em ordem de inauguração. As marcadas com ★ têm história detalhada.</p>
+    <table>
+      <thead><tr><th>Estação</th><th>Inauguração</th><th>Hoje</th></tr></thead>
+      <tbody>
+        {
+          stations.map((s) => {
+            const c = preferredClaim(s.data.opened);
+            return (
+              <tr>
+                <td>
+                  <a href={`${base}estacoes/${s.id}/`}>{s.data.name}</a> {s.data.detail === 'full' && '★'}
+                  <div class="muted">{s.data.summary}</div>
+                </td>
+                <td>{formatDatePt(c.value, c.circa)} {s.data.opened.length > 1 && <span class="badge">fontes divergem</span>}</td>
+                <td>{status[s.data.status_now]}</td>
+              </tr>
+            );
+          })
+        }
+      </tbody>
+    </table>
+  </div>
+</Base>

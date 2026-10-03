@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Base title="Sobre">
+  <article class="prose">
+    <h1>Sobre o projeto</h1>
+    <p>
+      <strong>Ferrovias do Brasil</strong> é um projeto aberto que conta a história das ferrovias brasileiras no
+      mapa, ano a ano. Dá para ver as linhas avançando sertão adentro, as variantes que mudaram o traçado,
+      os ramais fechados e os leitos que viraram avenidas, estradas ou fundo de represa.
+    </p>
+    <p>
+      Começamos por <strong>Birigui</strong> e pela <strong>Estrada de Ferro Noroeste do Brasil</strong>, de Bauru ao
+      rio Paraná. O objetivo é chegar, aos poucos, a um mapa completo das ferrovias do país.
+    </p>
+
+    <h2>Como o mapa é feito</h2>
+    <ul>
+      <li>
+        <strong>Traçado.</strong> A linha é dividida em trechos. Cada trecho tem um histórico: quando abriu, quando
+        virou só carga, quando foi desativado, arrancado ou alagado. A geometria vem do OpenStreetMap, inclusive dos
+        leitos abandonados que os mapeadores registraram. Onde o leito sumiu, o desenho é <em>esquemático</em> e
+        aparece tracejado.
+      </li>
+      <li>
+        <strong>Fontes.</strong> Toda data aponta para uma fonte. Quando as fontes divergem, o site mostra as versões
+        com o aviso <span class="badge">fontes divergem</span>.
+      </li>
+      <li>
+        <strong>Conferência.</strong> Comparamos o comprimento calculado de cada trecho com as quilometragens
+        históricas. Exemplo: a linha antiga por dentro de Birigui mede 19,7 km no mapa; pelas quilometragens de 1960
+        (Coroados km 236,4 e Guatambu km 256,3), seriam 19,9 km.
+      </li>
+    </ul>
+
+    <h2>Licenças</h2>
+    <ul>
+      <li>Código: MIT.</li>
+      <li>Textos: CC BY-SA 4.0.</li>
+      <li>
+        Geometria do traçado: derivada do OpenStreetMap, sob a ODbL 1.0 (© colaboradores do OpenStreetMap).
+      </li>
+    </ul>
+    <p><a href={`${base}contribuir/`}>Quer ajudar? Veja como contribuir.</a></p>
+  </article>
+</Base>

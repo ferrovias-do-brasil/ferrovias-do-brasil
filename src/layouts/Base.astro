@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  fullscreen?: boolean;
+}
+
+const { title, description = 'Mapa interativo e linha do tempo das ferrovias do Brasil.', fullscreen = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const nav = [
+  ['', 'Mapa'],
+  ['linhas/nob/', 'Linha NOB'],
+  ['estacoes/', 'Estações'],
+  ['fontes/', 'Fontes'],
+  ['sobre/', 'Sobre'],
+  ['contribuir/', 'Contribuir'],
+];
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === 'Ferrovias do Brasil' ? title : `${title} · Ferrovias do Brasil`}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;600&display=swap"
+    />
+  </head>
+  <body class:list={{ fullscreen }}>
+    <header>
+      <a class="brand" href={base}>Ferrovias <span>do Brasil</span></a>
+      <nav aria-label="Principal">
+        {
+          nav.map(([href, label]) => (
+            <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>
+              {label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main><slot /></main>
+  </body>
+</html>
+
+<style>
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand span {
+    color: var(--accent);
+  }
+  nav {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a[aria-current='page'],
+  nav a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 720px) {
+    header {
+      flex-wrap: nowrap;
+      gap: 10px;
+      padding: 6px 12px;
+    }
+    .brand {
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+    nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 12px;
+      font-size: 0.85rem;
+      scrollbar-width: none;
+    }
+    nav a {
+      white-space: nowrap;
+    }
+  }
+  .fullscreen {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .fullscreen main {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+  }
+</style>

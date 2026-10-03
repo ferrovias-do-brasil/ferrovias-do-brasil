@@ -1,0 +1,7 @@
+name: Estrada de Ferro Noroeste do Brasil (União)
+short: EFNOB
+from: '1915'
+to: '1957'
+successor: rffsa
+summary: Sob controle federal a partir de 1915.
+sources: [wikipedia-pt-nob]

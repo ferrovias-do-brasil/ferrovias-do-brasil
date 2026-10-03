@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const sources = (await getCollection('sources')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'pt'));
+const maps = await getCollection('historicMaps');
+const TYPE = { primary: 'Primária', secondary: 'Secundária', tertiary: 'Terciária', dataset: 'Base de dados' } as const;
+---
+
+<Base title="Fontes">
+  <div class="prose">
+    <h1>Fontes</h1>
+    <p>
+      Todo fato no mapa aponta para uma destas fontes. Quando elas discordam, mostramos as versões lado a lado
+      em vez de escolher uma sem avisar.
+    </p>
+    <ul class="sources">
+      {
+        sources.map((s) => (
+          <li id={s.id}>
+            {s.data.author && <>{s.data.author}. </>}
+            {s.data.url ? <a href={s.data.url} target="_blank" rel="noopener">{s.data.title}</a> : s.data.title}
+            {s.data.publisher && <>. <em>{s.data.publisher}</em></>}
+            {s.data.year && <>, {s.data.year}</>}
+            {s.data.accessed && <span class="muted">. Acesso em {s.data.accessed}</span>}.
+            <span class="badge">{TYPE[s.data.type]}</span>
+            {s.data.notes && <div class="muted">{s.data.notes}</div>}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 id="mapas">Mapas antigos</h2>
+    <p>
+      Mapas históricos que queremos sobrepor ao mapa atual com o <a href="https://allmaps.org/">Allmaps</a>.
+      Um mapa aparece no site quando tem uma anotação de georreferenciamento IIIF.
+    </p>
+    <ul>
+      {
+        maps.map((m) => (
+          <li>
+            {m.data.url ? <a href={m.data.url}>{m.data.title}</a> : m.data.title} ({m.data.year}) — {m.data.archive}.{' '}
+            <span class="badge">{m.data.status === 'georeferenced' ? 'georreferenciado' : 'candidato'}</span>
+            {m.data.notes && <div class="muted">{m.data.notes}</div>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .sources li {
+    margin-bottom: 10px;
+  }
+</style>

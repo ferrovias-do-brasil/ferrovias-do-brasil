@@ -1,0 +1,15 @@
+name: Estrada de Ferro Noroeste do Brasil
+short: NOB
+color: '#b4441f'
+gauge_mm: 1000
+network: nob
+summary: >-
+  Ferrovia de bitola métrica que partiu de Bauru em 1906 rumo ao Mato Grosso. Abriu o noroeste
+  paulista à ocupação e deu origem a dezenas de cidades, Birigui entre elas.
+operators:
+  - { company: cia-nob, from: '1906', to: '1915', source: wikipedia-pt-nob }
+  - { company: nob-federal, from: '1915', to: '1957', source: wikipedia-pt-nob }
+  - { company: rffsa, from: '1957', to: '1996', source: wikipedia-pt-nob }
+  - { company: novoeste, from: '1996', to: '2006', source: wikipedia-pt-nob }
+  - { company: all, from: '2006', to: '2015', source: wikipedia-pt-nob }
+  - { company: rumo, from: '2015', source: wikipedia-pt-nob }

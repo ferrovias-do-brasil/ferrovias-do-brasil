@@ -1,0 +1,42 @@
+---
+import SourceLink from './SourceLink.astro';
+import { hasConflict } from '../lib/claims';
+import { formatDatePt } from '../lib/dates';
+import type { DateClaim } from '../lib/schemas';
+
+interface Props {
+  claims: DateClaim[];
+}
+const { claims } = Astro.props;
+---
+
+{hasConflict(claims) && <span class="badge">fontes divergem</span>}
+<ul class="claims">
+  {
+    claims.map((c) => (
+      <li class:list={{ preferred: c.preferred || claims.length === 1 }}>
+        <strong>{formatDatePt(c.value, c.circa)}</strong> — <SourceLink id={c.source} />
+        {c.page && <span class="muted">, p. {c.page}</span>}
+        {c.note && <div class="muted note">{c.note}</div>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .claims {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 12px;
+  }
+  .claims li {
+    opacity: 0.75;
+    margin: 2px 0;
+  }
+  .claims li.preferred {
+    opacity: 1;
+  }
+  .note {
+    font-size: 0.85rem;
+  }
+</style>

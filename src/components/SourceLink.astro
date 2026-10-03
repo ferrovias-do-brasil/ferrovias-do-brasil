@@ -1,0 +1,12 @@
+---
+import { getEntry } from 'astro:content';
+
+interface Props {
+  id: string;
+}
+const entry = await getEntry('sources', Astro.props.id);
+const s = entry?.data;
+const label = !s ? Astro.props.id : s.author ? `${s.author}, “${s.title}”` : s.publisher ? `“${s.title}”, ${s.publisher}` : s.title;
+---
+
+{s?.url ? <a href={s.url} target="_blank" rel="noopener">{label}</a> : <span>{label}</span>}

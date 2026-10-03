@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Base title="Contribuir">
+  <article class="prose">
+    <h1>Como contribuir</h1>
+    <p>O projeto é feito por historiadores, ferromodelistas, moradores e programadores. Toda ajuda conta, com uma regra:</p>
+    <blockquote><strong>Todo fato precisa de uma fonte.</strong> Se as fontes discordam, registre as duas.</blockquote>
+
+    <h2>O que mais precisamos agora</h2>
+    <ul>
+      <li>
+        <strong>Localizar estações perdidas:</strong> a primeira estação de Birigui (1912–1969), Guatambu, Lussanvira
+        e Itapura. Plantas, fotos aéreas e mapas antigos ajudam.
+      </li>
+      <li>
+        <strong>Mapear variantes:</strong> entre Bauru e Penápolis a linha original era cerca de 35 km mais longa. Por
+        onde passava?
+      </li>
+      <li><strong>Datas sem fonte primária:</strong> o ponto de parada de 1908 em Birigui, a retirada dos trilhos do centro.</li>
+      <li><strong>Mapas antigos com IIIF</strong> para georreferenciar no Allmaps.</li>
+    </ul>
+
+    <h2>Como enviar</h2>
+    <ol>
+      <li>Sem programar: abra uma <em>issue</em> no GitHub com o fato, a fonte (link, arquivo, página) e, se puder, uma foto do documento.</li>
+      <li>
+        Editando os dados: as estações ficam em <code>src/content/stations/</code> (Markdown), as fontes em
+        <code>src/content/sources/</code> e o traçado em <code>src/content/network/nob/network.yaml</code>. Rode
+        <code>npm run validate</code> e abra um <em>pull request</em>.
+      </li>
+    </ol>
+    <p>O guia completo está no arquivo <code>CONTRIBUTING.md</code> do repositório.</p>
+    <p><a href={`${base}fontes/`}>Ver as fontes usadas até agora →</a></p>
+  </article>
+</Base>

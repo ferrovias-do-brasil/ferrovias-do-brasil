@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import MapApp from '../components/map/MapApp.svelte';
+---
+
+<Base title="Ferrovias do Brasil" fullscreen>
+  <MapApp client:only="svelte" base={import.meta.env.BASE_URL} />
+  <noscript>
+    <p class="prose">
+      O mapa precisa de JavaScript. Veja a <a href="linhas/nob/">cronologia da linha em texto</a>.
+    </p>
+  </noscript>
+</Base>

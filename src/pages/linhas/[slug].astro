@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Claims from '../../components/Claims.astro';
+import SourceLink from '../../components/SourceLink.astro';
+import { loadSiteData } from '../../lib/site-data';
+import { segmentPeriods } from '../../lib/network';
+import { toDateClaims } from '../../lib/claims';
+import { formatDatePt } from '../../lib/dates';
+import { lineLengthM } from '../../lib/geo';
+
+export async function getStaticPaths() {
+  const lines = await getCollection('lines');
+  return lines.map((line) => ({ params: { slug: line.id }, props: { line } }));
+}
+
+const { line } = Astro.props;
+const { networks, geometries, companies, events } = await loadSiteData();
+const network = networks.find((n) => n.line === line.data.network)!;
+const geo = geometries.get(network.line)!;
+const companyName = new Map(companies.map((c) => [c.id, c.data.name]));
+const base = import.meta.env.BASE_URL;
+
+const STATUS = {
+  construction: 'em construção', open: 'em operação', freight_only: 'só carga',
+  closed: 'desativado', removed: 'trilhos retirados', flooded: 'submerso',
+} as const;
+const CONF = { high: 'alta', medium: 'média', low: 'baixa' } as const;
+
+// Every change of every segment, in chronological order: a text version of the map's timeline.
+const changes = network.segments
+  .flatMap((s) =>
+    segmentPeriods(s).map((p, i) => ({
+      segment: s,
+      period: p,
+      claims: toDateClaims(s.status_history[i].from, s.status_history[i].sources, s.status_history[i].circa),
+      note: s.status_history[i].note,
+    })),
+  )
+  .sort((a, b) => a.period.start - b.period.start);
+
+const lineEvents = events.sort((a, b) => a.data.date.localeCompare(b.data.date));
+---
+
+<Base title={line.data.name} description={line.data.summary}>
+  <div class="prose wide">
+    <h1>{line.data.name}</h1>
+    <p>{line.data.summary}</p>
+    <p><a href={base}>Abrir no mapa interativo →</a></p>
+
+    <h2>Operadores</h2>
+    <ul>
+      {
+        line.data.operators.map((o) => (
+          <li>
+            {formatDatePt(o.from)}–{o.to ? formatDatePt(o.to) : 'hoje'}: {companyName.get(o.company)} <span class="muted">(<SourceLink id={o.source} />)</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>A linha, mudança por mudança</h2>
+    <p class="muted">
+      Versão em texto da linha do tempo do mapa: cada linha da tabela é o começo de um novo estado de um trecho.
+    </p>
+    <table>
+      <thead><tr><th>Quando</th><th>Trecho</th><th>Passa a estar</th></tr></thead>
+      <tbody>
+        {
+          changes.map(({ segment, period, claims, note }) => (
+            <tr>
+              <td><Claims claims={claims} /></td>
+              <td>
+                <a href={`${base}?ano=${Math.floor(period.start)}&sel=segment:${segment.id}`}>{segment.name}</a>
+              </td>
+              <td>
+                <strong>{STATUS[period.status]}</strong>
+                {note && <div class="muted">{note}</div>}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <h2>Trechos e qualidade do traçado</h2>
+    <table>
+      <thead><tr><th>Trecho</th><th>Extensão</th><th>Traçado</th><th>Confiança</th></tr></thead>
+      <tbody>
+        {
+          network.segments.map((s) => (
+            <tr>
+              <td>{s.name}</td>
+              <td>{(lineLengthM(geo.get(s.id)!) / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} km</td>
+              <td>{s.geometry.method}{s.geometry_note && <div class="muted">{s.geometry_note}</div>}</td>
+              <td>{CONF[s.geometry_confidence]}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <h2>Cronologia</h2>
+    <ul>
+      {
+        lineEvents.map((e) => (
+          <li>
+            <strong>{formatDatePt(e.data.date, e.data.circa)}</strong> — {e.data.title}. <span class="muted">{e.data.summary}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .wide {
+    max-width: 980px;
+  }
+</style>

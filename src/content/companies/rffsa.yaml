@@ -1,0 +1,7 @@
+name: Rede Ferroviária Federal S.A.
+short: RFFSA
+from: '1957'
+to: '1996'
+successor: novoeste
+summary: Incorporou a NOB em 1957.
+sources: [wikipedia-pt-nob]

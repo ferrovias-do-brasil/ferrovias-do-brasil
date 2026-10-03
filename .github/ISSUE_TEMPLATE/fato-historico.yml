@@ -1,0 +1,29 @@
+name: Fato histórico ou correção
+description: Envie uma data, um local, uma correção ou um documento, sempre com a fonte.
+labels: [pesquisa]
+body:
+  - type: textarea
+    id: fato
+    attributes:
+      label: O fato
+      description: O que você quer acrescentar ou corrigir?
+      placeholder: A estação de Guatambu ficava ao lado da fazenda ...
+    validations:
+      required: true
+  - type: textarea
+    id: fonte
+    attributes:
+      label: Fonte
+      description: Link, livro com página, jornal com data, documento de arquivo com código, depoimento (de quem, quando).
+    validations:
+      required: true
+  - type: input
+    id: lugar
+    attributes:
+      label: Estação, cidade ou trecho
+      placeholder: Birigui
+  - type: textarea
+    id: anexos
+    attributes:
+      label: Imagens ou documentos
+      description: Arraste arquivos aqui. Diga de quem são e se podem ser publicados.

@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Claims from '../../components/Claims.astro';
+
+export async function getStaticPaths() {
+  const cities = await getCollection('cities');
+  return cities.map((city) => ({ params: { slug: city.id }, props: { city } }));
+}
+
+const { city } = Astro.props;
+const { Content } = await render(city);
+const stations = await getCollection('stations', (s) => s.data.city === city.id);
+const base = import.meta.env.BASE_URL;
+---
+
+<Base title={city.data.name} description={city.data.summary}>
+  <article class="prose">
+    <h1>{city.data.name} <span class="muted">({city.data.uf})</span></h1>
+    <p>{city.data.summary}</p>
+    {city.data.founded && (<><h3>Fundação</h3><Claims claims={city.data.founded} /></>)}
+    {city.data.municipality && (<><h3>Município</h3><Claims claims={city.data.municipality} /></>)}
+    <Content />
+    {
+      stations.length > 0 && (
+        <>
+          <h2>Estações</h2>
+          <ul>{stations.map((s) => <li><a href={`${base}estacoes/${s.id}/`}>{s.data.name}</a> — {s.data.summary}</li>)}</ul>
+        </>
+      )
+    }
+  </article>
+</Base>

@@ -1,0 +1,453 @@
+# E.F. Noroeste do Brasil — trecho paulista (Bauru → rio Paraná)
+#
+# Rede de trechos versionados. Cada trecho liga dois nós e tem um histórico
+# de status com fonte. A geometria de cada trecho é gerada a partir do
+# OpenStreetMap por `npm run import-osm` e gravada em geometry.geojson.
+#
+# Métodos de geometria:
+#   osm-current  menor caminho sobre a via atual (railway=rail)
+#   osm-old      menor caminho sobre restos de via (abandoned/razed/disused)
+#   waypoints    linha esquemática por pontos escolhidos à mão (baixa confiança)
+#   manual       desenhado à mão (QGIS/geojson.io/Allmaps) — não é sobrescrito
+#
+# Datas: YYYY, YYYY-MM ou YYYY-MM-DD. Quando as fontes divergem, use uma lista
+# de afirmações (claims) com `source` e marque uma como `preferred`.
+
+line: nob
+name: Estrada de Ferro Noroeste do Brasil — trecho paulista
+bbox: [ -51.80, -22.45, -48.95, -20.55 ]
+
+nodes:
+  - id: bauru
+    name: Bauru
+    kind: endpoint
+    coords: [ -49.069148, -22.315999 ]
+    note: Ponto inicial da NOB. Posição aproximada (centro de Bauru), ajustada à via atual.
+  - id: presidente-alves
+    name: Presidente Alves
+    kind: station
+    coords: [ -49.440131, -22.100677 ]
+  - id: lauro-muller
+    name: Lauro Müller (Guarantã)
+    kind: station
+    coords: [ -49.594493, -21.895081 ]
+    note: Posição aproximada, pela sede de Guarantã.
+  - id: avanhandava
+    name: Avanhandava
+    kind: station
+    station: avanhandava
+    coords: [ -49.950045, -21.463288 ]
+  - id: penapolis
+    name: Penápolis
+    kind: station
+    station: penapolis
+    coords: [ -50.077503, -21.416841 ]
+  - id: jct-coroados-oeste
+    name: Junção oeste de Coroados
+    kind: junction
+    coords: [ -50.28891, -21.34990 ]
+    note: Onde a Variante Coroados–Guatambu (1969) se separa da linha original que entrava no centro de Birigui (OSM).
+  - id: jct-guatambu
+    name: Junção de Guatambu
+    kind: junction
+    coords: [ -50.39205, -21.26205 ]
+    note: Onde a Variante Coroados–Guatambu (1969) reencontra a linha original (OSM).
+  - id: jct-aracatuba-leste
+    name: Junção leste de Araçatuba
+    kind: junction
+    coords: [ -50.42198, -21.24176 ]
+    note: Início do contorno ferroviário de Araçatuba (1992), que tirou a linha do centro da cidade (OSM).
+  - id: aracatuba-centro
+    name: Araçatuba (centro)
+    kind: station
+    station: aracatuba
+    snap: old
+    coords: [ -50.439009, -21.203282 ]
+    note: Pátio central de Araçatuba, hoje Plataforma Ferroviária (OSM).
+  - id: jct-aracatuba-oeste
+    name: Junção oeste de Araçatuba
+    kind: junction
+    coords: [ -50.50980, -21.22321 ]
+    note: Fim do contorno de 1992, onde ele encontra a Variante de Jupiá (OSM).
+  - id: ramal-lussanvira-fim-mapeado
+    name: Fim do leito mapeado do Ramal de Lussanvira
+    kind: endpoint
+    snap: old
+    coords: [ -50.52303, -21.13486 ]
+    note: Daqui em diante o leito original não está no OpenStreetMap.
+  - id: lussanvira
+    name: Lussanvira
+    kind: station
+    station: lussanvira
+    snap: none
+    coords: [ -51.100, -20.668 ]
+    note: >-
+      Posição ESTIMADA, na margem do Tietê oposta a Pereira Barreto. A estação foi submersa pela represa de Três Irmãos em 1990. Precisa ser localizada em mapa antigo.
+  - id: itapura
+    name: Itapura
+    kind: station
+    station: itapura
+    snap: none
+    coords: [ -51.5084, -20.6435 ]
+    note: >-
+      Posição ESTIMADA (sede atual de Itapura). A estação original "ficava longe da cidade" e a região foi inundada em 1968 pelas barragens de Jupiá e Ilha Solteira.
+  - id: guararapes
+    name: Guararapes
+    kind: station
+    station: guararapes
+    coords: [ -50.6419, -21.2578 ]
+  - id: valparaiso
+    name: Valparaíso
+    kind: station
+    station: valparaiso
+    coords: [ -50.870812, -21.224808 ]
+  - id: guaracai
+    name: Guaraçaí
+    kind: station
+    station: guaracai
+    coords: [ -51.211551, -21.033072 ]
+  - id: jupia
+    name: Jupiá (margem paulista do rio Paraná)
+    kind: bridge
+    coords: [ -51.62325, -20.79110 ]
+    note: Cabeceira paulista da Ponte Francisco de Sá (1926) sobre o rio Paraná (OSM).
+
+segments:
+  # ------------------------------------------------------------------
+  # Linha original: a "ponta dos trilhos" avança de Bauru (1906) ao Paraná (1910)
+  # ------------------------------------------------------------------
+  - id: nob-bauru-presidente-alves
+    name: Bauru – Presidente Alves
+    from: bauru
+    to: presidente-alves
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: &variantes-bauru-penapolis >-
+      Traçado atual. A linha original entre Bauru e Penápolis era cerca de 35 km mais longa (Penápolis estava no km 219 em 1938; hoje fica perto do km 184). As retificações (Lins, Promissão e outras) ainda não foram mapeadas.
+    status_history:
+      - status: open
+        from: '1906-09'
+        sources: [ giesbrecht-avanhandava ]
+      - &freight-1995
+        status: freight_only
+        from:
+          - { value: '1995', circa: true, source: giesbrecht-birigui, preferred: true }
+          - { value: '1996', source: wikipedia-pt-nob, note: 'Somente carga a partir de 1996, após a privatização.' }
+
+  - id: nob-presidente-alves-lauro-muller
+    name: Presidente Alves – Lauro Müller
+    from: presidente-alves
+    to: lauro-muller
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: *variantes-bauru-penapolis
+    status_history:
+      - status: open
+        from:
+          - { value: '1907-01', source: giesbrecht-avanhandava, preferred: true }
+          - { value: '1906-09-29', source: wikipedia-pt-nob, note: 'Dá o primeiro trecho, até Lauro Müller (km 92), aberto já em 29/09/1906.' }
+      - *freight-1995
+
+  - id: nob-lauro-muller-avanhandava
+    name: Lauro Müller – Avanhandava
+    from: lauro-muller
+    to: avanhandava
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: *variantes-bauru-penapolis
+    status_history:
+      - status: open
+        from: '1908-02-16'
+        sources: [ giesbrecht-avanhandava ]
+        note: Inauguração da estação de Avanhandava, com a presença do presidente Afonso Pena.
+      - *freight-1995
+
+  - id: nob-avanhandava-penapolis
+    name: Avanhandava – Penápolis
+    from: avanhandava
+    to: penapolis
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: *variantes-bauru-penapolis
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-penapolis ]
+      - *freight-1995
+
+  - id: nob-penapolis-coroados
+    name: Penápolis – Glicério – Coroados
+    from: penapolis
+    to: jct-coroados-oeste
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: >-
+      Traçado atual. Em Glicério a linha original passava cerca de 3 km ao norte (leito parcialmente mapeado no OSM como "Estrada Municipal GLI-030"); a variante foi aberta em 18/03/1969. O trecho antigo de Glicério ainda precisa ser ligado à rede.
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-penapolis, giesbrecht-aracatuba-1 ]
+      - *freight-1995
+
+  - id: nob-coroados-birigui-guatambu-original
+    name: Coroados – Birigui (centro) – Guatambu, linha original
+    from: jct-coroados-oeste
+    to: jct-guatambu
+    alignment: original
+    geometry:
+      method: osm-old
+      # passa pela antiga estação de Birigui, "no centro da cidade, a umas três quadras da igreja matriz"
+      via: [ [ -50.33674, -21.29015 ] ]
+    geometry_confidence: high
+    geometry_note: >-
+      Leito antigo bem preservado no OpenStreetMap: em Birigui virou a Av. José Agostinho Rossi, a Rua Fernando Castilho, a Rua José Pacitti e a Rodovia Vicinal José Fernandes Barbiere.
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-aracatuba-1 ]
+      - status: closed
+        from:
+          - { value: '1969-02-16', source: giesbrecht-birigui, preferred: true, note: 'Variante Birigui–Coroados aberta ao tráfego.' }
+          - { value: '1969-03-18', source: giesbrecht-glicerio, note: 'Variante Glicério–Guatambu aberta no mesmo dia da nova estação de Glicério.' }
+        note: Trilhos retirados depois; a data da retirada ainda precisa de fonte.
+
+  - id: nob-variante-coroados-guatambu
+    name: Variante Coroados – Guatambu (1969)
+    from: jct-coroados-oeste
+    to: jct-guatambu
+    alignment: variant
+    replaces: [ nob-coroados-birigui-guatambu-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from:
+          - { value: '1969-02-16', source: giesbrecht-birigui, preferred: true }
+          - { value: '1969-03-18', source: giesbrecht-glicerio }
+        note: Parte da grande variante Lins–Araçatuba, executada em etapas entre 1969 e 1971.
+      - *freight-1995
+
+  - id: nob-guatambu-aracatuba-leste
+    name: Guatambu – Araçatuba (leste)
+    from: jct-guatambu
+    to: jct-aracatuba-leste
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-aracatuba-1 ]
+      - *freight-1995
+
+  - id: nob-aracatuba-centro-leste
+    name: Entrada de Araçatuba pelo centro
+    from: jct-aracatuba-leste
+    to: aracatuba-centro
+    alignment: original
+    geometry: { method: osm-old }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-aracatuba-1 ]
+      - status: closed
+        from: '1992'
+        sources: [ giesbrecht-aracatuba-4 ]
+        note: A linha deixou o centro, acusada de "cortar a cidade ao meio".
+
+  - id: nob-contorno-aracatuba
+    name: Contorno ferroviário de Araçatuba (1992)
+    from: jct-aracatuba-leste
+    to: jct-aracatuba-oeste
+    alignment: bypass
+    replaces: [ nob-aracatuba-centro-leste, nob-variante-jupia-aracatuba-centro ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1992'
+        sources: [ giesbrecht-aracatuba-4 ]
+      - *freight-1995
+
+  # ------------------------------------------------------------------
+  # Traçado original pelo vale do Tietê (1910), depois Ramal de Lussanvira
+  # ------------------------------------------------------------------
+  - id: nob-aracatuba-lussanvira-mapeado
+    name: Araçatuba – Engenheiro Taveira (leito do Ramal de Lussanvira)
+    from: aracatuba-centro
+    to: ramal-lussanvira-fim-mapeado
+    alignment: original
+    geometry: { method: osm-old }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1910-05-13'
+        sources: [ giesbrecht-lussanvira, giesbrecht-itapura ]
+      - status: open
+        from: '1941-01-20'
+        sources: [ giesbrecht-lussanvira ]
+        note: Com a Variante de Jupiá, a linha velha passa a ser o Ramal de Lussanvira.
+      - status: closed
+        from: '1961'
+        sources: [ giesbrecht-lussanvira ]
+      - status: removed
+        from: '1965-08-19'
+        sources: [ giesbrecht-lussanvira ]
+        note: Erradicação do ramal pela DD-340 de 19/8/1965 (RFFSA).
+
+  - id: nob-lussanvira-esquematico
+    name: Engenheiro Taveira – Lussanvira (traçado esquemático)
+    from: ramal-lussanvira-fim-mapeado
+    to: lussanvira
+    alignment: original
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: >-
+      Linha reta entre pontos conhecidos: o leito real, ao longo do Tietê, ainda não foi mapeado e boa parte está sob a represa de Três Irmãos.
+    status_history:
+      - status: open
+        from: '1910-05-13'
+        sources: [ giesbrecht-lussanvira ]
+      - status: open
+        from: '1941-01-20'
+        sources: [ giesbrecht-lussanvira ]
+        note: Passa a ser o Ramal de Lussanvira.
+      - status: closed
+        from: '1961'
+        sources: [ giesbrecht-lussanvira ]
+      - status: removed
+        from: '1965-08-19'
+        sources: [ giesbrecht-lussanvira ]
+      - status: flooded
+        from: '1990-10'
+        sources: [ diario-litoral-ponte-novo-oriente, giesbrecht-lussanvira ]
+        note: Enchimento do reservatório de Três Irmãos.
+
+  - id: nob-lussanvira-itapura
+    name: Lussanvira – Itapura (traçado esquemático)
+    from: lussanvira
+    to: itapura
+    alignment: original
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Linha reta entre posições estimadas; o leito está submerso.
+    status_history:
+      - status: open
+        from: '1910-05-13'
+        sources: [ giesbrecht-itapura ]
+      - status: closed
+        from: '1941-01'
+        sources: [ giesbrecht-itapura ]
+        note: Trecho Lussanvira–Jupiá abandonado por causa da malária.
+      - status: removed
+        from: '1941'
+        circa: true
+        sources: [ giesbrecht-itapura ]
+        note: 77 km de trilhos retirados após autorização de 2/12/1940.
+      - status: flooded
+        from: '1968'
+        sources: [ giesbrecht-itapura ]
+        note: Barragens de Jupiá e Ilha Solteira.
+
+  - id: nob-itapura-jupia
+    name: Itapura – Jupiá (traçado esquemático)
+    from: itapura
+    to: jupia
+    alignment: original
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Linha reta entre posições estimadas, ao longo do rio Paraná; o leito está submerso.
+    status_history:
+      - status: open
+        from: '1910'
+        sources: [ giesbrecht-avanhandava ]
+        note: Em 1910 a linha atingia as margens do rio Paraná, em Jupiá. A travessia era feita por balsa até a ponte de 1926.
+      - status: closed
+        from: '1941-01'
+        sources: [ giesbrecht-itapura ]
+      - status: removed
+        from: '1941'
+        circa: true
+        sources: [ giesbrecht-itapura ]
+      - status: flooded
+        from: '1968'
+        sources: [ giesbrecht-itapura ]
+
+  # ------------------------------------------------------------------
+  # Variante de Jupiá: pelo espigão, longe da malária do Tietê (1929–1937)
+  # ------------------------------------------------------------------
+  - id: nob-variante-jupia-aracatuba-centro
+    name: Variante de Jupiá — saída do centro de Araçatuba
+    from: aracatuba-centro
+    to: jct-aracatuba-oeste
+    alignment: variant
+    geometry: { method: osm-old }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1929-08-06'
+        sources: [ giesbrecht-guararapes ]
+      - status: closed
+        from: '1992'
+        sources: [ giesbrecht-aracatuba-4 ]
+
+  - id: nob-variante-jupia-guararapes
+    name: Variante de Jupiá — Araçatuba – Guararapes
+    from: jct-aracatuba-oeste
+    to: guararapes
+    alignment: variant
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1929-08-06'
+        sources: [ giesbrecht-guararapes ]
+      - *freight-1995
+
+  - id: nob-variante-jupia-valparaiso
+    name: Variante de Jupiá — Guararapes – Valparaíso
+    from: guararapes
+    to: valparaiso
+    alignment: variant
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1932-10-01'
+        sources: [ giesbrecht-valparaiso ]
+      - *freight-1995
+
+  - id: nob-variante-jupia-guaracai
+    name: Variante de Jupiá — Valparaíso – Guaraçaí
+    from: valparaiso
+    to: guaracai
+    alignment: variant
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1936-09-01'
+        sources: [ giesbrecht-guaracai ]
+      - *freight-1995
+
+  - id: nob-variante-jupia-final
+    name: Variante de Jupiá — Guaraçaí – Andradina – Jupiá
+    from: guaracai
+    to: jupia
+    alignment: variant
+    replaces: [ nob-lussanvira-itapura, nob-itapura-jupia ]
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Traçado atual; em Andradina a estação foi refeita em 1992 e o traçado local pode ter mudado.
+    status_history:
+      - status: open
+        from: '1937'
+        sources: [ giesbrecht-andradina ]
+        note: Inauguração da estação de Andradina em 11/07/1937; a variante passou a integrar o tronco em 1940.
+      - *freight-1995

@@ -1,0 +1,7 @@
+title: OpenStreetMap — vias férreas em uso, abandonadas e erradicadas
+author: Colaboradores do OpenStreetMap
+type: dataset
+url: https://www.openstreetmap.org/
+accessed: '2026-10-03'
+license: ODbL 1.0
+notes: Geometria dos trechos (via Overpass API). Etiquetas como start_date e old_name foram usadas como pistas, sempre conferidas com outras fontes.

@@ -1,0 +1,20 @@
+import type { FeatureCollection, LineString, MultiLineString, Point } from 'geojson';
+import type { SiteData } from '../../lib/site-data';
+import type { SegmentFeatureProps, StationFeatureProps } from '../../lib/network';
+
+export type Catalog = SiteData['catalog'];
+export type SegmentMeta = Catalog['segments'][string];
+export type StationMeta = Catalog['stations'][string];
+export type EventItem = Catalog['events'][number];
+export type HistoricMap = Catalog['historicMaps'][number];
+
+export type NetworkFC = FeatureCollection<LineString | MultiLineString, SegmentFeatureProps>;
+export type StationsFC = FeatureCollection<Point, StationFeatureProps>;
+
+export type Selection = { kind: 'station' | 'segment'; id: string } | null;
+
+export interface CompareState {
+  on: boolean;
+  a: number;
+  b: number;
+}

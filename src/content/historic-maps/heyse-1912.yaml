@@ -1,0 +1,13 @@
+title: Mappa da viação ferrea de São Paulo e partes dos estados vizinhos
+year: 1912
+author: R. Heyse (Comissão de Prolongamentos e Desenvolvimento da Sorocabana); Weiszflog Irmãos
+archive: Princeton University Library (Digital Maps and Geospatial Data)
+url: https://maps.princeton.edu/catalog/princeton-8p58pg40f
+license: a verificar
+status: candidate
+show_from: 1905
+show_to: 1925
+notes: >-
+  Organizado em 1910 e publicado em 1912; mostra linhas em tráfego, em construção e projetadas. Deve
+  mostrar a Noroeste chegando ao Paraná pelo vale do Tietê. Próximo passo: obter o manifesto IIIF,
+  georreferenciar no Allmaps Editor e redesenhar o trecho Araçatuba–Itapura–Jupiá.

@@ -1,0 +1,7 @@
+name: Companhia Estrada de Ferro Noroeste do Brasil
+short: Cia. NOB
+from: '1905'
+to: '1915'
+successor: nob-federal
+summary: Empresa privada que construiu a linha a partir de Bauru.
+sources: [wikipedia-pt-nob]
