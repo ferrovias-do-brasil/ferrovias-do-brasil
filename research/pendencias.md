@@ -33,6 +33,13 @@ Outras dúvidas: a estação original de Monlevade teria sido desativada entre 1
 nova construída "na variante de Lins", mas a variante de Lins só abriu em 1962. Pode ter havido
 uma retificação anterior perto de Monlevade.
 
+## Próximas linhas
+
+A malha paulista inteira já aparece em cinza (OpenStreetMap). Candidatas a ganhar história, pela
+quantidade de leito no OSM: Sorocabana (≈800 km nomeados), Paulista (tronco, Itirapina–Panorama,
+Nova Granada), Mogiana (ramais de Mococa, Guaxupé), São Paulo Railway (Santos–Jundiaí), Bragantina,
+Campos do Jordão e o Tramway da Cantareira.
+
 ## Mapas antigos
 
 - **Heyse (1912)**: georreferenciado (`public/georef/heyse-1912.json`, dados em `research/georef/heyse-1912/`). Erro mediano de 2,5 km, maior no oeste. Para melhorar, acrescente pontos identificáveis em `features.json` e rode `npm run build-georef -- heyse-1912`.

@@ -11,27 +11,15 @@
  *
  * Data © OpenStreetMap contributors, ODbL 1.0.
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { setDefaultResultOrder } from 'node:dns';
-import { setDefaultAutoSelectFamilyAttemptTimeout } from 'node:net';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { parseDocument } from 'yaml';
 import { basename, join } from 'node:path';
 import type { Feature, LineString, MultiLineString, Position } from 'geojson';
 import { networkSchema, type Network, type NetworkNode } from '../src/lib/schemas';
 import { haversine } from '../src/lib/geo';
 import { RailGraph, type OverpassWay } from './lib/osm-graph';
-import { ROOT, networkDirs, readGeometry, readNetworkYaml } from './lib/content';
-
-const OVERPASS_ENDPOINTS = process.env.OVERPASS_URL
-  ? [process.env.OVERPASS_URL]
-  : ['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter'];
-const ATTEMPTS_PER_ENDPOINT = 3;
-
-// Node's default 250 ms IPv6→IPv4 fallback is too short on some networks (e.g. WSL).
-setDefaultResultOrder('ipv4first');
-setDefaultAutoSelectFamilyAttemptTimeout(3000);
-const USER_AGENT = 'ferrovias-do-brasil/0.1 (+https://github.com/; open-source railway history)';
-const CACHE_DIR = join(ROOT, '.cache/osm');
+import { networkDirs, readGeometry, readNetworkYaml } from './lib/content';
+import { cachedWays } from './lib/overpass';
 
 function overpassQuery([w, s, e, n]: Network['bbox']): string {
   const bb = `${s},${w},${n},${e}`;
@@ -45,42 +33,8 @@ function overpassQuery([w, s, e, n]: Network['bbox']): string {
 out tags geom;`;
 }
 
-/** Public Overpass servers are often busy: retry with backoff, then try the next server. */
-async function downloadOverpass(query: string): Promise<string> {
-  const failures: string[] = [];
-  for (const endpoint of OVERPASS_ENDPOINTS) {
-    for (let attempt = 1; attempt <= ATTEMPTS_PER_ENDPOINT; attempt++) {
-      console.log(`  downloading from ${endpoint} (attempt ${attempt}) …`);
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'User-Agent': USER_AGENT, 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ data: query }),
-          signal: AbortSignal.timeout(200_000),
-        });
-        const text = await res.text();
-        if (res.ok && text.trimStart().startsWith('{')) return text;
-        failures.push(`${endpoint}: HTTP ${res.status}`);
-      } catch (e) {
-        failures.push(`${endpoint}: ${(e as Error).message}`);
-      }
-      if (attempt < ATTEMPTS_PER_ENDPOINT) await new Promise((r) => setTimeout(r, 15_000 * attempt));
-    }
-  }
-  throw new Error(`Overpass unavailable; the cached data was kept.\n  - ${failures.join('\n  - ')}`);
-}
-
 async function loadOsm(network: Network, refresh: boolean): Promise<OverpassWay[]> {
-  const cacheFile = join(CACHE_DIR, `${network.line}.json`);
-  if (!refresh && existsSync(cacheFile)) {
-    console.log(`  using cached ${cacheFile}`);
-  } else {
-    const text = await downloadOverpass(overpassQuery(network.bbox));
-    mkdirSync(CACHE_DIR, { recursive: true });
-    writeFileSync(cacheFile, text);
-  }
-  const raw = JSON.parse(readFileSync(cacheFile, 'utf8'));
-  return raw.elements.filter((e: { type: string }) => e.type === 'way');
+  return cachedWays(network.line, overpassQuery(network.bbox), refresh);
 }
 
 function snapPosition(graph: RailGraph, node: NetworkNode): Position {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { LEGEND, type LegendKey } from './style';
+  import { CONTEXT_LEGEND, LEGEND, type LegendKey } from './style';
   import type { HistoricMap } from './types';
 
   interface Props {
@@ -50,6 +50,18 @@
           Estações
         </label>
       </li>
+      <li class="sep group">Malha paulista — sem datas ainda</li>
+      {#each CONTEXT_LEGEND as item (item.key)}
+        <li>
+          <label class:off={hidden.has(item.key)}>
+            <input type="checkbox" checked={!hidden.has(item.key)} onchange={() => toggle(item.key)} />
+            <svg width="30" height="10" aria-hidden="true"
+              ><line x1="1" y1="5" x2="29" y2="5" stroke={item.color} stroke-width={item.width} stroke-dasharray={item.dash} /></svg
+            >
+            {item.label}
+          </label>
+        </li>
+      {/each}
       {#if historicMap}
         <li class="sep">
           <label title={historicMap.title}>
@@ -133,6 +145,10 @@
   }
   .sub {
     margin-left: 22px;
+  }
+  .group {
+    color: var(--muted);
+    font-size: 0.72rem;
   }
   .sub input[type='range'] {
     width: 110px;

@@ -2,7 +2,7 @@
   import { formatDatePt, endOfYear, toDecimalYear } from '../../lib/dates';
   import { hasConflict } from '../../lib/claims';
   import { CONFIDENCE_LABEL, METHOD_LABEL, STATUS_LABEL } from './style';
-  import type { Catalog, Selection } from './types';
+  import type { Catalog, MalhaFC, Selection } from './types';
 
   interface Item {
     id: string;
@@ -12,6 +12,7 @@
 
   interface Props {
     catalog: Catalog;
+    malha: MalhaFC | undefined;
     selection: Selection;
     year: number;
     operatingKm: number;
@@ -20,7 +21,21 @@
     onselect: (s: Selection) => void;
   }
 
-  let { catalog, selection, year, operatingKm, compareSummary, base, onselect }: Props = $props();
+  let { catalog, malha, selection, year, operatingKm, compareSummary, base, onselect }: Props = $props();
+
+  const REPO = 'https://github.com/ferrovias-do-brasil/ferrovias-do-brasil';
+  const KIND_LABEL = { a: 'em uso hoje', d: 'desativada hoje (trilhos sem tráfego)', o: 'leito antigo (sem trilhos)' } as const;
+  const osmWay = $derived(
+    selection?.kind === 'osm' ? malha?.features.find((f) => String(f.properties.id) === selection.id)?.properties : undefined,
+  );
+  function gaugeLabel(g: string) {
+    const names: Record<string, string> = { '1000': 'métrica (1.000 mm)', '1600': 'larga (1.600 mm)', '600': 'estreita (600 mm)', '760': 'estreita (760 mm)' };
+    return g.split(';').map((x) => names[x] ?? `${x} mm`).join(' + ');
+  }
+  function issueUrl(name: string | undefined, id: string) {
+    const title = `História da linha: ${name ?? `trecho OSM ${id}`}`;
+    return `${REPO}/issues/new?template=fato-historico.yml&title=${encodeURIComponent(title)}&lugar=${encodeURIComponent(name ?? '')}`;
+  }
 
   const t = $derived(endOfYear(year));
   const station = $derived(selection?.kind === 'station' ? catalog.stations[selection.id] : undefined);
@@ -159,6 +174,31 @@
       {METHOD_LABEL[segment.geometry.method]} · confiança <strong>{CONFIDENCE_LABEL[segment.geometry.confidence]}</strong>.
       {segment.geometry.note ?? ''}
     </p>
+  {:else if selection?.kind === 'osm'}
+    <button class="close" type="button" onclick={() => onselect(null)} aria-label="Fechar">×</button>
+    <p class="kicker">Malha paulista · sem história pesquisada</p>
+    {#if osmWay}
+      <h2>{osmWay.n ?? 'Ferrovia sem nome no OpenStreetMap'}</h2>
+      <p class="status-now">Situação: <strong>{KIND_LABEL[osmWay.k]}</strong></p>
+      {#if osmWay.hoje}<p>O antigo leito hoje é <strong>{osmWay.hoje}</strong>.</p>{/if}
+      <ul class="plain">
+        {#if osmWay.op}<li>Operador hoje: {osmWay.op}</li>{/if}
+        {#if osmWay.gauge}<li>Bitola: {gaugeLabel(osmWay.gauge)}</li>{/if}
+        {#if osmWay.sd}<li>O OpenStreetMap registra início em <strong>{osmWay.sd}</strong> <span class="note">(sem fonte; precisa ser conferido)</span></li>{/if}
+      </ul>
+      <p class="note">
+        Esta linha ainda não tem linha do tempo pesquisada: aparece em todos os anos com a situação de hoje, segundo o
+        OpenStreetMap. A Noroeste, em cor, é a única linha já pesquisada.
+      </p>
+      <p>
+        <a href={issueUrl(osmWay.n, selection.id)} target="_blank" rel="noopener">Conhece a história desta linha? Conte para nós →</a>
+      </p>
+      <p class="note">
+        <a href="https://www.openstreetmap.org/way/{selection.id}" target="_blank" rel="noopener">Ver o trecho no OpenStreetMap</a>
+      </p>
+    {:else}
+      <p class="muted">Carregando a malha…</p>
+    {/if}
   {:else if compareSummary}
     <p class="kicker">Comparação</p>
     <h2>{compareSummary.a} × {compareSummary.b}</h2>
@@ -181,7 +221,10 @@
   {:else}
     <p class="kicker">Ferrovias do Brasil</p>
     <h2>{year}</h2>
-    <p class="stat"><strong>{operatingKm.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} km</strong> de linha em operação no mapa</p>
+    <p class="stat">
+      <strong>{operatingKm.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} km</strong> de linhas pesquisadas em operação
+      <span class="note">(por enquanto, só a Noroeste; o resto da malha aparece em cinza, sem datas)</span>
+    </p>
     {#if yearEvents.length}
       <h3>Neste ano</h3>
       <ul class="events">

@@ -11,7 +11,20 @@ export type HistoricMap = Catalog['historicMaps'][number];
 export type NetworkFC = FeatureCollection<LineString | MultiLineString, SegmentFeatureProps>;
 export type StationsFC = FeatureCollection<Point, StationFeatureProps>;
 
-export type Selection = { kind: 'station' | 'segment'; id: string } | null;
+export type Selection = { kind: 'station' | 'segment' | 'osm'; id: string } | null;
+
+/** Context layer: a railway way from OpenStreetMap without researched history (scripts/import-malha.ts). */
+export interface MalhaProps {
+  id: number;
+  /** a = in use today, d = disused, o = old bed (abandoned/razed). */
+  k: 'a' | 'd' | 'o';
+  n?: string;
+  hoje?: string;
+  op?: string;
+  sd?: string;
+  gauge?: string;
+}
+export type MalhaFC = FeatureCollection<LineString, MalhaProps>;
 
 export interface CompareState {
   on: boolean;

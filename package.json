@@ -15,7 +15,8 @@
     "import-osm": "tsx scripts/import-osm.ts",
     "test": "vitest run",
     "build-georef": "tsx scripts/build-georef.ts",
-    "apply-traces": "tsx scripts/apply-traces.ts"
+    "apply-traces": "tsx scripts/apply-traces.ts",
+    "import-malha": "tsx scripts/import-malha.ts"
   },
   "dependencies": {
     "@allmaps/maplibre": "^1.0.0-beta.44",

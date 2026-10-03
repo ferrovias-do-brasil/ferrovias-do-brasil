@@ -11,6 +11,9 @@
   --seg-flooded: #1d63b5;
   --station-fill: #ffffff;
   --station-stroke: #3a2a20;
+  --ctx-active: #7d736b;
+  --ctx-disused: #978e86;
+  --ctx-old: #ada59e;
   --shadow: 0 2px 10px rgb(43 33 27 / 0.12);
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
@@ -33,6 +36,9 @@
     --seg-flooded: #5aa0f0;
     --station-fill: #1c1815;
     --station-stroke: #efe7dd;
+    --ctx-active: #9d948c;
+    --ctx-disused: #857c75;
+    --ctx-old: #6c645e;
     --shadow: 0 2px 12px rgb(0 0 0 / 0.45);
     color-scheme: dark;
   }
@@ -50,6 +56,9 @@
   --seg-flooded: #5aa0f0;
   --station-fill: #1c1815;
   --station-stroke: #efe7dd;
+  --ctx-active: #9d948c;
+  --ctx-disused: #857c75;
+  --ctx-old: #6c645e;
   --shadow: 0 2px 12px rgb(0 0 0 / 0.45);
   color-scheme: dark;
 }

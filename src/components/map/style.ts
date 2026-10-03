@@ -1,4 +1,4 @@
-import type { ExpressionSpecification, FilterSpecification, LayerSpecification } from 'maplibre-gl';
+import type { ExpressionSpecification, FilterSpecification, LineLayerSpecification } from 'maplibre-gl';
 import type { SegmentStatus } from '../../lib/schemas';
 import type { Theme } from '../../lib/theme';
 
@@ -26,6 +26,8 @@ export const METHOD_LABEL = {
   manual: 'desenhado à mão',
 } as const;
 
+type LineLayer = Omit<LineLayerSpecification, 'id' | 'source'>;
+
 /** Map colours per theme. Keep segment colours in sync with --seg-* in global.css. */
 export const PALETTE = {
   light: {
@@ -38,6 +40,9 @@ export const PALETTE = {
     stationEnded: '#b9b1aa',
     label: '#2b211b',
     halo: '#ffffff',
+    ctxActive: '#7d736b',
+    ctxDisused: '#978e86',
+    ctxOld: '#ada59e',
   },
   dark: {
     closed: '#9c9c9c',
@@ -49,6 +54,9 @@ export const PALETTE = {
     stationEnded: '#5a524c',
     label: '#efe7dd',
     halo: '#0c0c0c',
+    ctxActive: '#9d948c',
+    ctxDisused: '#857c75',
+    ctxOld: '#6c645e',
   },
 } satisfies Record<Theme, Record<string, string>>;
 
@@ -60,7 +68,7 @@ export const COLORS = {
 };
 
 /** What the legend can switch on and off. */
-export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations';
+export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations' | 'ctx_a' | 'ctx_d' | 'ctx_o';
 
 /** Legend entries, drawn with the same colours and dash patterns as the map layers. */
 export const LEGEND: { key: LegendKey; label: string; color: string; width: number; dash?: string; opacity?: number }[] = [
@@ -72,7 +80,37 @@ export const LEGEND: { key: LegendKey; label: string; color: string; width: numb
   { key: 'flooded', label: 'Submerso por represa', color: 'var(--seg-flooded)', width: 3, dash: '3 3.6' },
 ];
 
-export const LEGEND_KEYS: LegendKey[] = [...LEGEND.map((l) => l.key), 'stations'];
+/** Context layer (railways without researched history yet). */
+export const CONTEXT_LEGEND: typeof LEGEND = [
+  { key: 'ctx_a', label: 'em uso hoje', color: 'var(--ctx-active)', width: 1.8 },
+  { key: 'ctx_d', label: 'desativada hoje', color: 'var(--ctx-disused)', width: 1.5, dash: '4 3' },
+  { key: 'ctx_o', label: 'leito antigo (sem trilhos)', color: 'var(--ctx-old)', width: 1.5, dash: '1.5 2.5' },
+];
+
+export const LEGEND_KEYS: LegendKey[] = [...LEGEND.map((l) => l.key), 'stations', ...CONTEXT_LEGEND.map((l) => l.key)];
+
+/** Context layers, drawn below the researched lines. */
+export function malhaLayers(theme: Theme): { id: string; key: LegendKey; layer: LineLayer }[] {
+  const c = PALETTE[theme];
+  return [
+    {
+      id: 'malha-o',
+      key: 'ctx_o',
+      layer: { type: 'line', filter: ['==', ['get', 'k'], 'o'], paint: { 'line-color': c.ctxOld, 'line-width': 1.4, 'line-dasharray': [1, 1.8] } },
+    },
+    {
+      id: 'malha-d',
+      key: 'ctx_d',
+      layer: { type: 'line', filter: ['==', ['get', 'k'], 'd'], paint: { 'line-color': c.ctxDisused, 'line-width': 1.4, 'line-dasharray': [3, 2] } },
+    },
+    {
+      id: 'malha-a',
+      key: 'ctx_a',
+      layer: { type: 'line', filter: ['==', ['get', 'k'], 'a'], layout: { 'line-join': 'round' }, paint: { 'line-color': c.ctxActive, 'line-width': 1.7 } },
+    },
+  ];
+}
+export const MALHA_LAYER_IDS = ['malha-o', 'malha-d', 'malha-a'];
 
 /** Feature active at decimal year t. */
 export function activeAt(t: number): ExpressionSpecification {
@@ -82,8 +120,6 @@ export function activeAt(t: number): ExpressionSpecification {
 const status = (...s: SegmentStatus[]): ExpressionSpecification => ['in', ['get', 'status'], ['literal', s]];
 const lowConfidence: ExpressionSpecification = ['==', ['get', 'confidence'], 'low'];
 const lineColor = (theme: Theme): ExpressionSpecification => ['get', theme === 'dark' ? 'color_dark' : 'color'];
-
-type LineLayer = Omit<LayerSpecification, 'id' | 'source' | 'filter'> & { type: 'line' };
 
 /** Segment layers, bottom to top. Each gets `activeAt(t)` and-ed onto its base filter. */
 export function segmentLayers(theme: Theme): { id: string; base: ExpressionSpecification; layer: LineLayer }[] {

@@ -9,7 +9,7 @@
   import { endOfYear } from '../../lib/dates';
   import { lineLengthM } from '../../lib/geo';
   import { changeBetween } from '../../lib/network';
-  import type { Catalog, CompareState, NetworkFC, Selection, StationsFC } from './types';
+  import type { Catalog, CompareState, MalhaFC, NetworkFC, Selection, StationsFC } from './types';
 
   interface Props {
     base: string;
@@ -22,6 +22,7 @@
   let network = $state<NetworkFC>();
   let stations = $state<StationsFC>();
   let catalog = $state<Catalog>();
+  let malha = $state<MalhaFC>();
   let error = $state<string>();
 
   let year = $state(1912);
@@ -41,12 +42,14 @@
     readUrl();
     if (selection) panelOpen = true;
     urlReady = true;
+    const get = (p: string) => fetch(`${base}data/${p}`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${p}: ${r.status}`))));
     try {
-      const get = (p: string) => fetch(`${base}data/${p}`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${p}: ${r.status}`))));
       [network, stations, catalog] = await Promise.all([get('network.geojson'), get('stations.geojson'), get('catalog.json')]);
     } catch (e) {
       error = (e as Error).message;
     }
+    // The context layer is large and optional: load it after the main data, ignore failures.
+    get('malha-sp.geojson').then((m) => (malha = m), () => {});
   });
 
   // ---------------------------------------------------------------- URL state
@@ -55,7 +58,7 @@
     const ano = Number(q.get('ano'));
     if (ano >= MIN_YEAR && ano <= MAX_YEAR) year = ano;
     const sel = q.get('sel')?.split(':');
-    if (sel?.length === 2 && (sel[0] === 'station' || sel[0] === 'segment')) selection = { kind: sel[0], id: sel[1] };
+    if (sel?.length === 2 && (sel[0] === 'station' || sel[0] === 'segment' || sel[0] === 'osm')) selection = { kind: sel[0], id: sel[1] };
     const cmp = q.get('comparar')?.split('-').map(Number);
     if (cmp?.length === 2 && cmp.every((y) => y >= MIN_YEAR && y <= MAX_YEAR)) compare = { on: true, a: cmp[0], b: cmp[1] };
     showHistoric = q.get('antigo') === '1';
@@ -127,6 +130,7 @@
     <MapView
       {network}
       {stations}
+      {malha}
       events={catalog.events}
       historicMaps={showHistoric && historicMap ? [historicMap] : []}
       {year}
@@ -145,7 +149,7 @@
         {panelOpen ? 'Ocultar painel' : 'Mostrar painel'}
       </button>
       {#if panelOpen}
-        <SidePanel {catalog} {selection} {year} {operatingKm} {compareSummary} {base} onselect={select} />
+        <SidePanel {catalog} {malha} {selection} {year} {operatingKm} {compareSummary} {base} onselect={select} />
       {/if}
     </div>
 

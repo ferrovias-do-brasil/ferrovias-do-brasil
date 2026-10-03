@@ -1,7 +1,7 @@
 # Licença da geometria do traçado
 
-A geometria dos trechos ferroviários (`src/content/network/*/geometry.geojson` e
-os arquivos gerados `dist/data/network.geojson`) é **derivada do OpenStreetMap**
+A geometria dos trechos ferroviários (`src/content/network/*/geometry.geojson`,
+a malha estadual `public/data/malha-*.geojson` e os arquivos gerados em `dist/data/`) é **derivada do OpenStreetMap**
 e, portanto, é distribuída sob a
 **Open Database License (ODbL) 1.0**: https://opendatacommons.org/licenses/odbl/1-0/
 

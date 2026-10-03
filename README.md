@@ -23,6 +23,8 @@ dados serve para qualquer linha do país.
 - **Mapa de 1912 por baixo:** o *Mappa da viação ferrea de São Paulo* (R. Heyse, Princeton) aparece
   georreferenciado entre 1905 e 1930, e a linha original do vale do Tietê foi redesenhada sobre ele.
 - **Variantes de 1962–1971:** Lins, Cafelândia, Promissão e Glicério, com as estações velhas e novas.
+- **Toda a malha paulista:** cerca de 8.000 km de ferrovias do OpenStreetMap (em uso, desativadas e
+  leitos antigos) aparecem em cinza como contexto, até cada linha ganhar sua história pesquisada.
 - **Modo comparar:** dois anos lado a lado; em verde o que surgiu, em vermelho o que sumiu.
 - **Fontes que divergem** aparecem lado a lado, com aviso.
 
@@ -37,6 +39,7 @@ scripts/
   import-osm.ts         ← Overpass → menor caminho em grafo ferroviário → geometria dos trechos
   validate.ts           ← schemas + referências cruzadas
   validate-network.ts   ← topologia + comparação com quilometragens históricas
+  import-malha.ts       ← toda a malha do estado (OSM) → public/data/malha-sp.geojson
   build-georef.ts       ← anotação IIIF de georreferenciamento (malha do mapa + pontos de controle)
   apply-traces.ts       ← linhas traçadas sobre mapas antigos → geometria dos trechos
 src/lib/                ← datas parciais, afirmações com fonte, rede versionada

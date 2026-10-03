@@ -17,22 +17,26 @@
     COLORS,
     FONT,
     LAYER_TOGGLE,
+    MALHA_LAYER_IDS,
     PALETTE,
     SEGMENT_LAYERS,
     SEGMENT_LAYER_IDS,
     activeAt,
     segmentFilter,
     segmentLayers,
+    malhaLayers,
     type LegendKey,
   } from './style';
   import type { Theme } from '../../lib/theme';
   import { changeBetween, OPEN_END } from '../../lib/network';
   import { endOfYear } from '../../lib/dates';
-  import type { CompareState, EventItem, HistoricMap, NetworkFC, Selection, StationsFC } from './types';
+  import type { CompareState, EventItem, HistoricMap, MalhaFC, NetworkFC, Selection, StationsFC } from './types';
 
   interface Props {
     network: NetworkFC;
     stations: StationsFC;
+    /** Context layer: the whole state's railways from OSM, without researched dates. */
+    malha: MalhaFC | undefined;
     events: EventItem[];
     historicMaps: HistoricMap[];
     year: number;
@@ -45,7 +49,8 @@
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, events, historicMaps, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props = $props();
+  let { network, stations, malha, events, historicMaps, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props =
+    $props();
 
   let container: HTMLDivElement;
   let map: MlMap | undefined;
@@ -63,8 +68,10 @@
     map = new MlMap({
       container,
       style: BASEMAP[theme],
-      center: [-50.3, -21.45],
-      zoom: 7.2,
+      // The whole state of São Paulo; the researched NOB stands out in colour. On wide screens the
+      // side panel covers the right of the map, so the centre is shifted east to keep the state visible.
+      center: window.innerWidth > 720 ? [-47.5, -22.7] : [-48.6, -22.3],
+      zoom: window.innerWidth > 720 ? 5.8 : 5.6,
       minZoom: 5,
       maxZoom: 17,
       hash: 'mapa',
@@ -103,6 +110,17 @@
     m.addSource('compare', { type: 'geojson', data: EMPTY });
     m.addSource('stations', { type: 'geojson', data: stations });
     m.addSource('events', { type: 'geojson', data: EMPTY });
+
+    m.addSource('malha', { type: 'geojson', data: malha ?? EMPTY });
+    for (const { id, layer } of malhaLayers(theme)) m.addLayer({ ...layer, id, source: 'malha' });
+    m.addLayer({
+      id: 'malha-selected',
+      type: 'line',
+      source: 'malha',
+      filter: ['==', ['get', 'id'], -1],
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': COLORS.highlight, 'line-width': 7, 'line-opacity': 0.6 },
+    });
 
     for (const { id, layer } of segmentLayers(theme)) m.addLayer({ ...layer, id, source: 'network' });
     m.addLayer({
@@ -182,7 +200,7 @@
 
   /** Pointer and click handlers, bound once; they keep working across style changes. */
   function bindEvents(m: MlMap) {
-    const clickable = [...SEGMENT_LAYER_IDS, 'stations', 'cmp-added', 'cmp-removed', 'cmp-unchanged'];
+    const clickable = [...SEGMENT_LAYER_IDS, 'stations', 'cmp-added', 'cmp-removed', 'cmp-unchanged', ...MALHA_LAYER_IDS];
     for (const id of clickable) {
       m.on('mouseenter', id, () => (m.getCanvas().style.cursor = 'pointer'));
       m.on('mouseleave', id, () => (m.getCanvas().style.cursor = ''));
@@ -194,10 +212,13 @@
         [e.point.x + pad, e.point.y + pad],
       ];
       const hits = m.queryRenderedFeatures(box, { layers: clickable.filter((id) => m.getLayer(id)) });
+      // Priority: stations, then researched segments, then the context layer.
       const station = hits.find((f) => f.layer.id === 'stations');
       if (station) return onselect({ kind: 'station', id: station.properties.station });
-      const seg = hits[0];
-      onselect(seg ? { kind: 'segment', id: seg.properties.segment } : null);
+      const seg = hits.find((f) => !MALHA_LAYER_IDS.includes(f.layer.id));
+      if (seg) return onselect({ kind: 'segment', id: seg.properties.segment });
+      const ctx = hits.find((f) => MALHA_LAYER_IDS.includes(f.layer.id));
+      onselect(ctx ? { kind: 'osm', id: String(ctx.properties.id) } : null);
     });
   }
 
@@ -222,6 +243,18 @@
       type: 'FeatureCollection',
       features: evs.map((e) => ({ type: 'Feature', properties: { id: e.id }, geometry: { type: 'Point', coordinates: e.coords! } })),
     });
+  });
+
+  // ------------------------------------------------------------ context layer (whole state, no dates)
+  $effect(() => {
+    if (!ready || !map) return;
+    (map.getSource('malha') as GeoJSONSource | undefined)?.setData(malha ?? EMPTY);
+  });
+
+  $effect(() => {
+    if (!ready || !map) return;
+    for (const { id, key } of malhaLayers('light')) map.setLayoutProperty(id, 'visibility', hidden.has(key) ? 'none' : 'visible');
+    map.setFilter('malha-selected', ['==', ['get', 'id'], selection?.kind === 'osm' ? Number(selection.id) : -1]);
   });
 
   // ------------------------------------------------------------ compare mode
@@ -279,7 +312,7 @@
     let layer = warpedLayer as InstanceType<typeof WarpedMapLayer> | undefined;
     if (!layer) {
       layer = new WarpedMapLayer({ layerId: 'historic-maps' });
-      m.addLayer(layer, SEGMENT_LAYERS[0].id);
+      m.addLayer(layer, 'malha-o'); // historic map below every line layer
       warpedLayer = layer;
       layer.setOpacity(historicOpacity);
     }
