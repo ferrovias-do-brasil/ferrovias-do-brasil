@@ -3,6 +3,7 @@
   import {
     Map as MlMap,
     NavigationControl,
+    Popup,
     ScaleControl,
     setWorkerUrl,
     type GeoJSONSource,
@@ -30,6 +31,7 @@
     type LegendKey,
   } from './style';
   import type { Theme } from '../../lib/theme';
+  import { compareTip, malhaTip, segmentTip, stationTip, tipHtml, type Tip } from './tooltip';
   import { changeBetween, OPEN_END } from '../../lib/network';
   import { endOfYear } from '../../lib/dates';
   import type { CompareState, EventItem, HistoricMap, MalhaFC, NetworkFC, Selection, StationsFC } from './types';
@@ -41,6 +43,8 @@
     malha: MalhaFC | undefined;
     events: EventItem[];
     historicMaps: HistoricMap[];
+    /** Researched lines, to name them in the hover tooltip. */
+    lines: { network: string; name: string }[];
     year: number;
     compare: CompareState;
     selection: Selection;
@@ -51,8 +55,11 @@
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, malha, events, historicMaps, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props =
+  let { network, stations, malha, events, historicMaps, lines, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props =
     $props();
+
+  const lineName = (id: string | undefined) => lines.find((l) => l.network === id)?.name;
+  const segmentInfo = $derived(new Map(network.features.map((f) => [f.properties.segment, { name: f.properties.name, line: f.properties.line }])));
 
   let container: HTMLDivElement;
   let map: MlMap | undefined;
@@ -80,6 +87,7 @@
       attributionControl: { compact: true, customAttribution: 'Traçado © colaboradores do OpenStreetMap (ODbL)' },
     });
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+    if (import.meta.env.DEV || location.hostname === "localhost") (window as unknown as { __map?: unknown }).__map = map; // test hook
     if (window.innerWidth > 720) map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right');
     // Fires for the first style and after every theme switch: our sources and layers are added on top.
     map.on('style.load', () => {
@@ -223,6 +231,41 @@
       const ctx = hits.find((f) => MALHA_LAYER_IDS.includes(f.layer.id));
       onselect(ctx ? { kind: 'osm', id: String(ctx.properties.id) } : null);
     });
+
+    // Hover tooltip: what line this is (or was) and its state, in the legend's words.
+    const tip = new Popup({ closeButton: false, closeOnClick: false, offset: 14, maxWidth: '280px', className: 'hover-tip' });
+    m.on('mousemove', (e: MapLayerMouseEvent) => {
+      const pad = 5;
+      const box: [[number, number], [number, number]] = [
+        [e.point.x - pad, e.point.y - pad],
+        [e.point.x + pad, e.point.y + pad],
+      ];
+      const hits = m.queryRenderedFeatures(box, { layers: clickable.filter((id) => m.getLayer(id)) });
+      const t = describe(hits);
+      if (!t) return void tip.remove();
+      tip.setLngLat(e.lngLat).setHTML(tipHtml(t));
+      if (!tip.isOpen()) tip.addTo(m);
+    });
+    m.getCanvas().addEventListener('mouseleave', () => tip.remove());
+    m.on('movestart', () => tip.remove());
+  }
+
+  function describe(hits: { layer: { id: string }; properties: Record<string, any> }[]): Tip | null {
+    const station = hits.find((f) => f.layer.id === 'stations');
+    if (station) {
+      const t = endOfYear(compare.on ? compare.b : year);
+      return stationTip(station.properties as { name: string; passenger_end: number }, lineName(station.properties.line), t, compare.on ? compare.b : year);
+    }
+    const cmp = hits.find((f) => f.layer.id.startsWith('cmp-'));
+    if (cmp) {
+      const info = segmentInfo.get(cmp.properties.segment);
+      return compareTip(info?.name ?? cmp.properties.segment, lineName(info?.line), cmp.properties.change, compare.a, compare.b);
+    }
+    const seg = hits.find((f) => f.layer.id.startsWith('seg-') && f.layer.id !== 'seg-selected');
+    if (seg) return segmentTip(seg.properties as Parameters<typeof segmentTip>[0], lineName(seg.properties.line), year);
+    const ctx = hits.find((f) => MALHA_LAYER_IDS.includes(f.layer.id));
+    if (ctx) return malhaTip(ctx.properties as Parameters<typeof malhaTip>[0]);
+    return null;
   }
 
   // ------------------------------------------------------------ time filter

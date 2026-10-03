@@ -133,6 +133,7 @@
       {malha}
       events={catalog.events}
       historicMaps={showHistoric && historicMap ? [historicMap] : []}
+      lines={catalog.lines}
       {year}
       {compare}
       {selection}

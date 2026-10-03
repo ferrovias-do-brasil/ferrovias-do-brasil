@@ -161,3 +161,63 @@ td {
     filter: invert(1);
   }
 }
+
+/* Hover tooltip on map lines and stations. */
+.hover-tip {
+  pointer-events: none;
+}
+.hover-tip .maplibregl-popup-content {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 7px 10px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+.hover-tip.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.hover-tip.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.hover-tip.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+  border-bottom-color: var(--panel);
+}
+.hover-tip.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.hover-tip.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.hover-tip.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  border-top-color: var(--panel);
+}
+.hover-tip.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: var(--panel);
+}
+.hover-tip.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: var(--panel);
+}
+.hover-tip .tip-title {
+  font-weight: 600;
+}
+.hover-tip .tip-sub,
+.hover-tip .tip-note {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+.hover-tip .tip-status {
+  margin-top: 3px;
+  font-weight: 600;
+}
+.hover-tip .tip-status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: currentColor;
+}
+.tone-active { color: #2f8a4a; }
+.tone-freight { color: #b7791f; }
+.tone-inactive { color: var(--muted); }
+.tone-flooded { color: var(--seg-flooded); }
+.tone-context { color: var(--ctx-active); }
+.tone-added { color: #1a9850; }
+.tone-removed { color: #d73027; }
