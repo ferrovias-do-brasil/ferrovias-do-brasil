@@ -3,6 +3,8 @@
   import MapView from './MapView.svelte';
   import TimelineSlider from './TimelineSlider.svelte';
   import SidePanel from './SidePanel.svelte';
+  import Legend from './Legend.svelte';
+  import { LEGEND_KEYS, type LegendKey } from './style';
   import { endOfYear } from '../../lib/dates';
   import { lineLengthM } from '../../lib/geo';
   import { changeBetween } from '../../lib/network';
@@ -24,7 +26,7 @@
   let year = $state(1912);
   let compare = $state<CompareState>({ on: false, a: 1915, b: 1975 });
   let selection = $state<Selection>(null);
-  let showRemoved = $state(true);
+  let hidden = $state<Set<LegendKey>>(new Set());
   let showHistoric = $state(false);
   let historicOpacity = $state(0.6);
   let panelOpen = $state(true);
@@ -53,6 +55,8 @@
     const cmp = q.get('comparar')?.split('-').map(Number);
     if (cmp?.length === 2 && cmp.every((y) => y >= MIN_YEAR && y <= MAX_YEAR)) compare = { on: true, a: cmp[0], b: cmp[1] };
     showHistoric = q.get('antigo') === '1';
+    const off = (q.get('ocultar') ?? '').split(',').filter((k): k is LegendKey => (LEGEND_KEYS as string[]).includes(k));
+    hidden = new Set(off);
   }
 
   $effect(() => {
@@ -61,6 +65,7 @@
     if (selection) q.set('sel', `${selection.kind}:${selection.id}`);
     if (compare.on) q.set('comparar', `${compare.a}-${compare.b}`);
     if (showHistoric) q.set('antigo', '1');
+    if (hidden.size) q.set('ocultar', [...hidden].join(','));
     if (urlReady) history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
   });
 
@@ -123,29 +128,12 @@
       {year}
       {compare}
       {selection}
-      {showRemoved}
+      {hidden}
       {historicOpacity}
       onselect={select}
     />
 
-    <div class="layers">
-      <label><input type="checkbox" bind:checked={showRemoved} /> Leitos desaparecidos</label>
-      {#if historicMap}
-        <label title={historicMap.title}>
-          <input type="checkbox" bind:checked={showHistoric} /> Mapa antigo ({historicMap.year})
-        </label>
-        {#if showHistoric}
-          <label class="indent">
-            Transparência
-            <input type="range" min="0.1" max="1" step="0.05" bind:value={historicOpacity} aria-label="Opacidade do mapa antigo" />
-          </label>
-          <a class="hint indent" href="{base}fontes/#mapas" title={historicMap.title}>
-            {historicMap.author?.split(' (')[0] ?? 'fonte'}{#if historicMap.accuracy_km}
-              · erro típico ~{historicMap.accuracy_km.median.toLocaleString('pt-BR')} km{/if}
-          </a>
-        {/if}
-      {/if}
-    </div>
+    <Legend bind:hidden {historicMap} bind:showHistoric bind:historicOpacity {base} />
 
     <div class="side" class:collapsed={!panelOpen}>
       <button class="toggle" type="button" onclick={() => (panelOpen = !panelOpen)} aria-expanded={panelOpen}>
@@ -214,34 +202,6 @@
     max-width: 980px;
     margin: 0 auto;
   }
-  .layers {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    background: var(--panel);
-    color: var(--ink);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 8px 10px;
-    font-size: 0.82rem;
-    box-shadow: var(--shadow);
-  }
-  .layers label {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .indent {
-    margin-left: 22px;
-  }
-  .hint {
-    color: var(--muted);
-    font-size: 0.75rem;
-    max-width: 210px;
-  }
   @media (max-width: 720px) {
     .side {
       top: auto;
@@ -258,10 +218,6 @@
       left: 8px;
       right: 8px;
       bottom: 30px;
-    }
-    .layers {
-      top: 8px;
-      left: 8px;
     }
   }
 </style>

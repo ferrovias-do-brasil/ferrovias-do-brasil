@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatDatePt, endOfYear, toDecimalYear } from '../../lib/dates';
   import { hasConflict } from '../../lib/claims';
-  import { CONFIDENCE_LABEL, LEGEND, METHOD_LABEL, STATUS_LABEL } from './style';
+  import { CONFIDENCE_LABEL, METHOD_LABEL, STATUS_LABEL } from './style';
   import type { Catalog, Selection } from './types';
 
   interface Item {
@@ -199,25 +199,11 @@
     {:else}
       <p class="muted">Nenhum evento registrado neste ano. Use <em>evento »</em> para pular ao próximo.</p>
     {/if}
-    <h3>Legenda</h3>
-    <ul class="plain legend">
-      {#each LEGEND as item (item.label)}
-        <li>
-          <svg width="34" height="10" aria-hidden="true"
-            ><line x1="1" y1="5" x2="33" y2="5" stroke={item.color} stroke-width={item.width} stroke-dasharray={item.dash}
-              stroke-opacity={item.opacity ?? 1} /></svg
-          >{item.label}
-        </li>
-      {/each}
-    </ul>
-    <p class="note">
-      O fundo é o mapa de hoje. As represas do Tietê e do Paraná só existem desde 1968–1991: antes disso, trechos que
-      hoje aparecem dentro d'água corriam pela margem do rio.
-    </p>
     <h3>Como usar</h3>
     <ul class="plain help">
       <li>Arraste o ano ou clique em <em>Animar</em> para ver a linha crescer.</li>
       <li>Clique numa linha ou estação para ver sua história e as fontes.</li>
+      <li>Na <em>Legenda</em>, marque ou desmarque cada tipo de linha para mostrá-lo ou escondê-lo.</li>
       <li><em>Comparar dois anos</em> mostra em verde o que surgiu e em vermelho o que sumiu.</li>
     </ul>
   {/if}
@@ -345,12 +331,6 @@
   }
   .more {
     font-weight: 600;
-  }
-  .legend li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 3px;
   }
   .flood-note {
     font-size: 0.85rem;

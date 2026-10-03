@@ -32,15 +32,20 @@ export const COLORS = {
   highlight: '#f2b705',
 };
 
+/** What the legend can switch on and off. */
+export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations';
+
 /** Legend entries, drawn with the same colours and dash patterns as the map layers. */
-export const LEGEND: { label: string; color: string; width: number; dash?: string; opacity?: number }[] = [
-  { label: 'Em operação', color: 'var(--line-nob)', width: 4 },
-  { label: 'Só carga (sem trens de passageiros)', color: 'var(--line-nob)', width: 2.5 },
-  { label: 'Traçado aproximado (posição incerta)', color: 'var(--line-nob)', width: 3, dash: '4.5 3.6' },
-  { label: 'Desativado (sem trens)', color: COLORS.closed, width: 2.2, dash: '4.4 4.4' },
-  { label: 'Trilhos retirados', color: COLORS.removed, width: 1.5, dash: '1.5 3', opacity: 0.8 },
-  { label: 'Submerso por represa', color: COLORS.flooded, width: 3, dash: '3 3.6' },
+export const LEGEND: { key: LegendKey; label: string; color: string; width: number; dash?: string; opacity?: number }[] = [
+  { key: 'open', label: 'Em operação', color: 'var(--line-nob)', width: 4 },
+  { key: 'freight_only', label: 'Só carga (sem passageiros)', color: 'var(--line-nob)', width: 2.5 },
+  { key: 'approx', label: 'Traçado aproximado', color: 'var(--line-nob)', width: 3, dash: '4.5 3.6' },
+  { key: 'closed', label: 'Desativado (sem trens)', color: COLORS.closed, width: 2.2, dash: '4.4 4.4' },
+  { key: 'removed', label: 'Trilhos retirados', color: COLORS.removed, width: 1.5, dash: '1.5 3', opacity: 0.8 },
+  { key: 'flooded', label: 'Submerso por represa', color: COLORS.flooded, width: 3, dash: '3 3.6' },
 ];
+
+export const LEGEND_KEYS: LegendKey[] = [...LEGEND.map((l) => l.key), 'stations'];
 
 /** Feature active at decimal year t. */
 export function activeAt(t: number): ExpressionSpecification {
@@ -107,6 +112,12 @@ export const SEGMENT_LAYERS: { id: string; base: ExpressionSpecification; layer:
 
 export const SEGMENT_LAYER_IDS = SEGMENT_LAYERS.map((l) => l.id).filter((id) => id !== 'seg-casing');
 
-export function segmentFilter(base: ExpressionSpecification, t: number): FilterSpecification {
-  return ['all', base, activeAt(t)];
+/** Statuses switched off in the legend are filtered out of every segment layer. */
+export function segmentFilter(base: ExpressionSpecification, t: number, hidden: ReadonlySet<LegendKey>): FilterSpecification {
+  const statuses: SegmentStatus[] = ['construction', 'open', 'freight_only', 'closed', 'removed', 'flooded'];
+  const shown = statuses.filter((st) => !hidden.has(st as LegendKey));
+  return ['all', base, activeAt(t), ['in', ['get', 'status'], ['literal', shown]]];
 }
+
+/** Layers that disappear entirely when a legend entry is off. */
+export const LAYER_TOGGLE: Record<string, LegendKey> = { 'seg-operating-schematic': 'approx' };

@@ -12,7 +12,7 @@
   import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
   import 'maplibre-gl/dist/maplibre-gl.css';
   import type { Feature, LineString, MultiLineString } from 'geojson';
-  import { BASEMAP, COLORS, FONT, SEGMENT_LAYERS, SEGMENT_LAYER_IDS, activeAt, segmentFilter } from './style';
+  import { BASEMAP, COLORS, FONT, LAYER_TOGGLE, SEGMENT_LAYERS, SEGMENT_LAYER_IDS, activeAt, segmentFilter, type LegendKey } from './style';
   import { changeBetween, OPEN_END } from '../../lib/network';
   import { endOfYear } from '../../lib/dates';
   import type { CompareState, EventItem, HistoricMap, NetworkFC, Selection, StationsFC } from './types';
@@ -25,12 +25,13 @@
     year: number;
     compare: CompareState;
     selection: Selection;
-    showRemoved: boolean;
+    /** Legend entries switched off by the user. */
+    hidden: ReadonlySet<LegendKey>;
     historicOpacity: number;
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, events, historicMaps, year, compare, selection, showRemoved, historicOpacity, onselect }: Props = $props();
+  let { network, stations, events, historicMaps, year, compare, selection, hidden, historicOpacity, onselect }: Props = $props();
 
   let container: HTMLDivElement;
   let map: MlMap | undefined;
@@ -170,10 +171,11 @@
     const t = endOfYear(year);
     const comparing = compare.on;
     for (const { id, base } of SEGMENT_LAYERS) {
-      map.setFilter(id, segmentFilter(base, t));
-      const hidden = comparing || (id === 'seg-removed' && !showRemoved);
-      map.setLayoutProperty(id, 'visibility', hidden ? 'none' : 'visible');
+      map.setFilter(id, segmentFilter(base, t, hidden));
+      const off = comparing || (LAYER_TOGGLE[id] !== undefined && hidden.has(LAYER_TOGGLE[id]));
+      map.setLayoutProperty(id, 'visibility', off ? 'none' : 'visible');
     }
+    for (const id of ['stations', 'station-labels']) map.setLayoutProperty(id, 'visibility', hidden.has('stations') ? 'none' : 'visible');
     const stT = comparing ? endOfYear(compare.b) : t;
     map.setFilter('stations', activeAt(stT));
     map.setFilter('station-labels', activeAt(stT));
