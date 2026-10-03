@@ -175,7 +175,7 @@
   .track {
     position: relative;
     margin-top: 8px;
-    height: 34px;
+    height: 38px;
   }
   input[type='range'] {
     width: 100%;
@@ -209,11 +209,14 @@
   }
   .scale {
     bottom: 0;
+    height: 1.1rem;
     font-size: 0.7rem;
+    line-height: 1.1rem;
     color: var(--muted);
   }
   .scale span {
     position: absolute;
+    top: 0;
     transform: translateX(-50%);
   }
   .year-events {
