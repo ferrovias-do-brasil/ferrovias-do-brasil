@@ -1,0 +1,11 @@
+{
+  "id": "heyse-1912",
+  "title": "Mappa da viação ferrea de São Paulo e partes dos estados vizinhos (R. Heyse, 1912)",
+  "imageService": "https://iiif-cloud.princeton.edu/iiif/2/8e%2F36%2Fd2%2F8e36d24107a84af3aed599e61f7c53b3%2Fintermediate_file",
+  "imageServiceType": "ImageService2",
+  "manifest": "https://figgy.princeton.edu/concern/scanned_maps/ae5b1a48-71f6-47c6-9412-79eb1399720b/manifest",
+  "width": 9499,
+  "height": 7321,
+  "transformation": "thinPlateSpline",
+  "mask": [[420, 280], [6870, 280], [6870, 1165], [9290, 1165], [9290, 3592], [7659, 4097], [6531, 4750], [5878, 5343], [5640, 5878], [5551, 7195], [420, 7195]]
+}

@@ -119,7 +119,6 @@
       {selection}
       {showRemoved}
       {historicOpacity}
-      padRight={panelOpen ? 420 : 0}
       onselect={select}
     />
 
@@ -127,11 +126,15 @@
       <label><input type="checkbox" bind:checked={showRemoved} /> Leitos desaparecidos</label>
       {#if activeHistoric.length}
         <label>
-          Mapa antigo
+          Mapa de {activeHistoric[0].year}
           <input type="range" min="0" max="1" step="0.05" bind:value={historicOpacity} aria-label="Opacidade do mapa antigo" />
         </label>
+        <a class="hint" href="{base}fontes/#mapas" title={activeHistoric[0].title}>
+          {activeHistoric[0].author?.split(' (')[0] ?? 'fonte'}{#if activeHistoric[0].accuracy_km}
+            · erro típico ~{activeHistoric[0].accuracy_km.median.toLocaleString('pt-BR')} km{/if}
+        </a>
       {:else}
-        <span class="hint" title="Nenhum mapa antigo georreferenciado para este ano ainda">Mapas antigos: em breve</span>
+        <span class="hint" title="Nenhum mapa antigo georreferenciado para este ano">Sem mapa antigo para este ano</span>
       {/if}
     </div>
 
@@ -224,6 +227,8 @@
   }
   .hint {
     color: var(--muted);
+    font-size: 0.75rem;
+    max-width: 210px;
   }
   @media (max-width: 720px) {
     .side {

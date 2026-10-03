@@ -10,9 +10,11 @@ closed:
   - { value: '1941-01', source: giesbrecht-itapura }
 sites:
   - id: original
-    coords: [-51.5084, -20.6435]
+    coords: [-51.540407, -20.666758]
     from: '1910-05-13'
     confidence: low
-    sources: [giesbrecht-itapura]
+    sources: [heyse-1912, giesbrecht-itapura]
+    note: >-
+      Posição pelo mapa de R. Heyse (1912) georreferenciado (K436), na margem sul do Tietê perto da foz; a cidade ficava na outra margem. Erro estimado de 2 a 8 km.
 status_now: flooded
 ---

@@ -27,6 +27,7 @@ export interface IntegrityInput {
   companies: Item<z.infer<typeof companySchema>>[];
   lines: Item<z.infer<typeof lineSchema>>[];
   networks: Network[];
+  historicMaps?: { id: string }[];
   /** Segment ids that have a geometry, per network line. */
   geometryIds: Map<string, Set<string>>;
 }
@@ -105,6 +106,10 @@ export function checkIntegrity(input: IntegrityInput): string[] {
       if (!nodes.has(s.to)) errors.push(`${ws}: unknown node "${s.to}"`);
       if (!geo.has(s.id)) errors.push(`${ws}: no geometry (run npm run import-osm)`);
       s.replaces.forEach((r) => segments.has(r) || errors.push(`${ws}: replaces unknown segment "${r}"`));
+      const tracedOn = s.geometry.method === 'manual' ? s.geometry.traced_on : undefined;
+      if (tracedOn && input.historicMaps && !input.historicMaps.some((m) => m.id === tracedOn)) {
+        errors.push(`${ws}: traced_on unknown historic map "${tracedOn}"`);
+      }
       for (const p of s.status_history) {
         p.sources.forEach((x) => src(ws, x));
         if (typeof p.from !== 'string') claims(ws, p.from);

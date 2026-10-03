@@ -58,6 +58,7 @@ async function build() {
     companies,
     lines,
     networks,
+    historicMaps,
     geometryIds: new Map([...geometries].map(([line, g]) => [line, new Set(g.keys())])),
   });
   if (errors.length) throw new Error(`Data integrity check failed:\n  - ${errors.join('\n  - ')}`);

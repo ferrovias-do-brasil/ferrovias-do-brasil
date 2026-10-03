@@ -162,7 +162,10 @@ export const historicMapSchema = z.object({
   archive: z.string(),
   url: z.url().optional(),
   iiif_manifest: z.url().optional(),
-  georef_annotation: z.url().optional(),
+  /** Georeference Annotation: absolute URL, or a path relative to the site root (e.g. georef/heyse-1912.json). */
+  georef_annotation: z.union([z.url(), z.string().regex(/^[a-z0-9/_.-]+\.json$/)]).optional(),
+  /** Median / worst expected position error of the overlay, from the georeferencing validation. */
+  accuracy_km: z.object({ median: z.number(), max: z.number() }).optional(),
   license: z.string(),
   status: z.enum(['candidate', 'georeferenced']),
   /** Years during which the overlay is offered on the map. */

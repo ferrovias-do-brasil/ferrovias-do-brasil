@@ -106,17 +106,17 @@ nodes:
     kind: station
     station: lussanvira
     snap: none
-    coords: [ -51.100, -20.668 ]
+    coords: [ -51.131001, -20.771887 ]
     note: >-
-      Posição ESTIMADA, na margem do Tietê oposta a Pereira Barreto. A estação foi submersa pela represa de Três Irmãos em 1990. Precisa ser localizada em mapa antigo.
+      Posição pelo mapa de R. Heyse (1912) georreferenciado, onde aparece como K384, ao sul do Tietê. Uma reportagem descreve uma ponte de 160 m ligando o centro antigo de Pereira Barreto à estação, o que a colocaria perto do rio; a diferença ainda precisa ser resolvida. Submersa em 1990 (Três Irmãos).
   - id: itapura
     name: Itapura
     kind: station
     station: itapura
     snap: none
-    coords: [ -51.5084, -20.6435 ]
+    coords: [ -51.540407, -20.666758 ]
     note: >-
-      Posição ESTIMADA (sede atual de Itapura). A estação original "ficava longe da cidade" e a região foi inundada em 1968 pelas barragens de Jupiá e Ilha Solteira.
+      Posição pelo mapa de R. Heyse (1912), onde aparece como K436 na margem sul do Tietê, perto da foz; a cidade de Itapura ficava na outra margem. Inundada em 1968.
   - id: guararapes
     name: Guararapes
     kind: station
@@ -505,15 +505,15 @@ segments:
         sources: [ giesbrecht-lussanvira ]
         note: Erradicação do ramal pela DD-340 de 19/8/1965 (RFFSA).
 
-  - id: nob-lussanvira-esquematico
-    name: Engenheiro Taveira – Lussanvira (traçado esquemático)
+  - id: nob-taveira-lussanvira
+    name: Engenheiro Taveira – Monte de Bacury – Lussanvira (mapa de 1912)
     from: ramal-lussanvira-fim-mapeado
     to: lussanvira
     alignment: original
-    geometry: { method: waypoints, points: [] }
-    geometry_confidence: low
+    geometry: { method: manual, traced_on: heyse-1912 }
+    geometry_confidence: medium
     geometry_note: >-
-      Linha reta entre pontos conhecidos: o leito real, ao longo do Tietê, ainda não foi mapeado e boa parte está sob a represa de Três Irmãos.
+      Traçado sobre o mapa de R. Heyse (1912) georreferenciado: passa por Corrego Azul (K299), Araçanguá (K320), Anhanguay (K338) e Monte de Bacury (K354), junto à margem do Tietê. A forma vem do mapa; a posição absoluta pode errar de 2 a 8 km nesta região.
     status_history:
       - status: open
         from: '1910-05-13'
@@ -534,13 +534,14 @@ segments:
         note: Enchimento do reservatório de Três Irmãos.
 
   - id: nob-lussanvira-itapura
-    name: Lussanvira – Itapura (traçado esquemático)
+    name: Lussanvira – Itapura (mapa de 1912)
     from: lussanvira
     to: itapura
     alignment: original
-    geometry: { method: waypoints, points: [] }
-    geometry_confidence: low
-    geometry_note: Linha reta entre posições estimadas; o leito está submerso.
+    geometry: { method: manual, traced_on: heyse-1912 }
+    geometry_confidence: medium
+    geometry_note: >-
+      Traçado sobre o mapa de R. Heyse (1912): Lussanvira (K384), Ilha Secca (K401) e Itapura (K436), na margem sul do Tietê, longe da cidade de Itapura, que ficava na outra margem. Posição absoluta com erro de 2 a 8 km.
     status_history:
       - status: open
         from: '1910-05-13'
@@ -560,13 +561,14 @@ segments:
         note: Barragens de Jupiá e Ilha Solteira.
 
   - id: nob-itapura-jupia
-    name: Itapura – Jupiá (traçado esquemático)
+    name: Itapura – Jupiá (mapa de 1912)
     from: itapura
     to: jupia
     alignment: original
-    geometry: { method: waypoints, points: [] }
-    geometry_confidence: low
-    geometry_note: Linha reta entre posições estimadas, ao longo do rio Paraná; o leito está submerso.
+    geometry: { method: manual, traced_on: heyse-1912 }
+    geometry_confidence: medium
+    geometry_note: >-
+      Traçado sobre o mapa de R. Heyse (1912): de Itapura a linha subia até perto da foz do Tietê e descia para o sul até Jupiá (K461), de onde cruzava o Paraná rumo a Três Lagoas. Posição absoluta com erro de 2 a 8 km.
     status_history:
       - status: open
         from: '1910'

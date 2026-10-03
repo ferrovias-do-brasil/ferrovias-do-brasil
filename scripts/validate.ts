@@ -42,7 +42,7 @@ const cities = parseAll('cities', citySchema);
 const events = parseAll('events', eventSchema);
 const companies = parseAll('companies', companySchema);
 const lines = parseAll('lines', lineSchema);
-parseAll('historic-maps', historicMapSchema);
+const historicMaps = parseAll('historic-maps', historicMapSchema);
 
 const networks: Network[] = [];
 const geometryIds = new Map<string, Set<string>>();
@@ -56,7 +56,7 @@ for (const dir of networkDirs()) {
   geometryIds.set(r.data.line, new Set((readGeometry(dir)?.features ?? []).map((f) => f.properties?.id as string)));
 }
 
-problems.push(...checkIntegrity({ sources, stations, cities, events, companies, lines, networks, geometryIds }));
+problems.push(...checkIntegrity({ sources, stations, cities, events, companies, lines, networks, historicMaps, geometryIds }));
 
 const counts = `${sources.length} fontes, ${stations.length} estações, ${events.length} eventos, ${networks.reduce((n, x) => n + x.segments.length, 0)} trechos`;
 if (problems.length) {

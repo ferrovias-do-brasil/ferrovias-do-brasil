@@ -1,0 +1,17 @@
+[
+  { "name": "Bauru (K0)",              "x": 4571.5, "y": 2646.5, "lon": -49.069148, "lat": -22.315999, "note": "estação da NOB" },
+  { "name": "Albuquerque Lins (K151)", "x": 4040.0, "y": 1986.0, "lon": -49.74607,  "lat": -21.67626,  "note": "Lins-velha, prédio preservado" },
+  { "name": "Penápolis (K219)",        "x": 3732.5, "y": 1885.0, "lon": -50.07885,  "lat": -21.41822,  "note": "estação" },
+  { "name": "Glicério (K239)",         "x": 3632.5, "y": 1872.5, "lon": -50.20876,  "lat": -21.38015,  "note": "estação original, posição aproximada" },
+  { "name": "Araçatuba (K279)",        "x": 3407.0, "y": 1766.0, "lon": -50.4389,   "lat": -21.2033,   "note": "pátio central; a 1ª estação ficava em outro ponto" },
+  { "name": "Jupiá (K461)",            "x": 2476.0, "y": 1326.0, "lon": -51.62325,  "lat": -20.79110,  "note": "travessia do Paraná; cabeceira paulista da ponte de 1926" },
+  { "name": "Assis",                   "x": 3554.0, "y": 2873.0, "lon": -50.4120,   "lat": -22.6610,   "note": "centro" },
+  { "name": "Salto Grande",            "x": 3871.0, "y": 3086.0, "lon": -49.9830,   "lat": -22.8940,   "note": "centro" },
+  { "name": "Botucatu",                "x": 5067.0, "y": 3138.0, "lon": -48.4450,   "lat": -22.8860,   "note": "centro" },
+  { "name": "Campinas",                "x": 6179.0, "y": 3153.0, "lon": -47.0608,   "lat": -22.9056,   "note": "centro" },
+  { "name": "São Paulo",               "x": 6527.0, "y": 3738.0, "lon": -46.6340,   "lat": -23.5480,   "note": "Sé" },
+  { "name": "Jundiaí",                 "x": 6308.0, "y": 3413.0, "lon": -46.8840,   "lat": -23.1860,   "note": "centro" },
+  { "name": "Rio Claro",               "x": 5761.0, "y": 2708.0, "lon": -47.5610,   "lat": -22.4110,   "note": "centro" },
+  { "name": "Sorocaba",                "x": 5845.0, "y": 3678.0, "lon": -47.4580,   "lat": -23.5020,   "note": "centro" },
+  { "name": "Itapetininga",            "x": 5370.0, "y": 3736.0, "lon": -48.0530,   "lat": -23.5920,   "note": "centro" }
+]

@@ -27,13 +27,10 @@
     selection: Selection;
     showRemoved: boolean;
     historicOpacity: number;
-    /** Pixels covered by the side panel, so centring ignores that area. */
-    padRight: number;
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, events, historicMaps, year, compare, selection, showRemoved, historicOpacity, padRight, onselect }: Props =
-    $props();
+  let { network, stations, events, historicMaps, year, compare, selection, showRemoved, historicOpacity, onselect }: Props = $props();
 
   let container: HTMLDivElement;
   let map: MlMap | undefined;
@@ -41,6 +38,8 @@
 
   const EMPTY = { type: 'FeatureCollection' as const, features: [] };
 
+  // No map padding: @allmaps/maplibre assumes map.getCenter() is the canvas centre,
+  // and padding would shift the historic map overlay.
   onMount(() => {
     setWorkerUrl(maplibreWorkerUrl);
     map = new MlMap({
@@ -165,12 +164,6 @@
     });
   }
 
-  $effect(() => {
-    if (!ready || !map) return;
-    const right = window.innerWidth > 720 ? padRight : 0;
-    map.setPadding({ top: 0, bottom: 120, left: 0, right });
-  });
-
   // ------------------------------------------------------------ time filter
   $effect(() => {
     if (!ready || !map) return;
@@ -239,7 +232,8 @@
     const wanted = historicMaps.filter(
       (h) => h.georef_annotation && (h.show_from ?? -Infinity) <= year && year <= (h.show_to ?? Infinity),
     );
-    void syncHistoricMaps(map, wanted.map((h) => h.georef_annotation!));
+    // Relative annotation paths are served with the site, next to the page.
+    void syncHistoricMaps(map, wanted.map((h) => new URL(h.georef_annotation!, document.baseURI).href));
   });
 
   $effect(() => {
@@ -264,7 +258,9 @@
     }
     for (const url of urls) {
       if (!loadedAnnotations.has(url)) {
-        await layer.addGeoreferenceAnnotationByUrl(url);
+        // Allmaps picks a coarse triangulation by default (~1100 px here); the strong local
+        // corrections of old frontier maps need finer triangles to be drawn where they belong.
+        await layer.addGeoreferenceAnnotationByUrl(url, { resourceResolution: 120 });
         loadedAnnotations.add(url);
       }
     }

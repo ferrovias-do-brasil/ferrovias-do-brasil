@@ -20,6 +20,9 @@ dados serve para qualquer linha do país.
 - **Birigui:** a linha atravessava o centro até a **Variante Coroados–Guatambu (1969)**. O leito
   antigo é hoje a Av. José Agostinho Rossi, a Rua Fernando Castilho, a Rua José Pacitti e uma vicinal.
 - **Araçatuba:** a linha saiu do centro em 1992.
+- **Mapa de 1912 por baixo:** o *Mappa da viação ferrea de São Paulo* (R. Heyse, Princeton) aparece
+  georreferenciado entre 1905 e 1930, e a linha original do vale do Tietê foi redesenhada sobre ele.
+- **Variantes de 1962–1971:** Lins, Cafelândia, Promissão e Glicério, com as estações velhas e novas.
 - **Modo comparar:** dois anos lado a lado; em verde o que surgiu, em vermelho o que sumiu.
 - **Fontes que divergem** aparecem lado a lado, com aviso.
 
@@ -34,6 +37,8 @@ scripts/
   import-osm.ts         ← Overpass → menor caminho em grafo ferroviário → geometria dos trechos
   validate.ts           ← schemas + referências cruzadas
   validate-network.ts   ← topologia + comparação com quilometragens históricas
+  build-georef.ts       ← anotação IIIF de georreferenciamento (malha do mapa + pontos de controle)
+  apply-traces.ts       ← linhas traçadas sobre mapas antigos → geometria dos trechos
 src/lib/                ← datas parciais, afirmações com fonte, rede versionada
 src/components/map/     ← MapLibre + linha do tempo + painel (Svelte)
 ```

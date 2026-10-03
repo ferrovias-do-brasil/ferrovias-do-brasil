@@ -3,11 +3,18 @@ year: 1912
 author: R. Heyse (Comissão de Prolongamentos e Desenvolvimento da Sorocabana); Weiszflog Irmãos
 archive: Princeton University Library (Digital Maps and Geospatial Data)
 url: https://maps.princeton.edu/catalog/princeton-8p58pg40f
-license: a verificar
-status: candidate
+iiif_manifest: https://figgy.princeton.edu/concern/scanned_maps/ae5b1a48-71f6-47c6-9412-79eb1399720b/manifest
+georef_annotation: georef/heyse-1912.json
+license: '"No Known Copyright" (Princeton University Library)'
+status: georeferenced
 show_from: 1905
-show_to: 1925
+show_to: 1930
+accuracy_km: { median: 2.5, max: 13.6 }
 notes: >-
-  Organizado em 1910 e publicado em 1912; mostra linhas em tráfego, em construção e projetadas. Deve
-  mostrar a Noroeste chegando ao Paraná pelo vale do Tietê. Próximo passo: obter o manifesto IIIF,
-  georreferenciar no Allmaps Editor e redesenhar o trecho Araçatuba–Itapura–Jupiá.
+  Organizado em 1910 e publicado em 1912, na escala 1:1.000.000; mostra linhas em tráfego, em
+  construção e projetadas, com as quilometragens das estações (Penápolis K219, Glicério K239,
+  Araçatuba K279, Itapura K436, Jupiá K461). Georreferenciamento preliminar feito pelo projeto:
+  48 cruzamentos da malha de meridianos e paralelos detectados automaticamente (longitudes
+  contadas a oeste do Rio de Janeiro, 43°10'10" W) e corrigidos por 15 pontos identificados no
+  mapa e hoje. O mapa é preciso no leste (1–3 km) e impreciso no oeste, então fronteira de
+  ocupação (até ~14 km sem correção). Dados em research/georef/heyse-1912/.

@@ -90,6 +90,20 @@ O `validate-network` compara as distâncias no mapa com as quilometragens histó
 (`km:`). Divergências grandes costumam indicar uma variante ainda não mapeada: são ótimas pistas
 de pesquisa.
 
+### Mapas antigos (Allmaps)
+
+Um mapa antigo entra no site com uma anotação de georreferenciamento IIIF. Você pode:
+
+- georreferenciar no [Allmaps Editor](https://editor.allmaps.org/) e colocar a URL da anotação em
+  `src/content/historic-maps/<id>.yaml` (`georef_annotation`); ou
+- usar o fluxo do projeto, como foi feito com o mapa de Heyse (1912): pontos da malha de meridianos e
+  paralelos e lugares identificáveis em `research/georef/<id>/`, depois `npm run build-georef -- <id>`,
+  que também informa o erro esperado.
+
+Para redesenhar uma linha sobre um mapa antigo, grave o traçado em pixels em
+`research/georef/<id>/traces/*.json`, marque o trecho como `geometry: { method: manual, traced_on: <id> }`
+e rode `npm run apply-traces -- <id>`.
+
 ### Melhorar o OpenStreetMap também ajuda
 
 Muito do traçado antigo vem de mapeadores que marcaram leitos abandonados no OSM

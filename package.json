@@ -13,7 +13,9 @@
     "validate": "tsx scripts/validate.ts",
     "validate-network": "tsx scripts/validate-network.ts",
     "import-osm": "tsx scripts/import-osm.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build-georef": "tsx scripts/build-georef.ts",
+    "apply-traces": "tsx scripts/apply-traces.ts"
   },
   "dependencies": {
     "@allmaps/maplibre": "^1.0.0-beta.44",
@@ -24,6 +26,8 @@
     "yaml": "^2.9.1"
   },
   "devDependencies": {
+    "@allmaps/annotation": "^1.0.0-beta.38",
+    "@allmaps/transform": "^1.0.0-beta.53",
     "@astrojs/check": "^0.9.10",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^22.20.5",
