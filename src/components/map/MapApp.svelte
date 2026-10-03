@@ -25,7 +25,8 @@
   let compare = $state<CompareState>({ on: false, a: 1915, b: 1975 });
   let selection = $state<Selection>(null);
   let showRemoved = $state(true);
-  let historicOpacity = $state(0.7);
+  let showHistoric = $state(false);
+  let historicOpacity = $state(0.6);
   let panelOpen = $state(true);
   let urlReady = false;
 
@@ -51,6 +52,7 @@
     if (sel?.length === 2 && (sel[0] === 'station' || sel[0] === 'segment')) selection = { kind: sel[0], id: sel[1] };
     const cmp = q.get('comparar')?.split('-').map(Number);
     if (cmp?.length === 2 && cmp.every((y) => y >= MIN_YEAR && y <= MAX_YEAR)) compare = { on: true, a: cmp[0], b: cmp[1] };
+    showHistoric = q.get('antigo') === '1';
   }
 
   $effect(() => {
@@ -58,6 +60,7 @@
     q.set('ano', String(year));
     if (selection) q.set('sel', `${selection.kind}:${selection.id}`);
     if (compare.on) q.set('comparar', `${compare.a}-${compare.b}`);
+    if (showHistoric) q.set('antigo', '1');
     if (urlReady) history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
   });
 
@@ -102,8 +105,11 @@
     if (s) panelOpen = true;
   }
 
-  const activeHistoric = $derived(
-    catalog?.historicMaps.filter((h) => h.georef_annotation && (h.show_from ?? -Infinity) <= year && year <= (h.show_to ?? Infinity)) ?? [],
+  /** The georeferenced historic map closest in time to the selected year (opt-in overlay). */
+  const historicMap = $derived(
+    (catalog?.historicMaps ?? [])
+      .filter((h) => h.georef_annotation)
+      .sort((a, b) => Math.abs(a.year - year) - Math.abs(b.year - year))[0],
   );
 </script>
 
@@ -113,7 +119,7 @@
       {network}
       {stations}
       events={catalog.events}
-      historicMaps={catalog.historicMaps}
+      historicMaps={showHistoric && historicMap ? [historicMap] : []}
       {year}
       {compare}
       {selection}
@@ -124,17 +130,20 @@
 
     <div class="layers">
       <label><input type="checkbox" bind:checked={showRemoved} /> Leitos desaparecidos</label>
-      {#if activeHistoric.length}
-        <label>
-          Mapa de {activeHistoric[0].year}
-          <input type="range" min="0" max="1" step="0.05" bind:value={historicOpacity} aria-label="Opacidade do mapa antigo" />
+      {#if historicMap}
+        <label title={historicMap.title}>
+          <input type="checkbox" bind:checked={showHistoric} /> Mapa antigo ({historicMap.year})
         </label>
-        <a class="hint" href="{base}fontes/#mapas" title={activeHistoric[0].title}>
-          {activeHistoric[0].author?.split(' (')[0] ?? 'fonte'}{#if activeHistoric[0].accuracy_km}
-            · erro típico ~{activeHistoric[0].accuracy_km.median.toLocaleString('pt-BR')} km{/if}
-        </a>
-      {:else}
-        <span class="hint" title="Nenhum mapa antigo georreferenciado para este ano">Sem mapa antigo para este ano</span>
+        {#if showHistoric}
+          <label class="indent">
+            Transparência
+            <input type="range" min="0.1" max="1" step="0.05" bind:value={historicOpacity} aria-label="Opacidade do mapa antigo" />
+          </label>
+          <a class="hint indent" href="{base}fontes/#mapas" title={historicMap.title}>
+            {historicMap.author?.split(' (')[0] ?? 'fonte'}{#if historicMap.accuracy_km}
+              · erro típico ~{historicMap.accuracy_km.median.toLocaleString('pt-BR')} km{/if}
+          </a>
+        {/if}
       {/if}
     </div>
 
@@ -224,6 +233,9 @@
     display: flex;
     gap: 6px;
     align-items: center;
+  }
+  .indent {
+    margin-left: 22px;
   }
   .hint {
     color: var(--muted);

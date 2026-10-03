@@ -229,9 +229,8 @@
 
   $effect(() => {
     if (!ready || !map) return;
-    const wanted = historicMaps.filter(
-      (h) => h.georef_annotation && (h.show_from ?? -Infinity) <= year && year <= (h.show_to ?? Infinity),
-    );
+    // Which maps to show is decided by the caller (opt-in toggle).
+    const wanted = historicMaps.filter((h) => h.georef_annotation);
     // Relative annotation paths are served with the site, next to the page.
     void syncHistoricMaps(map, wanted.map((h) => new URL(h.georef_annotation!, document.baseURI).href));
   });
