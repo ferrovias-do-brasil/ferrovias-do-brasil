@@ -27,6 +27,16 @@ function geometriesByLine(): Map<string, SegmentGeometries> {
   return out;
 }
 
+/** OSM way ids already drawn by researched segments; the context layer skips them. */
+function researchedOsmWays(): number[] {
+  const ids = new Set<number>();
+  for (const raw of Object.values(geometryFiles)) {
+    const fc = JSON.parse(raw) as FeatureCollection<LineString | MultiLineString, { osm_ways?: number[] }>;
+    for (const f of fc.features) for (const w of f.properties.osm_ways ?? []) ids.add(w);
+  }
+  return [...ids].sort((a, b) => a - b);
+}
+
 let cache: Promise<SiteData> | undefined;
 
 export function loadSiteData(): Promise<SiteData> {
@@ -145,6 +155,7 @@ async function build() {
       events: eventItems,
       historicMaps: historicMaps.map(({ id, data }) => ({ id, ...data })),
       lines: lines.map(({ id, data }) => ({ id, name: data.name, short: data.short, color: data.color, network: data.network })),
+      researchedOsmWays: researchedOsmWays(),
     },
   };
 }

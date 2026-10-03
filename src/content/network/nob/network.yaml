@@ -16,6 +16,7 @@
 line: nob
 name: Estrada de Ferro Noroeste do Brasil — trecho paulista
 bbox: [ -51.80, -22.45, -48.95, -20.55 ]
+osm_filter: noroeste
 
 nodes:
   - id: bauru

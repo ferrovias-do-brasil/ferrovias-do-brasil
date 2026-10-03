@@ -21,8 +21,13 @@ import { RailGraph, type OverpassWay } from './lib/osm-graph';
 import { networkDirs, readGeometry, readNetworkYaml } from './lib/content';
 import { CACHE_DIR, cachedWays } from './lib/overpass';
 
-function overpassQuery([w, s, e, n]: Network['bbox']): string {
+function overpassQuery([w, s, e, n]: Network['bbox'], filter: Network['osm_filter']): string {
   const bb = `${s},${w},${n},${e}`;
+  if (filter === 'all') {
+    return `[out:json][timeout:300];
+way["railway"~"^(rail|narrow_gauge|preserved|disused|abandoned|razed)$"](${bb});
+out tags geom;`;
+  }
   return `[out:json][timeout:170];
 (
   way["railway"~"^(rail|disused|abandoned|razed)$"]["name"~"Noroeste",i](${bb});
@@ -41,7 +46,7 @@ async function loadOsm(network: Network, refresh: boolean): Promise<OverpassWay[
     console.log(`  using shared cache ${file}`);
     return JSON.parse(readFileSync(file, 'utf8')).elements.filter((e: { type: string }) => e.type === 'way');
   }
-  return cachedWays(network.line, overpassQuery(network.bbox), refresh);
+  return cachedWays(network.line, overpassQuery(network.bbox, network.osm_filter), refresh);
 }
 
 function snapPosition(graph: RailGraph, node: NetworkNode): Position {

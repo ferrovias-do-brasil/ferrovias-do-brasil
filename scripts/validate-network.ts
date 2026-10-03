@@ -79,7 +79,7 @@ for (const dir of networkDirs()) {
       const st = statusAt(s, t);
       return st !== null && OPERATING.has(st);
     });
-    const ways: OverpassWay[] = operating.map((s, i) => {
+    const ways: OverpassWay[] = operating.filter((s) => geo.has(s.id)).map((s, i) => {
       const g = geo.get(s.id)!;
       const coords = g.type === 'LineString' ? g.coordinates : g.coordinates.flat();
       return { type: 'way', id: i, tags: { railway: 'rail' }, geometry: coords.map(([lon, lat]) => ({ lat, lon })) };

@@ -1,0 +1,7 @@
+name: Estrada de Ferro Santos a Jundiaí
+short: EFSJ
+from: '1946'
+to: '1957'
+successor: rffsa
+summary: Ferrovia federal que sucedeu a SPR ao fim da concessão; incorporada à RFFSA em 1957.
+sources: [wikipedia-pt-spr]

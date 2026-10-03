@@ -6,6 +6,7 @@
     Popup,
     ScaleControl,
     setWorkerUrl,
+    type FilterSpecification,
     type GeoJSONSource,
     type MapLayerMouseEvent,
   } from 'maplibre-gl';
@@ -45,6 +46,8 @@
     historicMaps: HistoricMap[];
     /** Researched lines, to name them in the hover tooltip. */
     lines: { network: string; name: string }[];
+    /** OSM ways already drawn by researched lines (hidden in the context layer). */
+    researchedOsmWays: number[];
     year: number;
     compare: CompareState;
     selection: Selection;
@@ -55,8 +58,22 @@
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, malha, events, historicMaps, lines, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props =
-    $props();
+  let {
+    network,
+    stations,
+    malha,
+    events,
+    historicMaps,
+    lines,
+    researchedOsmWays,
+    year,
+    compare,
+    selection,
+    hidden,
+    historicOpacity,
+    theme,
+    onselect,
+  }: Props = $props();
 
   const lineName = (id: string | undefined) => lines.find((l) => l.network === id)?.name;
   const segmentInfo = $derived(new Map(network.features.map((f) => [f.properties.segment, { name: f.properties.name, line: f.properties.line }])));
@@ -123,7 +140,9 @@
     m.addSource('events', { type: 'geojson', data: EMPTY });
 
     m.addSource('malha', { type: 'geojson', data: malha ?? EMPTY });
-    for (const { id, layer } of malhaLayers(theme)) m.addLayer({ ...layer, id, source: 'malha' });
+    // The context layer skips ways that a researched line already draws, so the two never overlap.
+    const notResearched: FilterSpecification = ['!', ['in', ['get', 'id'], ['literal', researchedOsmWays]]];
+    for (const { id, layer } of malhaLayers(theme)) m.addLayer({ ...layer, id, source: 'malha', filter: ['all', layer.filter as FilterSpecification, notResearched] });
     m.addLayer({
       id: 'malha-selected',
       type: 'line',

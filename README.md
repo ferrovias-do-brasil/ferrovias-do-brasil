@@ -7,6 +7,8 @@ avenidas, estradas ou fundo de represa. Cada data no mapa aponta para uma fonte.
 O objetivo é um mapa completo da malha ferroviária brasileira. Linhas já pesquisadas:
 
 - **Estrada de Ferro Noroeste do Brasil**, de Bauru ao rio Paraná (1906 → hoje), com o piloto em **Birigui**;
+- **São Paulo Railway**, de Santos a Jundiaí (1867), com os dois sistemas de cabos da Serra do Mar
+  (1867 e 1901) e a cremalheira de 1974;
 - **Companhia Paulista**, de Jundiaí a Bauru (1872–1910): a Linha Tronco até Rio Claro, com datas
   tiradas dos relatórios da própria companhia, e o caminho até Bauru pelas antigas linhas da
   Companhia Rio-Clarense, onde a Paulista encontra a Noroeste.

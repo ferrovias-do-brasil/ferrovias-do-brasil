@@ -87,6 +87,26 @@ Pendências:
 - **Brotas e Jaú**: estações antigas não localizadas.
 - **Rio Claro depois de 1980**: como os trens de passageiros chegavam lá até 2001?
 
+## São Paulo Railway (Santos–Jundiaí)
+
+Feito em 2026-10-03: 9 trechos (baixada, Serra Velha 1867 → cremalheira 1974, Serra Nova 1901–1984,
+planalto até Jundiaí), 11 estações, 8 eventos. Quilometragens de 1935 conferidas: Santos → Paranapiacaba →
+Rio Grande da Serra dentro de 4%; Rio Grande da Serra → Brás 35,2 km (exato); Luz → Jundiaí 60,9 km
+contra 60,5 km.
+
+Pendências:
+- **Fonte primária**: nenhum relatório da SPR está no Memória Ferroviária (empresa inglesa). Candidatos:
+  relatórios do presidente da Província de São Paulo (1867) no CRL, jornais (*Correio Paulistano*,
+  fevereiro de 1867) na Hemeroteca Digital, relatórios anuais da SPR em Londres.
+- **Datas só com fonte terciária**: Serra Nova (1901), cremalheira (1974) e desativação do funicular
+  (1984) vêm da Wikipédia.
+- **Santo André e São Caetano**: as quilometragens de 1935 não batem com as posições atuais; as estações
+  podem ter mudado de lugar.
+- **Serra Velha**: os planos inclinados de 1867 estão desenhados pela cremalheira de 1974; os
+  patamares originais não estão mapeados.
+- **Estações não modeladas**: Alemoa, Casqueiro, Piaçaguera, Ribeirão Pires, Mauá, Utinga, Ipiranga,
+  Mooca, Barra Funda, Lapa, Pirituba, Perus, Caieiras, Franco da Rocha, Campo Limpo.
+
 ## Próximas linhas
 
 A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela

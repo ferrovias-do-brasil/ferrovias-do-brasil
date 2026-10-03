@@ -1,0 +1,14 @@
+name: São Paulo Railway
+short: SPR
+color: '#a8780f'
+gauge_mm: 1600
+network: spr
+summary: >-
+  A primeira ferrovia paulista e a porta do café para o mar: de Santos, vencendo a Serra do Mar por
+  planos inclinados com cabos, a São Paulo e Jundiaí, aberta em 16/2/1867 por uma companhia inglesa.
+  Em Jundiaí começa a Paulista.
+operators:
+  - { company: spr-company, from: '1867', to: '1946', source: wikipedia-pt-spr }
+  - { company: efsj, from: '1946', to: '1957', source: wikipedia-pt-spr }
+  - { company: rffsa, from: '1957', to: '1996', source: wikipedia-pt-spr }
+  - { company: mrs, from: '1996', source: wikipedia-pt-spr }

@@ -134,6 +134,7 @@
       events={catalog.events}
       historicMaps={showHistoric && historicMap ? [historicMap] : []}
       lines={catalog.lines}
+      researchedOsmWays={catalog.researchedOsmWays}
       {year}
       {compare}
       {selection}

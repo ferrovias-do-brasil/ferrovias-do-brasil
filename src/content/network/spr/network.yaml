@@ -1,0 +1,186 @@
+# São Paulo Railway (SPR, "a Inglesa") — Santos → Serra do Mar → São Paulo → Jundiaí (1867)
+#
+# A primeira ferrovia paulista. Bitola larga (1,60 m). A serra era vencida por planos inclinados
+# com cabos (funiculares): a Serra Velha (1867) e a Serra Nova (1901); em 1974 a Serra Velha deu
+# lugar a um sistema de cremalheira. Geometria do OpenStreetMap (cache estadual malha-sp).
+
+line: spr
+name: São Paulo Railway — Santos–Jundiaí
+bbox: [ -46.95, -24.00, -46.28, -23.15 ]
+
+nodes:
+  - id: santos-valongo
+    name: Santos (Valongo)
+    kind: station
+    station: santos-valongo
+    snap: old
+    coords: [ -46.333814, -23.930965 ]
+  - id: cubatao
+    name: Cubatão
+    kind: station
+    station: cubatao
+    coords: [ -46.41993, -23.89145 ]
+  - id: base-serra-nova
+    name: Pé da Serra Nova (Piaçaguera)
+    kind: junction
+    snap: old
+    coords: [ -46.3721, -23.8506 ]
+    note: Pé dos planos inclinados da Serra Nova (1901), segundo o traçado do funicular no OSM.
+  - id: raiz-da-serra
+    name: Raiz da Serra
+    kind: station
+    station: raiz-da-serra
+    coords: [ -46.361239, -23.826688 ]
+    note: Pé da Serra Velha (1867) e, depois, da cremalheira (1974).
+  - id: paranapiacaba
+    name: Paranapiacaba (Alto da Serra)
+    kind: station
+    station: paranapiacaba
+    coords: [ -46.303117, -23.776986 ]
+  - id: rio-grande-da-serra
+    name: Rio Grande da Serra
+    kind: station
+    station: rio-grande-da-serra
+    coords: [ -46.39184, -23.74344 ]
+  - id: bras
+    name: Brás
+    kind: station
+    station: bras
+    coords: [ -46.61807, -23.54311 ]
+    note: Ponto da linha da SPR junto à estação (as plataformas da CPTM obrigariam um desvio pelo pátio).
+  - id: luz
+    name: Luz
+    kind: station
+    station: luz
+    coords: [ -46.63253, -23.53587 ]
+    note: Ponto da linha da SPR na entrada leste da estação.
+  - id: jundiai-spr
+    name: Jundiaí (SPR)
+    kind: station
+    station: jundiai-spr
+    coords: [ -46.87233, -23.19527 ]
+    note: Ponto final da SPR e início da Companhia Paulista (1872).
+
+segments:
+  - id: spr-santos-cubatao
+    name: Santos (Valongo) – Cubatão
+    from: santos-valongo
+    to: cubatao
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - &spr-open
+        status: open
+        from: '1867-02-16'
+        sources: [ giesbrecht-santos-valongo, wikipedia-pt-spr ]
+        note: Abertura de toda a linha, de Santos a Jundiaí.
+      - &spr-santos-freight
+        status: freight_only
+        from: '1995-11-30'
+        sources: [ giesbrecht-santos-valongo ]
+        note: '"Desativado com a chegada do último trem de passageiros" a Santos.'
+
+  - id: spr-cubatao-piacaguera
+    name: Cubatão – Piaçaguera
+    from: cubatao
+    to: base-serra-nova
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *spr-open
+      - *spr-santos-freight
+
+  - id: spr-piacaguera-raiz
+    name: Piaçaguera – Raiz da Serra
+    from: base-serra-nova
+    to: raiz-da-serra
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *spr-open
+      - *spr-santos-freight
+
+  - id: spr-serra-velha
+    name: Serra Velha — Raiz da Serra – Paranapiacaba
+    from: raiz-da-serra
+    to: paranapiacaba
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: >-
+      Desenhado pela cremalheira de 1974, construída no caminho da Serra Velha. Os quatro planos inclinados de 1867 seguiam esse caminho, mas o desenho exato dos patamares ainda não está mapeado.
+    status_history:
+      - status: open
+        from: '1867-02-16'
+        sources: [ giesbrecht-paranapiacaba, wikipedia-pt-spr ]
+        note: Quatro planos inclinados com cabos, puxados por máquinas fixas; os trens subiam e desciam em "pedaços", presos ao cabo por um vagão-freio ("serra-breque").
+      - status: open
+        from: '1974'
+        sources: [ wikipedia-pt-spr, giesbrecht-paranapiacaba ]
+        note: Os planos inclinados dão lugar ao sistema de cremalheira-aderência, com locomotivas elétricas.
+      - *spr-santos-freight
+
+  - id: spr-serra-nova
+    name: Serra Nova — funicular de 1901
+    from: base-serra-nova
+    to: paranapiacaba
+    alignment: variant
+    geometry: { method: osm-old }
+    geometry_confidence: high
+    geometry_note: Leito do funicular (cinco planos inclinados), mapeado no OSM como "Funicular da Serra do Mar".
+    status_history:
+      - status: open
+        from: '1901'
+        sources: [ wikipedia-pt-spr, giesbrecht-paranapiacaba ]
+        note: Segundo sistema, paralelo à Serra Velha, com cinco planos inclinados; obras iniciadas em 1895.
+      - status: closed
+        from: '1984'
+        sources: [ wikipedia-pt-spr ]
+        note: Desativado para cargas; a partir de 1987 só um trecho funcionou como atração turística a partir de Paranapiacaba.
+
+  - id: spr-paranapiacaba-rio-grande
+    name: Paranapiacaba – Rio Grande da Serra
+    from: paranapiacaba
+    to: rio-grande-da-serra
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *spr-open
+      - status: freight_only
+        from: '2001-11'
+        sources: [ giesbrecht-paranapiacaba ]
+        note: Fim dos trens metropolitanos regulares até Paranapiacaba; desde então só trens turísticos ocasionais.
+
+  - id: spr-rio-grande-bras
+    name: Rio Grande da Serra – Santo André – São Caetano – Brás
+    from: rio-grande-da-serra
+    to: bras
+    alignment: original
+    geometry: { method: osm-current, via: [ [ -46.52829, -23.65232 ], [ -46.57006, -23.61006 ] ] }
+    geometry_confidence: high
+    status_history:
+      - *spr-open
+
+  - id: spr-bras-luz
+    name: Brás – Luz
+    from: bras
+    to: luz
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *spr-open
+
+  - id: spr-luz-jundiai
+    name: Luz – Lapa – Perus – Várzea – Jundiaí
+    from: luz
+    to: jundiai-spr
+    alignment: original
+    geometry: { method: osm-current, via: [ [ -46.82928, -23.20892 ], [ -46.85079, -23.20333 ] ] }
+    geometry_confidence: high
+    status_history:
+      - *spr-open

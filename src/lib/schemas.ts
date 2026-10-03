@@ -240,6 +240,11 @@ export const networkSchema = z.object({
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   /** Reuse an existing OSM cache (e.g. "malha-sp" from `npm run import-malha`) instead of a bbox query. */
   osm_cache: id.optional(),
+  /**
+   * Which ways to download for the bbox when there is no shared cache: "all" railway ways (including
+   * yards, needed in big stations) or only those named after the Noroeste (legacy query).
+   */
+  osm_filter: z.enum(['all', 'noroeste']).default('all'),
   nodes: z.array(nodeSchema).min(2),
   segments: z.array(segmentSchema).min(1),
 });
