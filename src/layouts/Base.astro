@@ -34,6 +34,13 @@ const path = Astro.url.pathname;
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;600&display=swap"
     />
+    <script is:inline>
+      // Apply the saved theme before first paint (no flash of the wrong theme).
+      try {
+        const t = localStorage.getItem('ferrovias-tema');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
   </head>
   <body class:list={{ fullscreen }}>
     <header>
@@ -47,10 +54,47 @@ const path = Astro.url.pathname;
           ))
         }
       </nav>
+      <button class="theme" type="button" id="theme-toggle" aria-label="Tema: automático">
+        <span aria-hidden="true" class="icon">◐</span><span class="label">Automático</span>
+      </button>
     </header>
     <main><slot /></main>
   </body>
 </html>
+
+<script>
+  import { THEME_EVENT, THEME_KEY, readChoice, type ThemeChoice } from '../lib/theme';
+
+  const ORDER: ThemeChoice[] = ['auto', 'light', 'dark'];
+  const LABEL: Record<ThemeChoice, [string, string]> = {
+    auto: ['◐', 'Automático'],
+    light: ['☀', 'Claro'],
+    dark: ['☾', 'Escuro'],
+  };
+  const button = document.getElementById('theme-toggle')!;
+
+  function show(choice: ThemeChoice) {
+    const [icon, label] = LABEL[choice];
+    button.querySelector('.icon')!.textContent = icon;
+    button.querySelector('.label')!.textContent = label;
+    button.setAttribute('aria-label', `Tema: ${label.toLowerCase()} (clique para trocar)`);
+    button.title = 'Tema: automático, claro ou escuro';
+  }
+
+  function apply(choice: ThemeChoice) {
+    try {
+      if (choice === 'auto') localStorage.removeItem(THEME_KEY);
+      else localStorage.setItem(THEME_KEY, choice);
+    } catch {}
+    if (choice === 'auto') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = choice;
+    show(choice);
+    window.dispatchEvent(new Event(THEME_EVENT));
+  }
+
+  show(readChoice());
+  button.addEventListener('click', () => apply(ORDER[(ORDER.indexOf(readChoice()) + 1) % ORDER.length]));
+</script>
 
 <style>
   header {
@@ -106,6 +150,30 @@ const path = Astro.url.pathname;
     nav a {
       white-space: nowrap;
     }
+    .theme .label {
+      display: none;
+    }
+  }
+  .theme {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: inherit;
+    font-size: 0.82rem;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .theme:hover {
+    color: var(--accent);
+  }
+  .theme .icon {
+    font-size: 0.95rem;
   }
   .fullscreen {
     height: 100dvh;

@@ -12,7 +12,20 @@
   import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
   import 'maplibre-gl/dist/maplibre-gl.css';
   import type { Feature, LineString, MultiLineString } from 'geojson';
-  import { BASEMAP, COLORS, FONT, LAYER_TOGGLE, SEGMENT_LAYERS, SEGMENT_LAYER_IDS, activeAt, segmentFilter, type LegendKey } from './style';
+  import {
+    BASEMAP,
+    COLORS,
+    FONT,
+    LAYER_TOGGLE,
+    PALETTE,
+    SEGMENT_LAYERS,
+    SEGMENT_LAYER_IDS,
+    activeAt,
+    segmentFilter,
+    segmentLayers,
+    type LegendKey,
+  } from './style';
+  import type { Theme } from '../../lib/theme';
   import { changeBetween, OPEN_END } from '../../lib/network';
   import { endOfYear } from '../../lib/dates';
   import type { CompareState, EventItem, HistoricMap, NetworkFC, Selection, StationsFC } from './types';
@@ -28,14 +41,17 @@
     /** Legend entries switched off by the user. */
     hidden: ReadonlySet<LegendKey>;
     historicOpacity: number;
+    theme: Theme;
     onselect: (s: Selection) => void;
   }
 
-  let { network, stations, events, historicMaps, year, compare, selection, hidden, historicOpacity, onselect }: Props = $props();
+  let { network, stations, events, historicMaps, year, compare, selection, hidden, historicOpacity, theme, onselect }: Props = $props();
 
   let container: HTMLDivElement;
   let map: MlMap | undefined;
   let ready = $state(false);
+  /** Theme of the basemap currently loaded (the style is swapped when `theme` changes). */
+  let appliedTheme: Theme | undefined;
 
   const EMPTY = { type: 'FeatureCollection' as const, features: [] };
 
@@ -43,9 +59,10 @@
   // and padding would shift the historic map overlay.
   onMount(() => {
     setWorkerUrl(maplibreWorkerUrl);
+    appliedTheme = theme;
     map = new MlMap({
       container,
-      style: BASEMAP,
+      style: BASEMAP[theme],
       center: [-50.3, -21.45],
       zoom: 7.2,
       minZoom: 5,
@@ -55,23 +72,39 @@
     });
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
     if (window.innerWidth > 720) map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right');
-    map.on('load', () => {
-      addLayers(map!);
+    // Fires for the first style and after every theme switch: our sources and layers are added on top.
+    map.on('style.load', () => {
+      addLayers(map!, appliedTheme ?? 'light');
       ready = true;
+    });
+    map.once('load', () => {
       // On small screens start with the attribution collapsed to its (i) button.
       if (window.innerWidth <= 720) container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
     });
+    bindEvents(map);
+  });
+
+  // Theme switch: swap the basemap; style.load re-adds our layers with the new palette.
+  $effect(() => {
+    const next = theme;
+    if (!map || next === appliedTheme) return;
+    appliedTheme = next;
+    ready = false;
+    warpedLayer = undefined; // custom layers do not survive setStyle
+    loadedAnnotations = new Set();
+    map.setStyle(BASEMAP[next], { diff: false });
   });
 
   onDestroy(() => map?.remove());
 
-  function addLayers(m: MlMap) {
+  function addLayers(m: MlMap, theme: Theme) {
+    const c = PALETTE[theme];
     m.addSource('network', { type: 'geojson', data: network });
     m.addSource('compare', { type: 'geojson', data: EMPTY });
     m.addSource('stations', { type: 'geojson', data: stations });
     m.addSource('events', { type: 'geojson', data: EMPTY });
 
-    for (const { id, layer } of SEGMENT_LAYERS) m.addLayer({ ...layer, id, source: 'network' });
+    for (const { id, layer } of segmentLayers(theme)) m.addLayer({ ...layer, id, source: 'network' });
     m.addLayer({
       id: 'seg-selected',
       type: 'line',
@@ -123,8 +156,8 @@
       source: 'stations',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 6, ['match', ['get', 'detail'], 'full', 4, 2.5], 12, 7],
-        'circle-color': '#ffffff',
-        'circle-stroke-color': '#3a2a20',
+        'circle-color': c.stationFill,
+        'circle-stroke-color': c.stationStroke,
         'circle-stroke-width': ['match', ['get', 'detail'], 'full', 2.2, 1.4],
         'circle-opacity': ['match', ['get', 'confidence'], 'low', 0.7, 1],
         'circle-stroke-opacity': ['match', ['get', 'confidence'], 'low', 0.7, 1],
@@ -143,9 +176,12 @@
         'text-anchor': 'top',
         'text-optional': true,
       },
-      paint: { 'text-color': '#2b211b', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 },
+      paint: { 'text-color': c.label, 'text-halo-color': c.halo, 'text-halo-width': 1.6 },
     });
+  }
 
+  /** Pointer and click handlers, bound once; they keep working across style changes. */
+  function bindEvents(m: MlMap) {
     const clickable = [...SEGMENT_LAYER_IDS, 'stations', 'cmp-added', 'cmp-removed', 'cmp-unchanged'];
     for (const id of clickable) {
       m.on('mouseenter', id, () => (m.getCanvas().style.cursor = 'pointer'));
@@ -179,12 +215,8 @@
     const stT = comparing ? endOfYear(compare.b) : t;
     map.setFilter('stations', activeAt(stT));
     map.setFilter('station-labels', activeAt(stT));
-    map.setPaintProperty('stations', 'circle-color', [
-      'case',
-      ['>', ['get', 'passenger_end'], stT],
-      '#ffffff',
-      '#b9b1aa',
-    ]);
+    const c = PALETTE[appliedTheme ?? 'light'];
+    map.setPaintProperty('stations', 'circle-color', ['case', ['>', ['get', 'passenger_end'], stT], c.stationFill, c.stationEnded]);
     const evs = comparing ? [] : events.filter((e) => Math.floor(e.t) === year && e.coords);
     (map.getSource('events') as GeoJSONSource).setData({
       type: 'FeatureCollection',

@@ -5,6 +5,7 @@
   import SidePanel from './SidePanel.svelte';
   import Legend from './Legend.svelte';
   import { LEGEND_KEYS, type LegendKey } from './style';
+  import { onThemeChange, type Theme } from '../../lib/theme';
   import { endOfYear } from '../../lib/dates';
   import { lineLengthM } from '../../lib/geo';
   import { changeBetween } from '../../lib/network';
@@ -31,6 +32,9 @@
   let historicOpacity = $state(0.6);
   let panelOpen = $state(true);
   let urlReady = false;
+  let theme = $state<Theme>('light');
+
+  onMount(() => onThemeChange((t) => (theme = t)));
 
   onMount(async () => {
     panelOpen = window.innerWidth > 720;
@@ -130,6 +134,7 @@
       {selection}
       {hidden}
       {historicOpacity}
+      {theme}
       onselect={select}
     />
 

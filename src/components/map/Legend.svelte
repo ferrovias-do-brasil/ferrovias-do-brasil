@@ -46,7 +46,7 @@
       <li>
         <label class:off={hidden.has('stations')}>
           <input type="checkbox" checked={!hidden.has('stations')} onchange={() => toggle('stations')} />
-          <svg width="30" height="10" aria-hidden="true"><circle cx="15" cy="5" r="3.5" fill="#fff" stroke="#3a2a20" stroke-width="1.8" /></svg>
+          <svg width="30" height="10" aria-hidden="true"><circle cx="15" cy="5" r="3.5" fill="var(--station-fill)" stroke="var(--station-stroke)" stroke-width="1.8" /></svg>
           Estações
         </label>
       </li>

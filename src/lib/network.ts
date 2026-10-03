@@ -83,6 +83,16 @@ export interface SegmentFeatureProps {
   confidence: Segment['geometry_confidence'];
   method: Segment['geometry']['method'];
   color: string;
+  /** Lighter variant of `color`, for dark basemaps. */
+  color_dark: string;
+}
+
+/** Mixes a #rrggbb colour with white. */
+export function lighten(hex: string, amount: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  const mix = (v: number) => Math.round(v + (255 - v) * amount);
+  const [r, g, b] = [mix((n >> 16) & 255), mix((n >> 8) & 255), mix(n & 255)];
+  return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
 }
 
 export function segmentFeatures(
@@ -112,6 +122,7 @@ export function segmentFeatures(
           confidence: seg.geometry_confidence,
           method: seg.geometry.method,
           color,
+          color_dark: lighten(color, 0.3),
         },
       });
     }

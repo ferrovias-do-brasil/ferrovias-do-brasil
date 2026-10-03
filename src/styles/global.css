@@ -6,12 +6,19 @@
   --line: #e2d8cb;
   --accent: #b4441f;
   --line-nob: #b4441f;
+  --seg-closed: #8a8a8a;
+  --seg-removed: #a8a8a8;
+  --seg-flooded: #1d63b5;
+  --station-fill: #ffffff;
+  --station-stroke: #3a2a20;
   --shadow: 0 2px 10px rgb(43 33 27 / 0.12);
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   color-scheme: light;
 }
 
+/* Dark theme: follows the system unless the visitor picked "Claro" (data-theme="light"),
+   or is forced with data-theme="dark". Keep both blocks identical. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     --bg: #1c1815;
@@ -20,9 +27,31 @@
     --muted: #b3a597;
     --line: #3d3530;
     --accent: #e0774f;
+    --line-nob: #cb7c62;
+    --seg-closed: #9c9c9c;
+    --seg-removed: #7c7c7c;
+    --seg-flooded: #5aa0f0;
+    --station-fill: #1c1815;
+    --station-stroke: #efe7dd;
     --shadow: 0 2px 12px rgb(0 0 0 / 0.45);
     color-scheme: dark;
   }
+}
+:root[data-theme='dark'] {
+  --bg: #1c1815;
+  --panel: #26211d;
+  --ink: #efe7dd;
+  --muted: #b3a597;
+  --line: #3d3530;
+  --accent: #e0774f;
+  --line-nob: #cb7c62;
+  --seg-closed: #9c9c9c;
+  --seg-removed: #7c7c7c;
+  --seg-flooded: #5aa0f0;
+  --station-fill: #1c1815;
+  --station-stroke: #efe7dd;
+  --shadow: 0 2px 12px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
 }
 
 *,
@@ -90,4 +119,33 @@ td {
 
 .muted {
   color: var(--muted);
+}
+
+/* MapLibre controls follow the theme. */
+.maplibregl-ctrl-group,
+.maplibregl-ctrl.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-scale {
+  background: var(--panel) !important;
+  color: var(--ink);
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--line);
+}
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib a {
+  color: var(--ink) !important;
+  opacity: 0.85;
+}
+.maplibregl-ctrl-scale {
+  border-color: var(--muted);
+}
+:root[data-theme='dark'] .maplibregl-ctrl-icon,
+:root[data-theme='dark'] .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .maplibregl-ctrl-icon,
+  :root:not([data-theme='light']) .maplibregl-ctrl-attrib-button {
+    filter: invert(1);
+  }
 }
