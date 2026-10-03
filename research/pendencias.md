@@ -1,7 +1,7 @@
 # Pendências de pesquisa — piloto Birigui / Noroeste
 
 Agenda de pesquisa viva. Cada item diz o que falta, por que importa e onde procurar.
-Atualizado em 2026-10-03.
+Atualizado em 2026-10-03 (variantes de Lins, Cafelândia, Promissão e Glicério incluídas).
 
 ## Localizações incertas
 
@@ -16,19 +16,22 @@ Atualizado em 2026-10-03.
 
 ## Traçados por mapear
 
-- **Bauru → Penápolis: retificações.** O validador mostra Penápolis no km ~184 hoje, contra
-  km 219 em 1938, ou seja, cerca de 35 km de variantes. Há leitos antigos no OSM em Lins
-  (Av. Arquiteto Luiz Saia) e em Promissão (Av. Noroeste, Av. da Saudade), ainda sem datas.
-  Lins tem estação nova de 1962 (OSM).
-- **Penápolis → Glicério (1949): mapa −18,6%** em relação à quilometragem histórica. A variante de
-  Glicério (18/03/1969) tem leito antigo parcialmente no OSM ("Estrada Municipal GLI-030"), mas o
-  extremo leste não encontra a linha atual. Falta ligar o leito e datar as outras etapas da
-  variante Lins–Araçatuba (1969–1971).
-- **Avanhandava → Coroados (1960): mapa −13%.** Mesmo motivo.
-- **Linha do Tietê, Engenheiro Taveira → Lussanvira → Itapura → Jupiá:** hoje esquemática (linha
-  reta). Precisa de mapa antigo georreferenciado (candidato: R. Heyse, 1910/1912, Princeton).
-- **Margem de Mato Grosso do Sul:** a Ponte Francisco de Sá (1926) e a continuação até Três Lagoas
-  e Corumbá aparecem só como evento; falta a geometria de contexto.
+Situação em 2026-10-03, depois de modelar a variante de Lins e a variante Lins–Araçatuba:
+
+| Trecho | O que existe no mapa | O que falta |
+|---|---|---|
+| Bauru → Cafelândia | traçado atual | retificações de antes de 1960 (Paredão: km 133,3 em 1949 × 117,1 em 1960) |
+| Cafelândia → Lins (variante de 1970) | leito original no OSM (~14 km) + lacunas fechadas pelo caminho mais curto | ligação exata do leito antigo perto de Lins |
+| Lins → Guaiçara (variante de 1962) | leito original no OSM, passando pelas estações velhas | validador: 10,0 km no mapa × 12,3 km em 1949 (−18,6%) |
+| Guaiçara → Promissão → Avanhandava (1970–71) | **aproximado**: desenhado sobre a via atual | leito por Promissão (pedaços no OSM: Av. Noroeste, Av. da Saudade) e por Capituva; em 1949 Promissão→Penápolis media 42 km, contra 29 km hoje |
+| Avanhandava → Penápolis (c. 1971) | **aproximado**: desenhado sobre a via atual | leito por Urutágua |
+| Penápolis → Glicério (1969) | reta esquemática + leito de Glicério no OSM (10 km) | leito por Bonito e Engenheiro Napoleão; o mapa dá ~16 km contra 20,2 km em 1949 |
+| Linha do Tietê (Engenheiro Taveira → Lussanvira → Itapura → Jupiá) | esquemático | precisa de mapa antigo georreferenciado |
+| Margem de Mato Grosso do Sul | só o evento da ponte de 1926 | geometria de contexto |
+
+Outras dúvidas: a estação original de Monlevade teria sido desativada entre 1948 e 1954, com uma
+nova construída "na variante de Lins", mas a variante de Lins só abriu em 1962. Pode ter havido
+uma retificação anterior perto de Monlevade.
 
 ## Datas a confirmar com fonte primária
 

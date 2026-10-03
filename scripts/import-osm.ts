@@ -133,7 +133,7 @@ async function processNetwork(dir: string, refresh: boolean, fix: boolean) {
     }
 
     if (spec.method === 'waypoints') {
-      const coordinates = [snapPosition(graph, from), ...spec.points, snapPosition(graph, to)];
+      const coordinates = [snapPosition(graph, from), ...spec.points, snapPosition(graph, to)].map(([x, y]) => [round(x), round(y)]);
       features.push({
         type: 'Feature',
         properties: { id: seg.id, method: 'waypoints', osm_ways: [], bridged_gap_m: 0, generated },

@@ -5,6 +5,6 @@ type: opening
 summary: "Abertos Penápolis e Araçatuba, onde a primeira estação é um vagão de madeira ao lado da linha."
 stations: [penapolis, aracatuba]
 cities: [aracatuba]
-segments: [nob-avanhandava-penapolis, nob-penapolis-coroados, nob-coroados-birigui-guatambu-original]
+segments: [nob-avanhandava-penapolis, nob-penapolis-glicerio-esquematico, nob-glicerio-original, nob-glicerio-coroados, nob-coroados-birigui-guatambu-original]
 sources: [giesbrecht-aracatuba-1, giesbrecht-penapolis]
 ---

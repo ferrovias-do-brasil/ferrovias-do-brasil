@@ -32,6 +32,21 @@ nodes:
     kind: station
     coords: [ -49.594493, -21.895081 ]
     note: Posição aproximada, pela sede de Guarantã.
+  - id: jct-cafelandia-leste
+    name: Junção leste de Cafelândia
+    kind: junction
+    coords: [ -49.605532, -21.796574 ]
+    note: Onde o leito arrasado da linha original de Cafelândia se aproxima da via atual (ponto aproximado; a ligação exata não está no OSM).
+  - id: jct-lins-leste
+    name: Junção leste de Lins
+    kind: junction
+    coords: [ -49.69139, -21.69214 ]
+    note: Onde o leito antigo de Lins encosta na via atual (OSM).
+  - id: jct-guaicara-oeste
+    name: Junção oeste de Guaiçara
+    kind: junction
+    coords: [ -49.797744, -21.603328 ]
+    note: Ponto da via atual mais próximo do fim do leito antigo de Guaiçara (Av. Paulo Xavier Ribeiro); aproximado.
   - id: avanhandava
     name: Avanhandava
     kind: station
@@ -42,6 +57,17 @@ nodes:
     kind: station
     station: penapolis
     coords: [ -50.077503, -21.416841 ]
+  - id: glicerio-leito-fim-leste
+    name: Extremo leste do leito antigo de Glicério
+    kind: endpoint
+    snap: old
+    coords: [ -50.16329, -21.38698 ]
+    note: Fim do leito antigo mapeado no OSM. Entre este ponto e Penápolis o traçado original é desconhecido.
+  - id: jct-glicerio-oeste
+    name: Junção oeste de Glicério
+    kind: junction
+    coords: [ -50.23675, -21.38272 ]
+    note: Onde o leito antigo de Glicério reencontra a via atual (OSM).
   - id: jct-coroados-oeste
     name: Junção oeste de Coroados
     kind: junction
@@ -124,7 +150,7 @@ segments:
     geometry: { method: osm-current }
     geometry_confidence: medium
     geometry_note: &variantes-bauru-penapolis >-
-      Traçado atual. A linha original entre Bauru e Penápolis era cerca de 35 km mais longa (Penápolis estava no km 219 em 1938; hoje fica perto do km 184). As retificações (Lins, Promissão e outras) ainda não foram mapeadas.
+      Traçado atual. Antes de 1960 houve retificações entre Bauru e Cafelândia ainda não mapeadas: Paredão estava no km 133,3 em 1949 e no km 117,1 em 1960.
     status_history:
       - status: open
         from: '1906-09'
@@ -150,10 +176,10 @@ segments:
           - { value: '1906-09-29', source: wikipedia-pt-nob, note: 'Dá o primeiro trecho, até Lauro Müller (km 92), aberto já em 29/09/1906.' }
       - *freight-1995
 
-  - id: nob-lauro-muller-avanhandava
-    name: Lauro Müller – Avanhandava
+  - id: nob-lauro-muller-cafelandia
+    name: Lauro Müller – Cafelândia
     from: lauro-muller
-    to: avanhandava
+    to: jct-cafelandia-leste
     alignment: original
     geometry: { method: osm-current }
     geometry_confidence: medium
@@ -161,37 +187,215 @@ segments:
     status_history:
       - status: open
         from: '1908-02-16'
-        sources: [ giesbrecht-avanhandava ]
-        note: Inauguração da estação de Avanhandava, com a presença do presidente Afonso Pena.
+        sources: [ giesbrecht-avanhandava, giesbrecht-cafelandia-velha ]
+        note: Trecho até Avanhandava inaugurado com a presença do presidente Afonso Pena.
+      - *freight-1995
+
+  # ------------------------------------------------------------------
+  # Variante de Lins: Lins (1962) e Cafelândia (1970)
+  # ------------------------------------------------------------------
+  - id: nob-cafelandia-lins-original
+    name: Cafelândia – Paredão – Lins, linha original
+    from: jct-cafelandia-leste
+    to: jct-lins-leste
+    alignment: original
+    geometry:
+      method: osm-old
+      max_gap_m: 5000
+      # meio do leito arrasado de Cafelândia (OSM way 536115541)
+      via: [ [ -49.63823, -21.75860 ] ]
+    geometry_confidence: medium
+    geometry_note: >-
+      Leito arrasado mapeado no OSM em torno de Cafelândia (cerca de 14 km). Perto de Lins o leito não está mapeado e foi completado pelo caminho mais curto.
+    status_history:
+      - status: open
+        from: '1908-02-16'
+        sources: [ giesbrecht-cafelandia-velha ]
+      - status: closed
+        from: '1970'
+        sources: [ giesbrecht-cafelandia-velha, giesbrecht-paredao ]
+        note: Abertura da variante de Lins no trecho de Cafelândia; a estação original foi demolida.
+
+  - id: nob-variante-lins-cafelandia
+    name: Variante de Lins — trecho de Cafelândia (1970)
+    from: jct-cafelandia-leste
+    to: jct-lins-leste
+    alignment: variant
+    replaces: [ nob-cafelandia-lins-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1970'
+        sources: [ giesbrecht-cafelandia, giesbrecht-paredao ]
+      - *freight-1995
+
+  - id: nob-lins-guaicara-original
+    name: Lins (centro) – Guaiçara, linha original
+    from: jct-lins-leste
+    to: jct-guaicara-oeste
+    alignment: original
+    geometry:
+      method: osm-old
+      max_gap_m: 1500
+      # estações velhas de Lins (hoje museu) e de Guaiçara (hoje Estação Criatividade)
+      via: [ [ -49.74607, -21.67626 ], [ -49.79647, -21.62323 ] ]
+    geometry_confidence: medium
+    geometry_note: >-
+      Leito antigo mapeado no OSM: em Lins virou a Av. Arquiteto Luiz Saia; em Guaiçara, a Av. Duque de Caxias e a Av. Paulo Xavier Ribeiro. Pequenos trechos sem mapeamento foram completados em linha reta.
+    status_history:
+      - status: open
+        from: '1908-02-16'
+        sources: [ giesbrecht-lins-velha ]
+      - status: closed
+        from:
+          - { value: '1962-11-15', source: giesbrecht-lins-velha, preferred: true, note: Estação de Lins desativada com a abertura da variante. }
+          - { value: '1963', source: giesbrecht-guaicara, note: '"Em 1963, com a variante de Lins, a estação [de Guaiçara] mudou de posição."' }
+
+  - id: nob-variante-lins
+    name: Variante de Lins (1962)
+    from: jct-lins-leste
+    to: jct-guaicara-oeste
+    alignment: variant
+    replaces: [ nob-lins-guaicara-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from:
+          - { value: '1962-11-15', source: giesbrecht-lins, preferred: true, note: Inauguração da nova estação de Lins; a variante já recebia cargueiros em teste desde março de 1962. }
+          - { value: '1963', source: giesbrecht-guaicara }
+      - *freight-1995
+
+  - id: nob-guaicara-avanhandava
+    name: Guaiçara – Promissão – Capituva – Avanhandava, linha original (aproximada)
+    from: jct-guaicara-oeste
+    to: avanhandava
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: low
+    geometry_note: >-
+      Desenhado sobre a via atual porque o leito original não está mapeado. A linha original passava pelo centro de Promissão (Av. Noroeste, Av. da Saudade) e por Capituva, e era mais longa: em 1949 Promissão (km 177,5) estava a cerca de 42 km de Penápolis (km 219,6), contra 29 km hoje.
+    status_history:
+      - status: open
+        from: '1908-02-16'
+        sources: [ giesbrecht-promissao, giesbrecht-avanhandava ]
+      - status: closed
+        from: '1970-08-15'
+        sources: [ giesbrecht-promissao ]
+        note: Substituída em etapas pela variante Lins–Araçatuba (Promissão em 15/08/1970; Capituva desativada em 1971).
+
+  - id: nob-variante-promissao
+    name: Variante Lins–Araçatuba — Guaiçara – Promissão – Avanhandava (1970)
+    from: jct-guaicara-oeste
+    to: avanhandava
+    alignment: variant
+    replaces: [ nob-guaicara-avanhandava ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1970-08-15'
+        sources: [ giesbrecht-promissao ]
+        note: Data da retirada da linha do centro de Promissão; o trecho de Capituva parece ter sido concluído em 1971.
       - *freight-1995
 
   - id: nob-avanhandava-penapolis
-    name: Avanhandava – Penápolis
+    name: Avanhandava – Urutágua – Penápolis, linha original (aproximada)
     from: avanhandava
     to: penapolis
     alignment: original
     geometry: { method: osm-current }
-    geometry_confidence: medium
-    geometry_note: *variantes-bauru-penapolis
+    geometry_confidence: low
+    geometry_note: Desenhado sobre a via atual porque o leito original, que passava por Urutágua, não está mapeado.
     status_history:
       - status: open
         from: '1908-12-02'
         sources: [ giesbrecht-penapolis ]
+      - status: closed
+        from: '1971'
+        circa: true
+        sources: [ giesbrecht-urutagua ]
+        note: Urutágua "parece ter sido desativado devido à retificação da linha entre Lins e Araçatuba, em 1971".
+
+  - id: nob-variante-urutagua
+    name: Variante Lins–Araçatuba — Avanhandava – Penápolis (c. 1971)
+    from: avanhandava
+    to: penapolis
+    alignment: variant
+    replaces: [ nob-avanhandava-penapolis ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1971'
+        circa: true
+        sources: [ giesbrecht-urutagua ]
       - *freight-1995
 
-  - id: nob-penapolis-coroados
-    name: Penápolis – Glicério – Coroados
+  # ------------------------------------------------------------------
+  # Variante de Glicério (18/03/1969), parte da variante Lins–Araçatuba
+  # ------------------------------------------------------------------
+  - id: nob-penapolis-glicerio-esquematico
+    name: Penápolis – Bonito – Eng. Napoleão, linha original (esquemático)
     from: penapolis
-    to: jct-coroados-oeste
+    to: glicerio-leito-fim-leste
     alignment: original
-    geometry: { method: osm-current }
-    geometry_confidence: medium
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
     geometry_note: >-
-      Traçado atual. Em Glicério a linha original passava cerca de 3 km ao norte (leito parcialmente mapeado no OSM como "Estrada Municipal GLI-030"); a variante foi aberta em 18/03/1969. O trecho antigo de Glicério ainda precisa ser ligado à rede.
+      Linha reta: o leito entre Penápolis e o extremo leste do leito mapeado de Glicério não é conhecido. O traçado real era mais longo: em 1949 Penápolis (km 219,6) e Glicério (km 239,8) distavam 20,2 km, contra cerca de 16 km no mapa.
     status_history:
       - status: open
         from: '1908-12-02'
-        sources: [ giesbrecht-penapolis, giesbrecht-aracatuba-1 ]
+        sources: [ giesbrecht-penapolis ]
+      - status: closed
+        from: '1969-03-18'
+        sources: [ giesbrecht-glicerio ]
+        note: Bonito e Engenheiro Napoleão, que ficavam neste trecho, já não existiam em 1970.
+
+  - id: nob-glicerio-original
+    name: Glicério (centro), linha original
+    from: glicerio-leito-fim-leste
+    to: jct-glicerio-oeste
+    alignment: original
+    geometry: { method: osm-old }
+    geometry_confidence: medium
+    geometry_note: Leito antigo mapeado no OSM; em Glicério virou a Estrada Municipal GLI-030 e a Av. Adolfo Hecht Júnior.
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-penapolis, giesbrecht-glicerio ]
+      - status: closed
+        from: '1969-03-18'
+        sources: [ giesbrecht-glicerio ]
+
+  - id: nob-variante-glicerio
+    name: Variante de Glicério (1969)
+    from: penapolis
+    to: jct-glicerio-oeste
+    alignment: variant
+    replaces: [ nob-penapolis-glicerio-esquematico, nob-glicerio-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1969-03-18'
+        sources: [ giesbrecht-glicerio ]
+        note: Aberta no mesmo dia da nova estação de Glicério, como parte da variante Lins–Araçatuba.
+      - *freight-1995
+
+  - id: nob-glicerio-coroados
+    name: Glicério – Coroados
+    from: jct-glicerio-oeste
+    to: jct-coroados-oeste
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1908-12-02'
+        sources: [ giesbrecht-aracatuba-1 ]
       - *freight-1995
 
   - id: nob-coroados-birigui-guatambu-original
