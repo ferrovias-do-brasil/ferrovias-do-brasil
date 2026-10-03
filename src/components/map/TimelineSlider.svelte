@@ -91,7 +91,7 @@
         {/each}
       </div>
       <div class="scale" aria-hidden="true">
-        {#each [1900, 1920, 1940, 1960, 1980, 2000, 2020] as y (y)}
+        {#each [1860, 1880, 1900, 1920, 1940, 1960, 1980, 2000, 2020] as y (y)}
           <span style:left="{pct(y)}%">{y}</span>
         {/each}
       </div>

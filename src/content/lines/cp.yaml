@@ -1,0 +1,12 @@
+name: Companhia Paulista de Estradas de Ferro
+short: Paulista
+color: '#2f7d52'
+gauge_mm: 1600
+network: cp
+summary: >-
+  A companhia formada por fazendeiros de café para levar os trilhos de Jundiaí ao interior. Começou
+  em 1872 com Jundiaí–Campinas, em bitola larga, e chegou a Rio Claro em 1876. Nesta primeira etapa,
+  só a Linha Tronco até Rio Claro.
+operators:
+  - { company: cia-paulista, from: '1872', to: '1971', source: wikipedia-pt-cpef }
+  - { company: fepasa, from: '1971', source: wikipedia-pt-cpef }

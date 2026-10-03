@@ -1,0 +1,170 @@
+# Companhia Paulista de Estradas de Ferro — Linha Tronco, Jundiaí → Campinas → Rio Claro (1872–1876)
+#
+# Datas de abertura tiradas dos relatórios da Diretoria da Companhia Paulista
+# (Arquivo Público do Estado / Memória Ferroviária), conferidas com Giesbrecht.
+# Bitola larga (1,60 m). Geometria do OpenStreetMap (cache estadual da malha-sp).
+
+line: cp
+name: Companhia Paulista — Linha Tronco (Jundiaí–Rio Claro)
+bbox: [ -47.70, -23.25, -46.80, -22.30 ]
+osm_cache: malha-sp
+
+nodes:
+  - id: jundiai-paulista
+    name: Jundiaí (estação da Paulista)
+    kind: station
+    station: jundiai-paulista
+    coords: [ -46.878984, -23.185392 ]
+    note: Estação própria da Paulista, cerca de 1 km além da estação da São Paulo Railway.
+  - id: valinhos
+    name: Valinhos
+    kind: station
+    station: valinhos
+    coords: [ -46.994054, -22.967948 ]
+  - id: samambaia
+    name: Samambaia (estação provisória de 1872)
+    kind: station
+    coords: [ -47.029746, -22.93108 ]
+    note: >-
+      Ponto aproximado, no km 37,4, onde Giesbrecht situa a estação de Samambaia aberta em 1893. Em 1872 houve ali uma estação provisória, segundo o relatório da Companhia; o local exato não é conhecido.
+  - id: campinas
+    name: Campinas
+    kind: station
+    station: campinas-paulista
+    coords: [ -47.066284, -22.908943 ]
+  - id: santa-barbara
+    name: Santa Bárbara (Americana)
+    kind: station
+    station: americana
+    coords: [ -47.328084, -22.738194 ]
+  - id: ponte-piracicaba
+    name: Ponte sobre o rio Piracicaba
+    kind: bridge
+    coords: [ -47.35243, -22.66435 ]
+    note: Ponto da ponte entre Santa Bárbara e Tatu (OSM); ponta dos trilhos em junho de 1876.
+  - id: limeira
+    name: Limeira
+    kind: station
+    station: limeira
+    coords: [ -47.397809, -22.564206 ]
+  - id: rio-claro
+    name: Rio Claro
+    kind: station
+    station: rio-claro
+    snap: old
+    coords: [ -47.55846, -22.407075 ]
+
+segments:
+  - id: cp-jundiai-valinhos
+    name: Jundiaí – Louveira – Vinhedo – Valinhos
+    from: jundiai-paulista
+    to: valinhos
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -46.94905, -23.08519 ], [ -46.97124, -23.02965 ] ] }
+    geometry_confidence: high
+    geometry_note: &jc-note >-
+      Leito original da Paulista, hoje sem tráfego (no OSM, "Antiga Cia Paulista (TIC Jundiaí–Campinas)"); a linha foi duplicada por volta de 1915.
+    status_history:
+      - status: open
+        from: '1872-03-31'
+        sources: [ cpef-rel-1872-set ]
+        note: Primeira viagem, de Jundiaí a Valinhos, com paradas em Capivary (Louveira) e Cachoeira (Vinhedo).
+      - &jc-freight
+        status: freight_only
+        from: '1978'
+        circa: true
+        sources: [ giesbrecht-louveira ]
+        note: Estações desativadas para passageiros "no final dos anos 1970". Hoje o trecho está sem tráfego segundo o OpenStreetMap; a data em que a carga parou ainda precisa de fonte.
+
+  - id: cp-valinhos-samambaia
+    name: Valinhos – Samambaia
+    from: valinhos
+    to: samambaia
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: *jc-note
+    status_history:
+      - status: open
+        from: '1872-04-05'
+        sources: [ cpef-rel-1872-set ]
+        note: Trens de passageiros até uma estação provisória em Samambaia.
+      - *jc-freight
+
+  - id: cp-samambaia-campinas
+    name: Samambaia – Campinas
+    from: samambaia
+    to: campinas
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: *jc-note
+    status_history:
+      - status: open
+        from:
+          - { value: '1872-08-11', source: giesbrecht-campinas-cp, preferred: true, note: Data consagrada da inauguração da estação de Campinas. }
+          - { value: '1872-08-09', source: cpef-rel-1872-set, note: 'O relatório registra a autorização "concedida a 9 do mesmo mez, e ali fez-se a inauguração".' }
+      - *jc-freight
+
+  - id: cp-campinas-santa-barbara
+    name: Campinas – Boa Vista – Rebouças (Sumaré) – Santa Bárbara (Americana)
+    from: campinas
+    to: santa-barbara
+    alignment: original
+    geometry:
+      method: osm-old
+      max_gap_m: 600
+      via: [ [ -47.14262, -22.88655 ], [ -47.26421, -22.82125 ], [ -47.29157, -22.77677 ], [ -47.31387, -22.76677 ] ]
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1875-08-27'
+        sources: [ cpef-rel-1876-fev ]
+        note: '"Inauguração da parte concluída da linha, desde Campinas até a estação de Santa Barbara, trinta e oito kilometros de extensão."'
+      - &cr-freight
+        status: freight_only
+        from:
+          - { value: '2001-03', source: giesbrecht-americana, preferred: true }
+          - { value: '2001-04-16', source: giesbrecht-limeira, note: Último trem de passageiros partindo de Limeira rumo a Campinas. }
+
+  - id: cp-santa-barbara-piracicaba
+    name: Santa Bárbara – ponte do rio Piracicaba
+    from: santa-barbara
+    to: ponte-piracicaba
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1876-06-19'
+        sources: [ cpef-rel-1876-set ]
+        note: Trem de passageiros de Santa Bárbara até a ponte, a pedido do público (a ponte da estrada geral sobre o Atibaia tinha caído).
+      - *cr-freight
+
+  - id: cp-piracicaba-limeira
+    name: Ponte do Piracicaba – Tatu – Limeira
+    from: ponte-piracicaba
+    to: limeira
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.35213, -22.65230 ] ] }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1876-06-30'
+        sources: [ cpef-rel-1876-set ]
+        note: Abertas as estações de Tatu e Limeira.
+      - *cr-freight
+
+  - id: cp-limeira-rio-claro
+    name: Limeira – Cordeiro – Santa Gertrudes – Rio Claro
+    from: limeira
+    to: rio-claro
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.45372, -22.48129 ], [ -47.52800, -22.45329 ] ] }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1876-08-11'
+        sources: [ cpef-rel-1876-set ]
+        note: Tráfego provisório até "a cidade de S. João do Rio Claro".
+      - *cr-freight

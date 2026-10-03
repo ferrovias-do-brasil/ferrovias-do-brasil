@@ -1,0 +1,7 @@
+name: Companhia Paulista de Estradas de Ferro
+short: Paulista
+from: '1868'
+to: '1971'
+successor: fepasa
+summary: Empresa privada paulista; incorporada à FEPASA em 1971.
+sources: [wikipedia-pt-cpef]

@@ -168,11 +168,9 @@ export class RailGraph {
   route(stops: Position[], opts: RouteOptions): Route {
     if (opts.mode === 'old') this.buildGaps(opts.maxGapM ?? 400);
     const cls: WayClass = opts.mode === 'current' ? 'current' : 'old';
-    const vertices = stops.map((p, i) => {
-      // Endpoints of an old segment may sit on today's line (junctions), so allow any class there.
-      const isEnd = i === 0 || i === stops.length - 1;
-      return this.nearest(p, opts.mode === 'old' && isEnd ? 'any' : cls).vertex;
-    });
+    // In old mode every stop may sit on today's track (junctions, stations kept by a later line),
+    // so snap to any track; the path between stops still prefers old beds.
+    const vertices = stops.map((p) => this.nearest(p, opts.mode === 'old' ? 'any' : cls).vertex);
     const path: number[] = [];
     for (let i = 1; i < vertices.length; i++) {
       const leg = this.dijkstra(vertices[i - 1], vertices[i], opts.mode);

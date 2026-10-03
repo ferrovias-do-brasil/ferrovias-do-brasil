@@ -33,6 +33,25 @@ Outras dúvidas: a estação original de Monlevade teria sido desativada entre 1
 nova construída "na variante de Lins", mas a variante de Lins só abriu em 1962. Pode ter havido
 uma retificação anterior perto de Monlevade.
 
+## Companhia Paulista — Linha Tronco (Jundiaí–Rio Claro)
+
+Feito em 2026-10-03: 7 trechos com datas tiradas dos **relatórios da própria Companhia** (1872, 1876),
+11 estações, quilometragens de 1958 conferidas (todas dentro de ±2,2% do mapa).
+
+Pendências:
+- **Duplicação e eletrificação**: duplicação Jundiaí–Campinas por volta de 1915 e eletrificação em
+  1922 (subestação de Louveira, 1921). Falta confirmar nos relatórios de 1915–1922.
+- **Jundiaí–Campinas hoje**: o OSM marca o leito como sem tráfego ("Antiga Cia Paulista (TIC
+  Jundiaí–Campinas)"). Falta a data em que a carga parou e passou para a Variante Boa Vista–Guaianã
+  (1985/86, segundo Giesbrecht na página de Guaianã).
+- **Variantes da FEPASA**: Boa Vista–Guedes (1972) e Boa Vista–Guaianã (1985/86) não estão
+  modeladas.
+- **Samambaia (1872)**: o relatório cita uma estação provisória; o ponto no mapa é aproximado.
+- **Estações intermediárias** não modeladas: Hortolândia (Jacuba), Nova Odessa, Recanto, São
+  Jerônimo, Itaipu, Ibicaba, Cordeirópolis (Cordeiro), Santa Gertrudes.
+- **Próximos trechos**: Rio Claro em diante (compra da Cia. Rio Claro, 1892; Tronco Oeste até Bauru)
+  e ramais (Descalvado, 1877; Cordeiro–Mogi Guaçu).
+
 ## Próximas linhas
 
 A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela

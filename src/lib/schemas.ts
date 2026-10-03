@@ -238,6 +238,8 @@ export const networkSchema = z.object({
   line: id,
   name: z.string(),
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+  /** Reuse an existing OSM cache (e.g. "malha-sp" from `npm run import-malha`) instead of a bbox query. */
+  osm_cache: id.optional(),
   nodes: z.array(nodeSchema).min(2),
   segments: z.array(segmentSchema).min(1),
 });

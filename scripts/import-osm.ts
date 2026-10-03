@@ -11,7 +11,7 @@
  *
  * Data © OpenStreetMap contributors, ODbL 1.0.
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { parseDocument } from 'yaml';
 import { basename, join } from 'node:path';
 import type { Feature, LineString, MultiLineString, Position } from 'geojson';
@@ -19,7 +19,7 @@ import { networkSchema, type Network, type NetworkNode } from '../src/lib/schema
 import { haversine } from '../src/lib/geo';
 import { RailGraph, type OverpassWay } from './lib/osm-graph';
 import { networkDirs, readGeometry, readNetworkYaml } from './lib/content';
-import { cachedWays } from './lib/overpass';
+import { CACHE_DIR, cachedWays } from './lib/overpass';
 
 function overpassQuery([w, s, e, n]: Network['bbox']): string {
   const bb = `${s},${w},${n},${e}`;
@@ -34,6 +34,13 @@ out tags geom;`;
 }
 
 async function loadOsm(network: Network, refresh: boolean): Promise<OverpassWay[]> {
+  if (network.osm_cache) {
+    // Shared state-wide cache (npm run import-malha refreshes it).
+    const file = join(CACHE_DIR, `${network.osm_cache}.json`);
+    if (!existsSync(file)) throw new Error(`${file} not found: run npm run import-malha first`);
+    console.log(`  using shared cache ${file}`);
+    return JSON.parse(readFileSync(file, 'utf8')).elements.filter((e: { type: string }) => e.type === 'way');
+  }
   return cachedWays(network.line, overpassQuery(network.bbox), refresh);
 }
 

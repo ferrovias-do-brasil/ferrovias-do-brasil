@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { loadSiteData } from '../../lib/site-data';
+import { lineLengthM } from '../../lib/geo';
+
+const lines = await getCollection('lines');
+const { networks, geometries, stations } = await loadSiteData();
+const base = import.meta.env.BASE_URL;
+const stats = new Map(
+  lines.map((l) => {
+    const net = networks.find((n) => n.line === l.data.network);
+    const geo = geometries.get(l.data.network);
+    const km = net && geo ? net.segments.reduce((t, s) => t + (geo.get(s.id) ? lineLengthM(geo.get(s.id)!) : 0), 0) / 1000 : 0;
+    return [l.id, { segments: net?.segments.length ?? 0, km, stations: stations.filter((s) => s.data.line === l.id).length }];
+  }),
+);
+---
+
+<Base title="Linhas">
+  <div class="prose">
+    <h1>Linhas pesquisadas</h1>
+    <p>
+      Ferrovias com linha do tempo completa: cada trecho tem datas de abertura, variantes e fechamento com fonte. O resto da
+      malha paulista aparece no mapa em violeta, ainda sem datas.
+    </p>
+    <ul class="lines">
+      {
+        lines.map((l) => {
+          const st = stats.get(l.id)!;
+          return (
+            <li>
+              <span class="swatch" style={`background:${l.data.color}`} />
+              <div>
+                <a href={`${base}linhas/${l.id}/`}><strong>{l.data.name}</strong></a>
+                <div class="muted">
+                  {st.segments} trechos · {st.km.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} km desenhados (incluindo leitos e
+                  variantes) · {st.stations} estações
+                </div>
+                <p>{l.data.summary}</p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <p><a href={`${base}contribuir/`}>Quer ajudar a pesquisar a próxima linha?</a></p>
+  </div>
+</Base>
+
+<style>
+  .lines {
+    list-style: none;
+    padding: 0;
+  }
+  .lines li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .swatch {
+    flex: none;
+    width: 8px;
+    border-radius: 4px;
+  }
+</style>

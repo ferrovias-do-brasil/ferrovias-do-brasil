@@ -188,7 +188,7 @@
       </ul>
       <p class="note">
         Esta linha ainda não tem linha do tempo pesquisada: aparece em todos os anos com a situação de hoje, segundo o
-        OpenStreetMap. A Noroeste, em cor, é a única linha já pesquisada.
+        OpenStreetMap. As linhas em cor ({catalog.lines.map((l) => l.short).join(', ')}) já têm história pesquisada.
       </p>
       <p>
         <a href={issueUrl(osmWay.n, selection.id)} target="_blank" rel="noopener">Conhece a história desta linha? Conte para nós →</a>
@@ -223,7 +223,7 @@
     <h2>{year}</h2>
     <p class="stat">
       <strong>{operatingKm.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} km</strong> de linhas pesquisadas em operação
-      <span class="note">(por enquanto, só a Noroeste; o resto da malha aparece em violeta, sem datas)</span>
+      <span class="note">(linhas pesquisadas: {catalog.lines.map((l) => l.short).join(', ')}; o resto da malha aparece em violeta, sem datas)</span>
     </p>
     {#if yearEvents.length}
       <h3>Neste ano</h3>

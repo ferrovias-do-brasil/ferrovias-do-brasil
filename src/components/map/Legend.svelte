@@ -1,17 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { CONTEXT_LEGEND, LEGEND, type LegendKey } from './style';
-  import type { HistoricMap } from './types';
+  import type { Catalog, HistoricMap } from './types';
 
   interface Props {
     hidden: Set<LegendKey>;
+    lines: Catalog['lines'];
     historicMap: HistoricMap | undefined;
     showHistoric: boolean;
     historicOpacity: number;
     base: string;
   }
 
-  let { hidden = $bindable(), historicMap, showHistoric = $bindable(), historicOpacity = $bindable(), base }: Props = $props();
+  let { hidden = $bindable(), lines, historicMap, showHistoric = $bindable(), historicOpacity = $bindable(), base }: Props = $props();
 
   let open = $state(true);
   onMount(() => (open = window.innerWidth > 720));
@@ -31,6 +32,18 @@
 
   {#if open}
     <ul>
+      <li class="group">Linhas pesquisadas (com linha do tempo)</li>
+      {#each lines as line (line.id)}
+        {@const key = `line-${line.network}` as LegendKey}
+        <li>
+          <label class:off={hidden.has(key)}>
+            <input type="checkbox" checked={!hidden.has(key)} onchange={() => toggle(key)} />
+            <svg width="30" height="10" aria-hidden="true"><line x1="1" y1="5" x2="29" y2="5" stroke={line.color} stroke-width="4" /></svg>
+            <a href="{base}linhas/{line.id}/">{line.name}</a>
+          </label>
+        </li>
+      {/each}
+      <li class="sep group">Situação da linha</li>
       {#each LEGEND as item (item.key)}
         <li>
           <label class:off={hidden.has(item.key)}>
@@ -157,6 +170,13 @@
   .group {
     color: var(--muted);
     font-size: 0.72rem;
+  }
+  label a {
+    color: inherit;
+    text-decoration: none;
+  }
+  label a:hover {
+    text-decoration: underline;
   }
   .sub input[type='range'] {
     width: 110px;

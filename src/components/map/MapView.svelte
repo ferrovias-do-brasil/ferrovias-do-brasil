@@ -25,6 +25,7 @@
     segmentFilter,
     segmentLayers,
     malhaLayers,
+    lineVisible,
     dimBasemap,
     type LegendKey,
   } from './style';
@@ -236,8 +237,8 @@
     }
     for (const id of ['stations', 'station-labels']) map.setLayoutProperty(id, 'visibility', hidden.has('stations') ? 'none' : 'visible');
     const stT = comparing ? endOfYear(compare.b) : t;
-    map.setFilter('stations', activeAt(stT));
-    map.setFilter('station-labels', activeAt(stT));
+    map.setFilter('stations', ['all', activeAt(stT), lineVisible(hidden)]);
+    map.setFilter('station-labels', ['all', activeAt(stT), lineVisible(hidden)]);
     const c = PALETTE[appliedTheme ?? 'light'];
     map.setPaintProperty('stations', 'circle-color', ['case', ['>', ['get', 'passenger_end'], stT], c.stationFill, c.stationEnded]);
     const evs = comparing ? [] : events.filter((e) => Math.floor(e.t) === year && e.coords);

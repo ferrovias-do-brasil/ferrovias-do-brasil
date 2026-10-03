@@ -4,9 +4,13 @@
 trilhos avançarem sertão adentro, as variantes mudarem o traçado e os leitos antigos virarem
 avenidas, estradas ou fundo de represa. Cada data no mapa aponta para uma fonte.
 
-O objetivo é um mapa completo da malha ferroviária brasileira. O piloto é **Birigui** e a
-**Estrada de Ferro Noroeste do Brasil**, de Bauru ao rio Paraná (1906 → hoje); o mesmo modelo de
-dados serve para qualquer linha do país.
+O objetivo é um mapa completo da malha ferroviária brasileira. Linhas já pesquisadas:
+
+- **Estrada de Ferro Noroeste do Brasil**, de Bauru ao rio Paraná (1906 → hoje), com o piloto em **Birigui**;
+- **Companhia Paulista**, Linha Tronco Jundiaí–Campinas–Rio Claro (1872–1876), com datas tiradas dos
+  relatórios da própria companhia.
+
+O resto da malha paulista aparece como contexto, à espera de pesquisa.
 
 ![Birigui em 1970: a variante de 1969 (vermelho) e o leito antigo pelo centro (cinza tracejado)](docs/birigui-1970.png)
 

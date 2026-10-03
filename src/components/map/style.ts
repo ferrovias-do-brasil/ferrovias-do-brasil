@@ -70,15 +70,18 @@ export const COLORS = {
 };
 
 /** What the legend can switch on and off. */
-export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations' | 'ctx_a' | 'ctx_d' | 'ctx_o';
+/** Fixed layer keys, plus `line-<network>` to hide one researched line. */
+export type LegendKey = 'open' | 'freight_only' | 'approx' | 'closed' | 'removed' | 'flooded' | 'stations' | 'ctx_a' | 'ctx_d' | 'ctx_o' | `line-${string}`;
+
+export const isLegendKey = (k: string): k is LegendKey => (LEGEND_KEYS as string[]).includes(k) || /^line-[a-z0-9-]+$/.test(k);
 
 /** Legend entries, drawn with the same colours and dash patterns as the map layers. */
 type LegendItem = { key: LegendKey; label: string; color: string; width: number; dash?: string; opacity?: number };
 
 export const LEGEND: LegendItem[] = [
-  { key: 'open', label: 'Em operação', color: 'var(--line-nob)', width: 4 },
-  { key: 'freight_only', label: 'Só carga (sem passageiros)', color: 'var(--line-nob)', width: 2.5 },
-  { key: 'approx', label: 'Traçado aproximado', color: 'var(--line-nob)', width: 3, dash: '4.5 3.6' },
+  { key: 'open', label: 'Em operação', color: 'var(--ink)', width: 4 },
+  { key: 'freight_only', label: 'Só carga (sem passageiros)', color: 'var(--ink)', width: 2.5 },
+  { key: 'approx', label: 'Traçado aproximado', color: 'var(--ink)', width: 3, dash: '4.5 3.6' },
   { key: 'closed', label: 'Desativado (sem trens)', color: 'var(--seg-closed)', width: 2.2, dash: '4.4 4.4' },
   { key: 'removed', label: 'Trilhos retirados', color: 'var(--seg-removed)', width: 1.5, dash: '1.5 3', opacity: 0.8 },
   { key: 'flooded', label: 'Submerso por represa', color: 'var(--seg-flooded)', width: 3, dash: '3 3.6' },
@@ -235,7 +238,13 @@ export const SEGMENT_LAYER_IDS = SEGMENT_LAYERS.map((l) => l.id).filter((id) => 
 export function segmentFilter(base: ExpressionSpecification, t: number, hidden: ReadonlySet<LegendKey>): FilterSpecification {
   const statuses: SegmentStatus[] = ['construction', 'open', 'freight_only', 'closed', 'removed', 'flooded'];
   const shown = statuses.filter((st) => !hidden.has(st as LegendKey));
-  return ['all', base, activeAt(t), ['in', ['get', 'status'], ['literal', shown]]];
+  return ['all', base, activeAt(t), ['in', ['get', 'status'], ['literal', shown]], lineVisible(hidden)];
+}
+
+/** Hides features of researched lines switched off in the legend (by their `line` property). */
+export function lineVisible(hidden: ReadonlySet<LegendKey>): ExpressionSpecification {
+  const off = [...hidden].filter((k) => k.startsWith('line-')).map((k) => k.slice(5));
+  return ['!', ['in', ['get', 'line'], ['literal', off]]];
 }
 
 /** Layers that disappear entirely when a legend entry is off. */

@@ -144,7 +144,7 @@ async function build() {
       sources: sourceMeta,
       events: eventItems,
       historicMaps: historicMaps.map(({ id, data }) => ({ id, ...data })),
-      lines: lines.map(({ id, data }) => ({ id, name: data.name, short: data.short, color: data.color })),
+      lines: lines.map(({ id, data }) => ({ id, name: data.name, short: data.short, color: data.color, network: data.network })),
     },
   };
 }

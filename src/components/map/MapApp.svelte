@@ -4,7 +4,7 @@
   import TimelineSlider from './TimelineSlider.svelte';
   import SidePanel from './SidePanel.svelte';
   import Legend from './Legend.svelte';
-  import { LEGEND_KEYS, type LegendKey } from './style';
+  import { isLegendKey, type LegendKey } from './style';
   import { onThemeChange, type Theme } from '../../lib/theme';
   import { endOfYear } from '../../lib/dates';
   import { lineLengthM } from '../../lib/geo';
@@ -16,7 +16,7 @@
   }
   let { base }: Props = $props();
 
-  const MIN_YEAR = 1900;
+  const MIN_YEAR = 1860;
   const MAX_YEAR = new Date().getFullYear();
 
   let network = $state<NetworkFC>();
@@ -62,7 +62,7 @@
     const cmp = q.get('comparar')?.split('-').map(Number);
     if (cmp?.length === 2 && cmp.every((y) => y >= MIN_YEAR && y <= MAX_YEAR)) compare = { on: true, a: cmp[0], b: cmp[1] };
     showHistoric = q.get('antigo') === '1';
-    const off = (q.get('ocultar') ?? '').split(',').filter((k): k is LegendKey => (LEGEND_KEYS as string[]).includes(k));
+    const off = (q.get('ocultar') ?? '').split(',').filter(isLegendKey);
     hidden = new Set(off);
   }
 
@@ -142,7 +142,7 @@
       onselect={select}
     />
 
-    <Legend bind:hidden {historicMap} bind:showHistoric bind:historicOpacity {base} />
+    <Legend bind:hidden lines={catalog.lines} {historicMap} bind:showHistoric bind:historicOpacity {base} />
 
     <div class="side" class:collapsed={!panelOpen}>
       <button class="toggle" type="button" onclick={() => (panelOpen = !panelOpen)} aria-expanded={panelOpen}>
