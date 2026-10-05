@@ -77,6 +77,99 @@ nodes:
     kind: station
     coords: [ -47.78392, -21.149035 ]
 
+  # ---------------------------------------------------------------- ramais
+  - id: pedreira
+    name: Pedreira
+    kind: station
+    snap: old
+    coords: [ -46.911942, -22.742722 ]
+  - id: amparo
+    name: Amparo
+    kind: station
+    station: amparo
+    snap: old
+    coords: [ -46.769161, -22.704905 ]
+  - id: reversao
+    name: Reversão
+    kind: junction
+    snap: old
+    coords: [ -46.686782, -22.687605 ]
+    note: Ponto de reversão dos trens entre os ramais de Monte Alegre e de Socorro (desde 1908).
+  - id: monte-alegre
+    name: Monte Alegre do Sul
+    kind: station
+    station: monte-alegre-do-sul
+    snap: old
+    coords: [ -46.683859, -22.687459 ]
+  - id: visconde-de-soutelo
+    name: Visconde de Soutelo
+    kind: station
+    snap: old
+    coords: [ -46.60954, -22.69528 ]
+  - id: socorro
+    name: Socorro
+    kind: station
+    station: socorro
+    snap: old
+    coords: [ -46.525806, -22.597895 ]
+  - id: pantaleao
+    name: Pantaleão
+    kind: station
+    snap: none
+    coords: [ -46.8034, -22.63579 ]
+  - id: brumado
+    name: Brumado
+    kind: station
+    snap: none
+    coords: [ -46.79692, -22.59142 ]
+    note: Posição APROXIMADA, pelo bairro do Brumado.
+  - id: serra-negra
+    name: Serra Negra
+    kind: station
+    station: serra-negra
+    snap: none
+    coords: [ -46.69998, -22.61264 ]
+    note: Posição APROXIMADA, pelo centro da cidade; a estação, demolida, deu lugar à rodoviária.
+  - id: itapira
+    name: Itapira (Penha)
+    kind: station
+    station: itapira
+    snap: old
+    coords: [ -46.825981, -22.437775 ]
+  - id: jct-ramal-mococa
+    name: Ramal de Mococa (início do leito mapeado)
+    kind: junction
+    snap: old
+    coords: [ -47.07757, -21.778698 ]
+  - id: sao-jose-rio-pardo
+    name: São José do Rio Pardo
+    kind: station
+    station: sao-jose-do-rio-pardo
+    snap: old
+    coords: [ -46.890903, -21.593919 ]
+  - id: ribeiro-do-valle
+    name: Ribeiro do Valle
+    kind: junction
+    snap: old
+    coords: [ -46.87986, -21.55708 ]
+    note: Saída do Ramal de Guaxupé (1903), não desenhado aqui.
+  - id: engenheiro-gomide
+    name: Engenheiro Gomide
+    kind: station
+    snap: old
+    coords: [ -46.89147, -21.54494 ]
+  - id: mococa
+    name: Mococa
+    kind: station
+    station: mococa
+    snap: old
+    coords: [ -46.99061, -21.47335 ]
+  - id: canoas
+    name: Canoas
+    kind: station
+    snap: old
+    coords: [ -46.974154, -21.431758 ]
+
 segments:
   # ------------------------------------------------------------------ Campinas → Jaguari (1875)
   - id: mog-campinas-jaguari
@@ -310,3 +403,281 @@ segments:
           - { value: '1961', source: giesbrecht-ribeirao-preto, note: Variante concluída no fim de 1961. }
         note: A nova estação de Ribeirão Preto é de 1/6/1965.
       - *mog-freight
+
+  # ================================================================== RAMAIS
+  # ------------------------------------------------------------------ Ramal de Amparo (1875) e prolongamento a Monte Alegre (1890)
+  - id: mog-ramal-amparo-pedreira
+    name: Ramal de Amparo – Jaguari a Pedreira
+    from: jaguari
+    to: pedreira
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: medium
+    geometry_note: Leito do ramal mapeado no OpenStreetMap. Desde 1945 o ramal saía da nova estação de Jaguariúna, na Variante Guanabara–Guedes (não desenhada).
+    status_history:
+      - status: open
+        from: '1875-11-10'
+        sources: [ giesbrecht-pedreira ]
+      - &amparo-closed
+        status: closed
+        from: '1967'
+        sources: [ giesbrecht-amparo ]
+        note: Extinto o que restava do ramal; os trilhos foram retirados pouco depois.
+
+  - id: mog-ramal-amparo-pedreira-amparo
+    name: Ramal de Amparo – Pedreira, Arcadas e Amparo
+    from: pedreira
+    to: amparo
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 5000 }
+    geometry_confidence: medium
+    geometry_note: Leito mapeado com lacunas perto de Arcadas, fechadas em linha reta.
+    status_history:
+      - status: open
+        from:
+          - { value: '1875-11-15', source: giesbrecht-amparo, preferred: true }
+          - { value: '1875', source: cmef-rel-1876, note: O relatório de 1876 já traz o movimento da estação de Amparo no 2.º semestre de 1875. }
+        note: Primeiro ramal da Mogiana.
+      - *amparo-closed
+
+  - id: mog-amparo-reversao
+    name: Prolongamento Amparo – Três Pontes – Reversão
+    from: amparo
+    to: reversao
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 5000 }
+    geometry_confidence: low
+    geometry_note: Leito mapeado em pedaços; uma lacuna de quase 5 km depois de Três Pontes foi fechada em linha reta.
+    status_history:
+      - &monte-alegre-open
+        status: open
+        from:
+          - { value: '1890-03-02', source: giesbrecht-tres-pontes, preferred: true }
+          - { value: '1890-01-02', source: giesbrecht-monte-alegre-do-sul, note: Data dada pelo Guia Geral das Estradas de Ferro e pelo jornal O Estado de S. Paulo, segundo Giesbrecht. }
+      - status: closed
+        from: '1966-09-16'
+        sources: [ giesbrecht-socorro-mogiana ]
+        note: Fecha com o Ramal de Socorro, cujos trens passavam por aqui. Giesbrecht também diz que o tráfego Amparo–Monte Alegre foi suprimido em 1965; conferir.
+
+  - id: mog-reversao-monte-alegre
+    name: Reversão – Monte Alegre
+    from: reversao
+    to: monte-alegre
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 1500 }
+    geometry_confidence: low
+    status_history:
+      - *monte-alegre-open
+      - status: closed
+        from: '1965'
+        sources: [ giesbrecht-amparo ]
+        note: '"Em 1965, o tráfego de trens foi suprimido entre Amparo e Monte Alegre."'
+
+  # ------------------------------------------------------------------ Ramal de Socorro (1908–1909)
+  - id: mog-ramal-socorro-soutelo
+    name: Ramal de Socorro – Reversão a Visconde de Soutelo
+    from: reversao
+    to: visconde-de-soutelo
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1908-08-01'
+        sources: [ cmef-rel-1909 ]
+        note: '"... 14 do ramal de Soccorro, inaugurados em 1.° de Agosto de 1908."'
+      - &socorro-closed
+        status: closed
+        from: '1966-09-16'
+        sources: [ giesbrecht-socorro-mogiana ]
+
+  - id: mog-ramal-socorro-soutelo-socorro
+    name: Ramal de Socorro – Visconde de Soutelo, Barão de Ibitinga e Socorro
+    from: visconde-de-soutelo
+    to: socorro
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from:
+          - { value: '1909-04-21', source: cmef-rel-1909, preferred: true, note: '"Concluída a construcção, foi aberto ao trafego até o ponto terminal «Estação de Soccorro» em 21 de Abril do corrente anno."' }
+          - { value: '1909-04-24', source: cmef-rel-1910, note: O relatório seguinte dá 24 de abril para a abertura das estações de Barão de Ibitinga e Socorro. }
+      - *socorro-closed
+
+  # ------------------------------------------------------------------ Ramal de Serra Negra (1889–1892)
+  - id: mog-ramal-serra-negra-pantaleao
+    name: Ramal de Serra Negra – Amparo a Pantaleão (aproximado)
+    from: amparo
+    to: pantaleao
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -46.785, -22.67 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; desenho esquemático.
+    status_history:
+      - status: open
+        from: '1889-12-15'
+        sources: [ giesbrecht-pantaleao ]
+      - &serra-negra-closed
+        status: closed
+        from: '1956'
+        sources: [ giesbrecht-serra-negra ]
+        note: Extinto o tráfego no ramal.
+
+  - id: mog-ramal-serra-negra-brumado
+    name: Ramal de Serra Negra – Pantaleão a Brumado (aproximado)
+    from: pantaleao
+    to: brumado
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - status: open
+        from: '1890-09-11'
+        sources: [ cmef-rel-1891-abril ]
+        note: '"Em 11 de Setembro foi aberta ao trafego a estação de Brumado no Ramal de Silveiras."'
+      - *serra-negra-closed
+
+  - id: mog-ramal-serra-negra-final
+    name: Ramal de Serra Negra – Brumado, Santo Aleixo e Serra Negra (aproximado)
+    from: brumado
+    to: serra-negra
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - status: open
+        from: '1892-03-28'
+        sources: [ giesbrecht-serra-negra, cmef-rel-1893 ]
+        note: O relatório da Mogiana registra Serra Negra e Santo Aleixo entre as estações entregues ao público em 1892.
+      - *serra-negra-closed
+
+  # ------------------------------------------------------------------ Ramal da Penha / de Itapira (1882)
+  - id: mog-ramal-itapira
+    name: Ramal da Penha (Itapira)
+    from: mogi-mirim
+    to: itapira
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    geometry_note: Leito do ramal mapeado no OpenStreetMap.
+    status_history:
+      - status: open
+        from:
+          - { value: '1882-07-30', source: cmef-rel-1882, preferred: true, note: '"A 30 de Julho passado teve lugar a inauguração d''este Ramal."' }
+          - { value: '1882-06-30', source: giesbrecht-itapira, note: Data da estação da Penha, segundo Giesbrecht. }
+      - status: freight_only
+        from: '1976'
+        sources: [ giesbrecht-itapira ]
+      - status: closed
+        from: '1986'
+        circa: true
+        sources: [ giesbrecht-itapira ]
+        note: '"Cargas passaram até uns dez anos depois" do fim dos passageiros.'
+      - status: removed
+        from: '1990'
+        sources: [ giesbrecht-itapira ]
+
+  # ------------------------------------------------------------------ Ramal de Mococa (Ramal Férreo do Rio Pardo, 1887–1891)
+  - id: mog-ramal-mococa-rio-pardo
+    name: Ramal de Mococa – Casa Branca, Itobi e São José do Rio Pardo
+    from: jct-ramal-mococa
+    to: sao-jose-rio-pardo
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 1500 }
+    geometry_confidence: medium
+    geometry_note: Leito mapeado no OpenStreetMap (desativado).
+    status_history:
+      - &rio-pardo-open
+        status: open
+        from: '1887-08-27'
+        sources: [ giesbrecht-itobi, giesbrecht-sao-jose-do-rio-pardo ]
+        note: Aberto pela Companhia Ramal Férreo do Rio Pardo, comprada pela Mogiana em junho de 1888.
+      - &mococa-closed
+        status: closed
+        from: '1977'
+        sources: [ giesbrecht-sao-jose-do-rio-pardo ]
+        note: Uma ponte cai entre São José do Rio Pardo e Ribeiro do Valle e a linha é interditada. Houve uma breve volta dos passageiros entre Casa Branca e São José do Rio Pardo em 1985–1986.
+      - &mococa-removed
+        status: removed
+        from: '1992'
+        circa: true
+        sources: [ giesbrecht-mococa ]
+
+  - id: mog-ramal-mococa-casa-branca
+    name: Ramal de Mococa – saída de Casa Branca (esquemático)
+    from: casa-branca-velha
+    to: jct-ramal-mococa
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Ligação de menos de 1 km entre a estação velha e o leito mapeado; linha reta. Depois de 1951 os trens do ramal partiam da Casa Branca nova.
+    status_history:
+      - *rio-pardo-open
+      - *mococa-closed
+      - *mococa-removed
+
+  - id: mog-ramal-mococa-ribeiro-valle
+    name: Ramal de Mococa – São José do Rio Pardo a Ribeiro do Valle
+    from: sao-jose-rio-pardo
+    to: ribeiro-do-valle
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - &gomide-open
+        status: open
+        from: '1889-08-02'
+        sources: [ cmef-rel-1889 ]
+        note: '"Foi inaugurada a 2 de Agosto a estação «Engenheiro Gomide», 9 kilometros além da de S. José do Rio Pardo."'
+      - *mococa-closed
+      - *mococa-removed
+
+  - id: mog-ramal-mococa-gomide
+    name: Ramal de Mococa – Ribeiro do Valle a Engenheiro Gomide
+    from: ribeiro-do-valle
+    to: engenheiro-gomide
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - *gomide-open
+      - &mococa-1966
+        status: closed
+        from: '1966-11-07'
+        sources: [ giesbrecht-mococa ]
+      - *mococa-removed
+
+  - id: mog-ramal-mococa-mococa
+    name: Ramal de Mococa – Engenheiro Gomide, Venerando e Mococa
+    from: engenheiro-gomide
+    to: mococa
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1890-03-18'
+        sources: [ giesbrecht-mococa ]
+        note: A inauguração foi remarcada pelo menos duas vezes.
+      - *mococa-1966
+      - *mococa-removed
+
+  - id: mog-ramal-mococa-canoas
+    name: Ramal de Mococa – Mococa a Canoas
+    from: mococa
+    to: canoas
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from:
+          - { value: '1891-04-15', source: cmef-rel-1891-outubro, preferred: true, note: '"Em 15 de Abril do corrente anno foi aberto ao trafego a estação de Canoas, no prolongamento do Ramal de S. José do Rio Pardo."' }
+          - { value: '1890-03-18', source: giesbrecht-canoas, note: Giesbrecht dá a mesma data de Mococa; o relatório de abril de 1891 diz que a linha estava pronta, à espera de autorização. }
+      - status: closed
+        from: '1960-12-31'
+        sources: [ giesbrecht-mococa ]
+      - *mococa-removed

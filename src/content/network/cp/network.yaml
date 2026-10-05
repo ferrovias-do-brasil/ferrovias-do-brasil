@@ -109,6 +109,102 @@ nodes:
     coords: [ -49.073791, -22.318124 ]
     note: Ponto de encontro com a Noroeste e com a Sorocabana.
 
+  # ---------------------------------------------------------------- ramais
+  - id: recanto
+    name: Recanto
+    kind: junction
+    coords: [ -47.314061, -22.766564 ]
+    note: Saída do Ramal de Piracicaba (estação de 1916).
+  - id: cordeiropolis
+    name: Cordeiro (Cordeirópolis)
+    kind: junction
+    coords: [ -47.453837, -22.481424 ]
+    note: Saída da antiga linha do Mogi-Guaçu, depois Ramal de Descalvado.
+  - id: araras
+    name: Araras
+    kind: station
+    station: araras
+    snap: old
+    coords: [ -47.378498, -22.363493 ]
+  - id: leme
+    name: Leme
+    kind: station
+    station: leme
+    snap: old
+    coords: [ -47.383962, -22.180943 ]
+  - id: pirassununga
+    name: Pirassununga
+    kind: station
+    station: pirassununga
+    snap: old
+    coords: [ -47.426581, -22.008008 ]
+  - id: laranja-azeda
+    name: Laranja Azeda
+    kind: junction
+    snap: old
+    coords: [ -47.410543, -21.952048 ]
+    note: Posição APROXIMADA, no fim do leito mapeado ao norte de Pirassununga; saída do Ramal de Santa Veridiana.
+  - id: porto-ferreira
+    name: Porto Ferreira
+    kind: station
+    station: porto-ferreira
+    snap: none
+    coords: [ -47.47789, -21.85153 ]
+  - id: descalvado
+    name: Descalvado
+    kind: station
+    station: descalvado
+    snap: none
+    coords: [ -47.62428, -21.90188 ]
+  - id: emas
+    name: Emas
+    kind: station
+    snap: none
+    coords: [ -47.3647, -21.9231 ]
+    note: Posição APROXIMADA (Cachoeira de Emas).
+  - id: baguacu
+    name: Baguaçu
+    kind: station
+    snap: none
+    coords: [ -47.32248, -21.89905 ]
+  - id: palmeiras
+    name: Palmeiras (Santa Cruz das Palmeiras)
+    kind: station
+    station: santa-cruz-das-palmeiras
+    snap: none
+    coords: [ -47.248, -21.823 ]
+    note: Posição APROXIMADA, pelo centro da cidade.
+  - id: santa-veridiana
+    name: Santa Veridiana
+    kind: station
+    station: santa-veridiana
+    snap: none
+    coords: [ -47.22645, -21.77209 ]
+    note: Posição APROXIMADA, pela Fazenda Santa Veridiana.
+  - id: baldeacao
+    name: Baldeação (Mogiana)
+    kind: station
+    snap: none
+    coords: [ -47.222, -21.763 ]
+    note: Posição APROXIMADA; estação comum com a Mogiana, a cerca de 1 km de Santa Veridiana.
+  - id: santa-barbara-oeste
+    name: Santa Bárbara d'Oeste
+    kind: station
+    station: santa-barbara-doeste
+    snap: old
+    coords: [ -47.409699, -22.749906 ]
+  - id: fim-leito-piracicaba
+    name: Ramal de Piracicaba (fim do leito mapeado)
+    kind: junction
+    snap: old
+    coords: [ -47.614148, -22.748822 ]
+  - id: piracicaba-paulista
+    name: Piracicaba (Paulista)
+    kind: station
+    station: piracicaba-paulista
+    snap: none
+    coords: [ -47.65522, -22.73559 ]
+
 segments:
   - id: cp-jundiai-valinhos
     name: Jundiaí – Louveira – Vinhedo – Valinhos
@@ -162,14 +258,14 @@ segments:
       - *jc-freight
 
   - id: cp-campinas-santa-barbara
-    name: Campinas – Boa Vista – Rebouças (Sumaré) – Santa Bárbara (Americana)
+    name: Campinas – Boa Vista – Rebouças (Sumaré) – Nova Odessa – Recanto
     from: campinas
-    to: santa-barbara
+    to: recanto
     alignment: original
     geometry:
       method: osm-old
       max_gap_m: 600
-      via: [ [ -47.14262, -22.88655 ], [ -47.26421, -22.82125 ], [ -47.29157, -22.77677 ], [ -47.31387, -22.76677 ] ]
+      via: [ [ -47.14262, -22.88655 ], [ -47.26421, -22.82125 ], [ -47.29157, -22.77677 ] ]
     geometry_confidence: high
     status_history:
       - status: open
@@ -181,6 +277,19 @@ segments:
         from:
           - { value: '2001-03', source: giesbrecht-americana, preferred: true }
           - { value: '2001-04-16', source: giesbrecht-limeira, note: Último trem de passageiros partindo de Limeira rumo a Campinas. }
+
+  - id: cp-recanto-santa-barbara
+    name: Recanto – Santa Bárbara (Americana)
+    from: recanto
+    to: santa-barbara
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1875-08-27'
+        sources: [ cpef-rel-1876-fev ]
+      - *cr-freight
 
   - id: cp-santa-barbara-piracicaba
     name: Santa Bárbara – ponte do rio Piracicaba
@@ -211,17 +320,30 @@ segments:
       - *cr-freight
 
   - id: cp-limeira-santa-gertrudes
-    name: Limeira – Cordeiro – Santa Gertrudes
+    name: Limeira – Cordeiro (Cordeirópolis)
     from: limeira
-    to: jct-santa-gertrudes
+    to: cordeiropolis
     alignment: original
-    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.45372, -22.48129 ] ] }
+    geometry: { method: osm-old, max_gap_m: 600 }
     geometry_confidence: high
     status_history:
       - status: open
         from: '1876-08-11'
         sources: [ cpef-rel-1876-set ]
         note: Tráfego provisório até "a cidade de S. João do Rio Claro".
+      - *cr-freight
+
+  - id: cp-cordeiropolis-santa-gertrudes
+    name: Cordeiro (Cordeirópolis) – Santa Gertrudes
+    from: cordeiropolis
+    to: jct-santa-gertrudes
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1876-08-11'
+        sources: [ cpef-rel-1876-set ]
       - *cr-freight
 
   - id: cp-santa-gertrudes-rio-claro
@@ -444,3 +566,266 @@ segments:
         sources: [ cpef-rel-1911-jun, giesbrecht-bauru-cp ]
         note: '"O ramal de Pederneiras a Bauru, que se inaugurou a 8 de agosto de 1910" (88 km acrescidos à rede). Ali a Paulista encontra a Noroeste e a Sorocabana.'
       - *to-freight
+
+  # ================================================================== RAMAIS
+  # ------------------------------------------------------------------ Linha do Mogi-Guaçu / Ramal de Descalvado (1877–1881)
+  - id: cp-descalvado-cordeiro-araras
+    name: Linha do Mogi-Guaçu – Cordeiro a Araras (esquemático)
+    from: cordeiropolis
+    to: araras
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -47.43, -22.43 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado neste trecho; desenho esquemático.
+    status_history:
+      - status: open
+        from: '1877-04-10'
+        sources: [ cpef-rel-1877-ago ]
+        note: '"... cuja secção desde o Cordeiro até a Villa de Araras (dezoito kilometros) foi entregue ao trafego a 10 de Abril."'
+      - &desc-freight-1977
+        status: freight_only
+        from: '1977-02'
+        sources: [ giesbrecht-descalvado ]
+        note: Fim dos trens de passageiros entre Cordeirópolis e Pirassununga.
+      - &desc-closed
+        status: closed
+        from: '1990'
+        circa: true
+        sources: [ giesbrecht-descalvado ]
+        note: Cargueiros até o fim dos anos 1980.
+      - &desc-removed
+        status: removed
+        from: '1996'
+        circa: true
+        sources: [ giesbrecht-descalvado ]
+        note: Trilhos arrancados entre 1996 e 2003.
+
+  - id: cp-descalvado-araras-leme
+    name: Linha do Mogi-Guaçu – Araras a Leme
+    from: araras
+    to: leme
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 1000 }
+    geometry_confidence: medium
+    geometry_note: Leito mapeado no OpenStreetMap.
+    status_history:
+      - status: open
+        from: '1877-09-30'
+        sources: [ cpef-rel-1878-fev ]
+        note: '"No dia 30 de Setembro próximo passado foram entregues ao trafego provisório mais vinte e oito kilometros ... até o ponto denominado Estação do Leme."'
+      - *desc-freight-1977
+      - *desc-closed
+      - *desc-removed
+
+  - id: cp-descalvado-leme-pirassununga
+    name: Linha do Mogi-Guaçu – Leme a Pirassununga
+    from: leme
+    to: pirassununga
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 1000 }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from: '1878-10-24'
+        sources: [ cpef-rel-1879-fev ]
+        note: '"... concluiu-se a secção da estrada entre a estação do Leme e a Villa de Pirassununga (23 kilometros), sendo ella entregue ao uso publico a 24 de Outubro."'
+      - *desc-freight-1977
+      - *desc-closed
+      - *desc-removed
+
+  - id: cp-descalvado-pirassununga-laranja-azeda
+    name: Linha do Mogi-Guaçu – Pirassununga a Laranja Azeda
+    from: pirassununga
+    to: laranja-azeda
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 1000 }
+    geometry_confidence: medium
+    status_history:
+      - &porto-ferreira-open
+        status: open
+        from: '1880-01-15'
+        sources: [ cpef-rel-1880-fev ]
+        note: '"Concluiram-se as obras de construcção da estrada da Cidade de Pirassununga ao Porto Ferreira, no Mogy Guassú, e a 15 de Janeiro próximo passado foi essa ultima parte da estrada entregue ao trafego."'
+      - &desc-freight-1976
+        status: freight_only
+        from: '1976-07'
+        sources: [ giesbrecht-descalvado ]
+        note: Fim dos trens de passageiros entre Pirassununga e Descalvado.
+      - *desc-closed
+      - *desc-removed
+
+  - id: cp-descalvado-laranja-azeda-porto-ferreira
+    name: Linha do Mogi-Guaçu – Laranja Azeda a Porto Ferreira (esquemático)
+    from: laranja-azeda
+    to: porto-ferreira
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - *porto-ferreira-open
+      - *desc-freight-1976
+      - *desc-closed
+      - *desc-removed
+
+  - id: cp-descalvado-porto-ferreira-descalvado
+    name: Ramal de Descalvado – Porto Ferreira a Descalvado (esquemático)
+    from: porto-ferreira
+    to: descalvado
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -47.55, -21.86 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; desenho esquemático.
+    status_history:
+      - status: open
+        from: '1881-11-07'
+        sources: [ cpef-rel-1882-fev ]
+        note: '"O trafego entre as Estações do Porto-Ferreira e do Descalvado, provisoriamente aberto, começou a 7 de Novembro ultimo."'
+      - *desc-freight-1976
+      - *desc-closed
+      - *desc-removed
+
+  # ------------------------------------------------------------------ Ramal de Santa Veridiana (1886–1913)
+  - id: cp-veridiana-laranja-azeda-emas
+    name: Ramal de Santa Veridiana – Laranja Azeda a Emas (esquemático)
+    from: laranja-azeda
+    to: emas
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - status: open
+        from: '1886-12-06'
+        sources: [ giesbrecht-emas, cpef-rel-1887-set ]
+        note: Aberto como "ramal de Emas", só para cargas.
+      - &veridiana-1976
+        status: closed
+        from: '1976'
+        sources: [ giesbrecht-santa-veridiana ]
+        note: Extinto o que restava do ramal, até Palmeiras.
+      - &veridiana-removed
+        status: removed
+        from: '1980'
+        circa: true
+        sources: [ giesbrecht-santa-veridiana ]
+        note: Trilhos arrancados no início dos anos 1980.
+
+  - id: cp-veridiana-emas-baguacu
+    name: Ramal de Santa Veridiana – Emas a Baguaçu (esquemático)
+    from: emas
+    to: baguacu
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - status: open
+        from: '1891-11-26'
+        sources: [ giesbrecht-baguacu ]
+      - *veridiana-1976
+      - *veridiana-removed
+
+  - id: cp-veridiana-baguacu-palmeiras
+    name: Ramal de Santa Veridiana – Baguaçu, Santa Silvéria e Palmeiras (esquemático)
+    from: baguacu
+    to: palmeiras
+    alignment: branch
+    geometry: { method: waypoints, points: [ [ -47.27592, -21.83712 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; desenho esquemático pelas ruínas da estação de Santa Silvéria.
+    status_history:
+      - status: open
+        from: '1892-08-01'
+        sources: [ giesbrecht-palmeiras ]
+      - *veridiana-1976
+      - *veridiana-removed
+
+  - id: cp-veridiana-palmeiras-santa-veridiana
+    name: Ramal de Santa Veridiana – Palmeiras a Santa Veridiana (esquemático)
+    from: palmeiras
+    to: santa-veridiana
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Leito não mapeado; linha reta.
+    status_history:
+      - status: open
+        from: '1893-02-20'
+        sources: [ giesbrecht-santa-veridiana, cpef-rel-1893-abril ]
+        note: O relatório de abril de 1893 diz que o ramal "foi ha pouco aberto ao trafego, em toda a sua extensão".
+      - &veridiana-1968
+        status: closed
+        from: '1968'
+        sources: [ giesbrecht-santa-veridiana ]
+        note: No início de 1968 é suprimida a linha entre Palmeiras e Baldeação.
+      - *veridiana-removed
+
+  - id: cp-veridiana-baldeacao
+    name: Ligação Santa Veridiana – Baldeação (Mogiana) (esquemático)
+    from: santa-veridiana
+    to: baldeacao
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Cerca de 1 km até a estação de Baldeação, comum com a Mogiana; linha reta.
+    status_history:
+      - status: open
+        from: '1913-06-01'
+        sources: [ cpef-rel-1914-jun ]
+        note: '"A primeira ligação, estabelecida por meio da estação de Baldeação, foi aberta ao serviço publico em 1° de Junho de 1913." Acordo de 1911 com a Mogiana: as bitolas continuavam diferentes.'
+      - *veridiana-1968
+      - *veridiana-removed
+
+  # ------------------------------------------------------------------ Ramal de Piracicaba (1917–1922)
+  - id: cp-piracicaba-recanto-santa-barbara
+    name: Ramal de Piracicaba – Recanto, Cillos e Santa Bárbara d'Oeste
+    from: recanto
+    to: santa-barbara-oeste
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1917-07-14'
+        sources: [ cpef-rel-1918-jun ]
+        note: '"... o trecho do ramal de Nova Odessa a Piracicaba, que da estação inicial vai a Santa Barbara, na extensão de 13 kilometros ... o que se deu em data de 14 de Julho."'
+      - &pira-freight
+        status: freight_only
+        from: '1977-02-20'
+        sources: [ giesbrecht-piracicaba-paulista ]
+      - &pira-closed
+        status: closed
+        from: '1990'
+        circa: true
+        sources: [ giesbrecht-piracicaba-paulista ]
+        note: Abandonado nos anos 1990; os trilhos continuam no lugar, cobertos de mato.
+
+  - id: cp-piracicaba-santa-barbara-boa-vista
+    name: Ramal de Piracicaba – Santa Bárbara d'Oeste, Tupi e Boa Vista
+    from: santa-barbara-oeste
+    to: fim-leito-piracicaba
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    status_history:
+      - &pira-open
+        status: open
+        from: '1922-07-30'
+        sources: [ cpef-rel-1923-jun ]
+        note: '"A 30 de Julho do anno próximo findo foi aberto ao trafego publico o ramal de Piracicaba, de Santa Barbara á estação terminal."'
+      - *pira-freight
+      - *pira-closed
+
+  - id: cp-piracicaba-final
+    name: Ramal de Piracicaba – entrada em Piracicaba (esquemático)
+    from: fim-leito-piracicaba
+    to: piracicaba-paulista
+    alignment: branch
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Os últimos quilômetros, dentro de Piracicaba, não estão mapeados; linha reta.
+    status_history:
+      - *pira-open
+      - *pira-freight
+      - *pira-closed

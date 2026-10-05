@@ -159,6 +159,32 @@ Pendências:
   1953, até Presidente Epitácio), os ramais de Itararé, Porto Feliz, Porto Martins, Piracicaba e
   Campinas, a linha Itu–Mairinque e a Mairinque–Santos.
 
+## Ramais da Mogiana e da Paulista (entre os troncos)
+
+Feito em 2026-10-05: 20 trechos novos na Mogiana (ramais de Amparo, Monte Alegre, Socorro, Serra Negra,
+Itapira e Mococa) e 16 na Paulista (linha do Mogi-Guaçu até Descalvado, ramais de Santa Veridiana e de
+Piracicaba), 16 estações, 11 eventos. Datas primárias dos relatórios: Araras 10/4/1877, Leme 30/9/1877,
+Pirassununga 24/10/1878, Porto Ferreira 15/1/1880, Descalvado 7/11/1881, Baldeação 1/6/1913, Santa
+Bárbara 14/7/1917, Piracicaba 30/7/1922 (Paulista); Penha 30/7/1882, Engenheiro Gomide 2/8/1889, Brumado
+11/9/1890, Canoas 15/4/1891, Socorro 1/8/1908 e 21/4/1909 (Mogiana).
+
+Pendências:
+- **Datas que os relatórios corrigem**: Penha (Itapira), 30/7/1882 no relatório da Mogiana × 30/6/1882 em
+  Giesbrecht; Canoas, 15/4/1891 × 18/3/1890. As duas versões ficam no site.
+- **Leitos sem mapa** (desenhados como esquema, confiança baixa): Cordeiro–Araras; Laranja Azeda–Porto
+  Ferreira–Descalvado; todo o Ramal de Santa Veridiana; o ramal de Serra Negra; a entrada do Ramal de
+  Piracicaba na cidade; uma lacuna de quase 5 km entre Três Pontes e Reversão.
+- **Fechamentos de Amparo**: Giesbrecht diz que o trecho Amparo–Monte Alegre perdeu os trens em 1965, mas
+  os trens de Socorro passavam por ali até 16/9/1966. Conferir nos relatórios da Mogiana de 1965–1967.
+- **Ramal de Itapira depois de 1979**: com a Variante Guedes–Mato Seco o tronco sai de Mogi Mirim; a ligação
+  do ramal com a linha nova não está desenhada (o validador acusa a rede dividida em 1979). O mesmo vale para
+  o Ramal de Mococa depois de 1948, que passou a sair da Casa Branca nova.
+- **Datas aproximadas de fechamento**: Descalvado (cargueiros até o fim dos anos 1980, trilhos arrancados
+  entre 1996 e 2003), Piracicaba (abandonado nos anos 1990), Itapira (cargas até c. 1986).
+- **Fora do escopo por enquanto**: Itapira–Eleutério–Sapucaí (1891–1898), Ramal de Guaxupé, Ramal de Santa
+  Rita (Porto Ferreira), Ramal Descalvadense, linha de Poços de Caldas, ramais de Vargem Grande, Cravinhos,
+  Sertãozinho e Pontal.
+
 ## Próximas linhas
 
 A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela
