@@ -1,0 +1,621 @@
+# Estrada de Ferro Sorocabana — São Paulo → Sorocaba → Botucatu, e o Ramal de Bauru (1875–1905)
+#
+# Bitola métrica. Datas de abertura dos relatórios da própria companhia (Arquivo Público do
+# Estado / Memória Ferroviária) sempre que existem no acervo; as demais, de Giesbrecht.
+# Três grandes mudanças de traçado: a linha dupla e retificada São Paulo–Santo Antônio (Iperó)
+# de 1926–1928, a mudança de Laranjal (1940) e a Variante Juquiratiba–Botucatu (1952), que
+# aposentou a velha subida da serra por Pirambóia e Vitoriana.
+
+line: sorocabana
+name: Estrada de Ferro Sorocabana — São Paulo–Botucatu–Bauru
+bbox: [ -49.15, -23.65, -46.6, -22.25 ]
+osm_cache: malha-sp
+
+nodes:
+  - id: sao-paulo
+    name: São Paulo (Júlio Prestes)
+    kind: station
+    station: sao-paulo-sorocabana
+    coords: [ -46.640589, -23.533099 ]
+  - id: amador-bueno
+    name: Amador Bueno
+    kind: junction
+    coords: [ -46.983435, -23.530518 ]
+    note: Fim da linha dos trens metropolitanos (CPTM, Linha 8).
+  - id: mairinque
+    name: Mairinque
+    kind: station
+    station: mairinque
+    coords: [ -47.1835833, -23.5442714 ]
+  - id: sorocaba
+    name: Sorocaba
+    kind: station
+    station: sorocaba
+    coords: [ -47.45423, -23.49611 ]
+  - id: ipanema
+    name: Ipanema (Varnhagen)
+    kind: station
+    station: varnhagen
+    coords: [ -47.5921757, -23.4261452 ]
+  - id: bacaetava
+    name: Bacaetava
+    kind: junction
+    coords: [ -47.6515132, -23.3832902 ]
+    note: Ponto comum do traçado de 1880–1882 e da variante de 1928, junto às estações velha e nova de Bacaetava.
+  - id: ipero
+    name: Iperó (Santo Antônio Novo)
+    kind: station
+    station: ipero
+    coords: [ -47.68617, -23.35112 ]
+  - id: boituva
+    name: Boituva
+    kind: station
+    station: boituva
+    coords: [ -47.67549, -23.28401 ]
+  - id: cerquilho
+    name: Cerquilho
+    kind: station
+    station: cerquilho
+    coords: [ -47.74404, -23.16307 ]
+  - id: tiete
+    name: Tietê
+    kind: station
+    station: tiete
+    snap: old
+    coords: [ -47.716904, -23.109843 ]
+  - id: laranjal-leste
+    name: Laranjal (leste)
+    kind: junction
+    coords: [ -47.822043, -23.066964 ]
+    note: Ponto aproximado onde o traçado de 1940 se separa do original, a leste da cidade.
+  - id: laranjal-velha
+    name: Laranjal (estação original)
+    kind: station
+    station: laranjal-paulista
+    snap: old
+    coords: [ -47.836342, -23.051254 ]
+    note: Posição aproximada, pela Praça Armando de Salles Oliveira, onde ficava a estação original.
+  - id: maristela
+    name: Maristela
+    kind: junction
+    coords: [ -47.8896, -23.0405 ]
+  - id: conchas
+    name: Conchas
+    kind: station
+    station: conchas
+    coords: [ -48.01007, -23.01151 ]
+  - id: juquiratiba
+    name: Juquiratiba (Salgado)
+    kind: junction
+    coords: [ -48.10323, -22.96205 ]
+    note: Início da Variante Juquiratiba–Botucatu (1952).
+  - id: piramboia
+    name: Pirambóia (estação original)
+    kind: station
+    station: piramboia
+    snap: old
+    coords: [ -48.16095, -22.93142 ]
+  - id: piapara
+    name: Piapara
+    kind: station
+    snap: old
+    coords: [ -48.27995, -22.84363 ]
+  - id: vitoriana
+    name: Vitoriana (Victoria)
+    kind: station
+    station: vitoriana
+    snap: old
+    coords: [ -48.39921, -22.78113 ]
+  - id: botucatu
+    name: Botucatu
+    kind: station
+    station: botucatu
+    coords: [ -48.444236, -22.87359 ]
+  - id: rubiao-junior
+    name: Rubião Júnior (Capão Bonito)
+    kind: station
+    station: rubiao-junior
+    coords: [ -48.492474, -22.894259 ]
+  - id: sao-manuel
+    name: São Manuel
+    kind: station
+    station: sao-manuel
+    coords: [ -48.567984, -22.727462 ]
+  - id: lencois
+    name: Lençóis Paulista
+    kind: station
+    station: lencois-paulista
+    coords: [ -48.79885, -22.594885 ]
+  - id: bom-jardim
+    name: Bom Jardim
+    kind: station
+    coords: [ -48.88617, -22.52627 ]
+    note: Posição calculada pela quilometragem (km 384,153 em 1934); a estação foi demolida.
+  - id: agudos
+    name: Agudos
+    kind: station
+    station: agudos-sorocabana
+    coords: [ -48.989476, -22.475351 ]
+  - id: conceicao
+    name: Conceição
+    kind: station
+    coords: [ -49.06402, -22.36868 ]
+    note: Posição calculada pela quilometragem (km 413,668 em 1934); a estação foi demolida.
+  - id: bauru
+    name: Bauru (Sorocabana)
+    kind: station
+    station: bauru-sorocabana
+    coords: [ -49.080524, -22.325189 ]
+
+segments:
+  # ------------------------------------------------------------------ São Paulo → Sorocaba (1875)
+  - id: sor-sao-paulo-amador-bueno
+    name: São Paulo – Barueri – Amador Bueno
+    from: sao-paulo
+    to: amador-bueno
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    geometry_note: Linha atual dos trens metropolitanos (Linha 8 – Diamante), duplicada em 1926–1928.
+    status_history:
+      - &sp-open
+        status: open
+        from:
+          - { value: '1875-07-10', source: giesbrecht-sao-paulo-sorocabana, preferred: true }
+          - { value: '1875', source: csef-rel-1876, note: 'O relatório de março de 1876 dá o movimento "desde a abertura até 31 de Dezembro" de 1875 (12.682 passageiros), sem citar o dia.' }
+        note: Desde os anos 1920 o trecho inicial atende sobretudo os trens de subúrbio; em 1994 passa à CPTM.
+
+  - id: sor-amador-bueno-mairinque
+    name: Amador Bueno – São Roque – Mairinque
+    from: amador-bueno
+    to: mairinque
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 150 }
+    geometry_confidence: medium
+    geometry_note: >-
+      Desenhado sobre a linha dupla de 1928. O leito original, por São João Velho e pelas estações velhas de Gabriel Piza e São Roque, foi abandonado com a retificação de 1928 e quase não está mapeado.
+    status_history:
+      - *sp-open
+      - &efs-freight
+        status: freight_only
+        from: '1999-01-16'
+        sources: [ giesbrecht-boituva ]
+        note: '"Trens de passageiros de longo percurso trafegaram pela linha-tronco até 16/1/1999, quando foram suprimidos pela concessionária Ferroban."'
+      - status: closed
+        from: '2014'
+        sources: [ giesbrecht-sao-joao-novo ]
+        note: Segundo Giesbrecht, a concessionária deixou de usar o trecho em 2014 e os trilhos foram tomados pelo mato. A situação atual precisa ser conferida.
+
+  - id: sor-mairinque-sorocaba
+    name: Mairinque – Alumínio – Sorocaba
+    from: mairinque
+    to: sorocaba
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Desenhado sobre a linha atual; pequenas retificações da duplicação (1926–1928) não estão separadas.
+    status_history:
+      - *sp-open
+      - *efs-freight
+
+  # ------------------------------------------------------------------ Sorocaba → Ipanema (1876) → Bacaetava (1880) → Boituva (1882)
+  - id: sor-sorocaba-ipanema-original
+    name: Sorocaba – Villeta – Ipanema, linha original
+    from: sorocaba
+    to: ipanema
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.56632, -23.43786 ] ] }
+    geometry_confidence: medium
+    geometry_note: Leito antigo mapeado no OpenStreetMap, passando pela estação velha de Villeta (George Oetterer).
+    status_history:
+      - status: open
+        from: '1876-12-31'
+        sources: [ csef-rel-1877 ]
+        note: '"Effectuou-se a inauguração da nossa linha desta cidade ao Ypanema no dia 31 de Dezembro proximo passado." O trem inaugural partiu de São Paulo.'
+      - status: removed
+        from: '1927'
+        circa: true
+        sources: [ efs-rel-1928 ]
+        note: Com a linha dupla e retificada Mairinque–Ipanema, em tráfego até 31/12/1927, o leito velho fica fora da linha.
+
+  - id: sor-variante-sorocaba-ipanema
+    name: Linha dupla Sorocaba – Ipanema (1927)
+    from: sorocaba
+    to: ipanema
+    alignment: variant
+    replaces: [ sor-sorocaba-ipanema-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1927'
+        sources: [ efs-rel-1928 ]
+        note: '"Até 31/12/1927 tinhamos em circulação em linha dupla, 94,567 kilometros, a saber: ... 54,801 klms. entre Mayrink e Ipanema."'
+      - *efs-freight
+
+  - id: sor-ipanema-bacaetava-original
+    name: Ipanema – Coronel Mursa – Bacaetava, linha original
+    from: ipanema
+    to: bacaetava
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.62692, -23.40636 ] ] }
+    geometry_confidence: medium
+    geometry_note: Leito antigo mapeado no OpenStreetMap, pela parada velha de Coronel Mursa.
+    status_history:
+      - status: open
+        from: '1880'
+        sources: [ giesbrecht-bacaetava, csef-rel-1882 ]
+        note: Bacaetava foi ponta de linha até 1882. O relatório de 1882 dá Ipanema no km 132 e Bacaetava no km 145.
+      - status: removed
+        from: '1928-06-23'
+        sources: [ efs-rel-1928 ]
+        note: '"Coronel Mursa — Em 23 de junho, foi supprimido este posto, que se achava situado entre Ypanema e Bacaetava, visto já se achar installada a linha dupla nesse trecho."'
+
+  - id: sor-variante-ipanema-bacaetava
+    name: Linha dupla Ipanema – Bacaetava (1928)
+    from: ipanema
+    to: bacaetava
+    alignment: variant
+    replaces: [ sor-ipanema-bacaetava-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1928-06-23'
+        circa: true
+        sources: [ efs-rel-1928 ]
+        note: 9,821 km inaugurados em 1928; a linha dupla já estava instalada em junho.
+      - *efs-freight
+
+  - id: sor-bacaetava-boituva-original
+    name: Bacaetava – Santo Antônio – Boituva, linha original
+    from: bacaetava
+    to: boituva
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.67751, -23.33557 ] ] }
+    geometry_confidence: medium
+    geometry_note: Leito antigo mapeado no OpenStreetMap, pela estação velha de Santo Antônio.
+    status_history:
+      - status: open
+        from: '1882-07-16'
+        sources: [ csef-rel-1882 ]
+        note: '"... a successiva construcção do de Boituva cuja inauguração se effectuou em 16 de Julho do corrente anno."'
+      - status: removed
+        from: '1928-12-21'
+        sources: [ giesbrecht-ipero, efs-rel-1928 ]
+        note: A Variante de Tatuí encurta 14,4 km a partir de Bacaetava e leva o entroncamento do Ramal de Itararé de Boituva para Santo Antônio Novo.
+
+  - id: sor-variante-bacaetava-ipero
+    name: Variante Bacaetava – Santo Antônio Novo (Iperó) (1928)
+    from: bacaetava
+    to: ipero
+    alignment: variant
+    replaces: [ sor-bacaetava-boituva-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - &ipero-open
+        status: open
+        from: '1928-12-21'
+        sources: [ giesbrecht-ipero, efs-rel-1928 ]
+        note: Inaugurada a estação de Santo Antônio Novo, ponta da linha dupla que vinha de São Paulo (139,832 km).
+      - *efs-freight
+
+  - id: sor-ipero-boituva
+    name: Iperó – Boituva (1928)
+    from: ipero
+    to: boituva
+    alignment: variant
+    replaces: [ sor-bacaetava-boituva-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - *ipero-open
+      - *efs-freight
+
+  # ------------------------------------------------------------------ Boituva → Cerquilho e Tietê (1883) → Laranjal (1886) → Conchas (1887)
+  - id: sor-boituva-cerquilho
+    name: Boituva – Cerquilho
+    from: boituva
+    to: cerquilho
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1883-01-01'
+        sources: [ giesbrecht-cerquilho ]
+      - *efs-freight
+
+  - id: sor-ramal-tiete
+    name: Ramal de Tietê (Cerquilho – Tietê)
+    from: cerquilho
+    to: tiete
+    alignment: branch
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: medium
+    geometry_note: Leito do ramal mapeado no OpenStreetMap como "Antigo leito da E. F. Sorocabana – Ramal de Tietê".
+    status_history:
+      - status: open
+        from: '1883-01-01'
+        sources: [ giesbrecht-tiete ]
+        note: A estação foi inaugurada com festa em 30 e 31/12/1882. Até junho de 1886, Tietê foi a ponta da linha da Sorocabana; depois virou o ramal mais curto da companhia, com 9 km.
+      - status: closed
+        from: '1960-12-31'
+        sources: [ giesbrecht-tiete ]
+      - status: removed
+        from: '1962-01-09'
+        sources: [ giesbrecht-tiete ]
+        note: Data da carta que autorizou o arrancamento dos trilhos.
+
+  - id: sor-cerquilho-laranjal
+    name: Cerquilho – Jumirim – Laranjal (leste)
+    from: cerquilho
+    to: laranjal-leste
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - &laranjal-open
+        status: open
+        from: '1886-06-24'
+        sources: [ giesbrecht-laranjal, giesbrecht-jumirim ]
+        note: A inauguração foi adiada de 13 para 24 de junho de 1886.
+      - *efs-freight
+
+  - id: sor-laranjal-original
+    name: Laranjal – estação original (aproximado)
+    from: laranjal-leste
+    to: laranjal-velha
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: low
+    geometry_note: Leito antigo mapeado em pedaços; lacunas fechadas em linha reta.
+    status_history:
+      - *laranjal-open
+      - &laranjal-closed
+        status: closed
+        from: '1940-08-11'
+        sources: [ giesbrecht-laranjal ]
+        note: Mudança do traçado na cidade, entre o rio Sorocaba e Maristela; a estação passa para o local atual.
+
+  - id: sor-laranjal-maristela-original
+    name: Laranjal (original) – Maristela (aproximado)
+    from: laranjal-velha
+    to: maristela
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 800 }
+    geometry_confidence: low
+    geometry_note: Leito antigo mapeado em pedaços; lacunas fechadas em linha reta.
+    status_history:
+      - &conchas-open
+        status: open
+        from: '1887-07-21'
+        sources: [ giesbrecht-conchas ]
+      - *laranjal-closed
+
+  - id: sor-variante-laranjal
+    name: Variante de Laranjal (1940)
+    from: laranjal-leste
+    to: maristela
+    alignment: variant
+    replaces: [ sor-laranjal-original, sor-laranjal-maristela-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1940-08-11'
+        sources: [ giesbrecht-laranjal ]
+      - *efs-freight
+
+  - id: sor-maristela-conchas
+    name: Maristela – Pereiras – Conchas
+    from: maristela
+    to: conchas
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Desenhado sobre a linha atual; pequenas retificações não estão separadas.
+    status_history:
+      - *conchas-open
+      - *efs-freight
+
+  # ------------------------------------------------------------------ Conchas → Pirambóia (1888) → Vitoriana (1888) → Botucatu (1889)
+  - id: sor-conchas-juquiratiba
+    name: Conchas – Luiz Gama – Juquiratiba
+    from: conchas
+    to: juquiratiba
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - &piramboia-open
+        status: open
+        from: '1888-03-01'
+        sources: [ giesbrecht-piramboia ]
+        note: Pirambóia é aberta como ponta de linha.
+      - *efs-freight
+
+  - id: sor-juquiratiba-piramboia
+    name: Juquiratiba – Pirambóia (linha velha)
+    from: juquiratiba
+    to: piramboia
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: Leito antigo mapeado no OpenStreetMap.
+    status_history:
+      - *piramboia-open
+      - &serra-velha-closed
+        status: closed
+        from: '1952-04-22'
+        sources: [ giesbrecht-piramboia-nova, giesbrecht-juquiratiba ]
+        note: Aberta a Variante Juquiratiba–Botucatu, o tronco velho pela serra é abandonado.
+
+  - id: sor-piramboia-piapara
+    name: Pirambóia – Remédios – Piapara (linha velha)
+    from: piramboia
+    to: piapara
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: Leito antigo mapeado no OpenStreetMap.
+    status_history:
+      - status: open
+        from: '1888-05-03'
+        sources: [ giesbrecht-piapara ]
+      - *serra-velha-closed
+
+  - id: sor-piapara-vitoriana
+    name: Piapara – Vitoriana (linha velha)
+    from: piapara
+    to: vitoriana
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: Leito antigo mapeado no OpenStreetMap.
+    status_history:
+      - status: open
+        from: '1888-06-20'
+        sources: [ giesbrecht-vitoriana ]
+        note: 'Vitoriana, "na Raiz da Serra de Botucatú", é ponta de linha até 1889.'
+      - *serra-velha-closed
+
+  - id: sor-vitoriana-botucatu
+    name: Vitoriana – Lageado – Botucatu (subida da serra)
+    from: vitoriana
+    to: botucatu
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: high
+    geometry_note: Leito antigo mapeado no OpenStreetMap.
+    status_history:
+      - status: open
+        from: '1889-04-20'
+        sources: [ giesbrecht-botucatu ]
+      - status: open
+        from: '1952-04-22'
+        sources: [ giesbrecht-botucatu ]
+        note: Fora do tronco, o trecho vira o curto "ramal de Vitoriana", ligado ao Ramal de Porto Martins.
+      - status: closed
+        from:
+          - { value: '1954', source: giesbrecht-lageado, preferred: true, note: Lageado é desativada em 1954, com a extinção do resto da linha velha. }
+          - { value: '1955', source: giesbrecht-botucatu, note: '"De 1952 a 1955, desta estação saíam os trilhos do ramal de Vitoriana."' }
+
+  - id: sor-variante-juquiratiba-botucatu
+    name: Variante Juquiratiba – Botucatu (1952)
+    from: juquiratiba
+    to: botucatu
+    alignment: variant
+    replaces: [ sor-juquiratiba-piramboia, sor-piramboia-piapara, sor-piapara-vitoriana, sor-vitoriana-botucatu ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1952-04-22'
+        sources: [ giesbrecht-piramboia-nova, giesbrecht-juquiratiba ]
+        note: Oito estações novas, de Pirambóia-nova a Belvedere. O percurso até Botucatu fica 27 km mais curto.
+      - *efs-freight
+
+  # ------------------------------------------------------------------ Botucatu → Capão Bonito (1896) e o Ramal de Bauru (1897–1905)
+  - id: sor-botucatu-rubiao-junior
+    name: Botucatu – Rubião Júnior (Capão Bonito)
+    from: botucatu
+    to: rubiao-junior
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1896-04-06'
+        sources: [ csief-rel-1897 ]
+        note: '"... em 6 de Abril de 1896 as de Itatinga e Andrades, no prolongamento de Tibagy." Primeiro trecho além de Botucatu, que passa por Capão Bonito.'
+      - *efs-freight
+
+  - id: sor-rubiao-junior-sao-manuel
+    name: Rubião Júnior – Toledo – Igualdade – São Manuel
+    from: rubiao-junior
+    to: sao-manuel
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    geometry_note: Desenhado sobre a linha atual; as retificações dos anos 1960 no ramal não estão separadas.
+    status_history:
+      - status: open
+        from: '1897-03-05'
+        sources: [ csief-rel-1898 ]
+        note: '"Com a abertura das ligações, de Capão Bonito a S. Manoel em 5 de Março ..." A ligação substitui a velha linha da Ituana pela serra de São Manuel.'
+      - &bauru-freight
+        status: freight_only
+        from: '1976'
+        sources: [ giesbrecht-bauru-sorocabana ]
+        note: Fim dos trens de passageiros no Ramal de Bauru.
+
+  - id: sor-sao-manuel-lencois
+    name: São Manuel – Rodrigues Alves – Lençóis
+    from: sao-manuel
+    to: lencois
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from:
+          - { value: '1898-09-07', source: giesbrecht-rodrigues-alves, preferred: true, note: Abertura das estações de Rodrigues Alves e Alfredo Guedes. }
+          - { value: '1898-11-28', source: giesbrecht-lencois, note: Inauguração festiva da estação de Lençóis; o primeiro trem, de material, chegou em 29 de agosto. }
+      - *bauru-freight
+
+  - id: sor-lencois-bom-jardim
+    name: Lençóis – Virgílio Rocha – Bom Jardim
+    from: lencois
+    to: bom-jardim
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from: '1899-01-14'
+        sources: [ giesbrecht-bom-jardim, csief-rel-1900 ]
+        note: O relatório de 1899 registra Bom Jardim, "actual termo da linha dos Agudos", entre as estações abertas no ano.
+      - *bauru-freight
+
+  - id: sor-bom-jardim-agudos
+    name: Bom Jardim – Agudos
+    from: bom-jardim
+    to: agudos
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from: '1903-09-25'
+        sources: [ giesbrecht-agudos-sorocabana, csief-rel-1904 ]
+        note: O relatório da companhia registra os 13,903 km entre Bom Jardim e Agudos abertos ao tráfego em setembro de 1903 (o dia está ilegível na digitalização).
+      - *bauru-freight
+
+  - id: sor-agudos-conceicao
+    name: Agudos – Conceição
+    from: agudos
+    to: conceicao
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from: '1904-11-12'
+        sources: [ giesbrecht-conceicao ]
+      - *bauru-freight
+
+  - id: sor-conceicao-bauru
+    name: Conceição – Bauru
+    from: conceicao
+    to: bauru
+    alignment: branch
+    geometry: { method: osm-current }
+    geometry_confidence: medium
+    status_history:
+      - status: open
+        from: '1905-04-22'
+        sources: [ giesbrecht-bauru-sorocabana ]
+        note: '"Entregue ao trafego provisorio em 22 de Abril, e ao definitivo em 1o. de Julho de 1905" (relatório de 1905, citado por Giesbrecht).'
+      - *bauru-freight

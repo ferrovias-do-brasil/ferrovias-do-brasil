@@ -1,0 +1,7 @@
+name: Sorocabana Railway Company
+short: Sorocabana Railway
+from: '1907'
+to: '1919'
+successor: efs-estado
+summary: Arrendatária da ferrovia, do grupo de Percival Farquhar; as linhas da Ituana foram incorporadas de vez à Sorocabana.
+sources: [giesbrecht-boituva, wikipedia-pt-sorocabana]

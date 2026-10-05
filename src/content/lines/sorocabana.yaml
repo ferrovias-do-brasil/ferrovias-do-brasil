@@ -1,0 +1,15 @@
+name: Estrada de Ferro Sorocabana
+short: Sorocabana
+color: '#12808a'
+gauge_mm: 1000
+network: sorocabana
+summary: >-
+  Nasceu para ligar Sorocaba a São Paulo (1875) e subiu o vale do Tietê até Botucatu (1889). Pelo
+  ramal que partia de Capão Bonito (Rubião Júnior), chegou a Bauru em 1905, um ano antes de a
+  Noroeste começar dali. Nesta etapa, o tronco até Rubião Júnior e o Ramal de Bauru.
+operators:
+  - { company: cia-sorocabana, from: '1875', to: '1892', source: giesbrecht-boituva }
+  - { company: cusi, from: '1892', to: '1907', source: giesbrecht-boituva }
+  - { company: sorocabana-railway, from: '1907', to: '1919', source: giesbrecht-boituva }
+  - { company: efs-estado, from: '1919', to: '1971', source: giesbrecht-boituva }
+  - { company: fepasa, from: '1971', source: giesbrecht-boituva }

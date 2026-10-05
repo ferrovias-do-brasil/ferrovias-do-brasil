@@ -1,0 +1,9 @@
+name: Companhia União Sorocabana e Ituana
+short: CUSI
+from: '1892'
+to: '1907'
+successor: sorocabana-railway
+summary: >-
+  Fusão da Sorocabana com a Companhia Ituana, então quase falida, em 1892. Passou ao Governo
+  Federal em 1903 e foi vendida ao Governo de São Paulo em 1905.
+sources: [giesbrecht-boituva, wikipedia-pt-sorocabana]

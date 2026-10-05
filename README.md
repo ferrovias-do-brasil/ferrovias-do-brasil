@@ -11,6 +11,9 @@ O objetivo é um mapa completo da malha ferroviária brasileira. Linhas já pesq
   (1867 e 1901) e a cremalheira de 1974;
 - **Companhia Mogiana**, de Campinas a Ribeirão Preto (1875–1883), com as variantes que tiraram os
   trilhos dos centros das cidades entre 1929 e 1979;
+- **Estrada de Ferro Sorocabana**, de São Paulo a Botucatu (1875–1889) e o Ramal de Bauru (1897–1905),
+  com a linha dupla de 1928 e a Variante Juquiratiba–Botucatu (1952), que aposentou a subida da serra
+  por Vitoriana;
 - **Companhia Paulista**, de Jundiaí a Bauru (1872–1910): a Linha Tronco até Rio Claro, com datas
   tiradas dos relatórios da própria companhia, e o caminho até Bauru pelas antigas linhas da
   Companhia Rio-Clarense, onde a Paulista encontra a Noroeste.

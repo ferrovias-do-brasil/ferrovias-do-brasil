@@ -128,10 +128,41 @@ Pendências:
   centros das cidades.
 - **Ramais**: Amparo (1875), Penha (30/7/1882), Mococa, Serrana, Sertãozinho.
 
+## Estrada de Ferro Sorocabana — São Paulo–Botucatu e Ramal de Bauru
+
+Feito em 2026-10-05: 30 trechos (tronco São Paulo–Rubião Júnior, Ramal de Tietê e Ramal de Bauru, com as
+variantes de 1927–1928, 1940 e 1952), 18 estações, 16 eventos. Datas primárias dos relatórios da
+companhia: Ipanema 31/12/1876 (relatório de 1877), Boituva 16/7/1882 (1882), Botucatu–Andrades
+6/4/1896 (1897), Capão Bonito–São Manuel 5/3/1897 (1898), linha dupla e Variante de Tatuí (1928).
+O acervo do Memória Ferroviária tem só 1873–1878 e 1882 (Companhia Sorocabana), 1897–1904 (União
+Sorocabana e Ituana), 1909–1912 (Sorocabana Railway) e 1919–1930 (E.F. Sorocabana).
+
+Pendências:
+- **1875 sem fonte primária para o dia**: o relatório de 1876 confirma a abertura no 2.º semestre de
+  1875, mas o 10/7/1875 vem de Giesbrecht. Procurar no *Correio Paulistano* e na *Província de S. Paulo*.
+- **Datas de 1883–1889 só em Giesbrecht** (Cerquilho, Tietê, Laranjal, Conchas, Pirambóia, Piapara,
+  Vitoriana, Botucatu): faltam os relatórios de 1883–1891 no acervo. Ver Hemeroteca Digital.
+- **Retificação de 1928 entre São João e Mairinque**: o leito velho, por São João Velho e pelas
+  estações velhas de Gabriel Piza e São Roque, quase não está no OpenStreetMap. Os km mostram o
+  encurtamento: Lopes de Oliveira passa de 117,195 (1924) para 112,371 (1931).
+- **Amador Bueno–Mairinque fechado em 2014**: só Giesbrecht (página de São João Novo). Conferir a
+  situação atual com a concessionária.
+- **Laranjal antes de 1940**: o leito antigo está mapeado em pedaços. O desenho dá 19,9 km de Laranjal a
+  Conchas, e o km de 1931 dá 23,0 km.
+- **Ramal de Bauru**: Giesbrecht cita retificações nos anos 1960 que não estão desenhadas. De Lençóis a
+  Bauru o desenho atual tem 46,9 km, e os km de 1934 dão 52,9 km.
+- **São Manuel antes de 1897**: a estação foi aberta pela Ituana em 1888, na ponta da linha que vinha de
+  Porto Martins (rio Tietê) por Araquá e Igualdade, e esse trecho ainda não está desenhado. Datas
+  conflitantes: 5/7/1888 e 1/8/1888.
+- **Km de São Manuel em 1960** (322,110 em Giesbrecht) não fecha com as estações vizinhas; ficou de fora.
+- **Fora do escopo por enquanto**: o tronco além de Rubião Júnior (Variante Rubião Júnior–Manduri, de
+  1953, até Presidente Epitácio), os ramais de Itararé, Porto Feliz, Porto Martins, Piracicaba e
+  Campinas, a linha Itu–Mairinque e a Mairinque–Santos.
+
 ## Próximas linhas
 
 A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela
-quantidade de leito no OSM: Sorocabana (≈800 km nomeados), Paulista (tronco, Itirapina–Panorama,
+quantidade de leito no OSM: o resto da Sorocabana (tronco até Presidente Epitácio, ramais), Paulista (tronco, Itirapina–Panorama,
 Nova Granada), Mogiana (ramais de Mococa, Guaxupé), São Paulo Railway (Santos–Jundiaí), Bragantina,
 Campos do Jordão e o Tramway da Cantareira.
 

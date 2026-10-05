@@ -1,0 +1,7 @@
+name: Estrada de Ferro Sorocabana (Governo do Estado de São Paulo)
+short: EFS
+from: '1919'
+to: '1971'
+successor: fepasa
+summary: O Governo paulista retomou a ferrovia em 1919 e a administrou até a criação da FEPASA, em 1971.
+sources: [giesbrecht-boituva, wikipedia-pt-sorocabana]
