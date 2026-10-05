@@ -9,6 +9,8 @@ O objetivo é um mapa completo da malha ferroviária brasileira. Linhas já pesq
 - **Estrada de Ferro Noroeste do Brasil**, de Bauru ao rio Paraná (1906 → hoje), com o piloto em **Birigui**;
 - **São Paulo Railway**, de Santos a Jundiaí (1867), com os dois sistemas de cabos da Serra do Mar
   (1867 e 1901) e a cremalheira de 1974;
+- **Companhia Mogiana**, de Campinas a Ribeirão Preto (1875–1883), com as variantes que tiraram os
+  trilhos dos centros das cidades entre 1929 e 1979;
 - **Companhia Paulista**, de Jundiaí a Bauru (1872–1910): a Linha Tronco até Rio Claro, com datas
   tiradas dos relatórios da própria companhia, e o caminho até Bauru pelas antigas linhas da
   Companhia Rio-Clarense, onde a Paulista encontra a Noroeste.

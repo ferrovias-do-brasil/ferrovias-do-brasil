@@ -107,6 +107,27 @@ Pendências:
 - **Estações não modeladas**: Alemoa, Casqueiro, Piaçaguera, Ribeirão Pires, Mauá, Utinga, Ipiranga,
   Mooca, Barra Funda, Lapa, Pirituba, Perus, Caieiras, Franco da Rocha, Campo Limpo.
 
+## Companhia Mogiana — tronco Campinas–Ribeirão Preto
+
+Feito em 2026-10-05: 16 trechos (tronco original 1875–1883 e sete variantes até 1979), 6 estações, 12
+eventos. Datas primárias dos relatórios da Mogiana: Jaguari 3/5/1875 e Mogi Mirim 27/8/1875 (relatório
+de 1876), São Simão 16/8/1882 (1882). Os 53 relatórios do acervo (1873–1931) estão listados no
+Memória Ferroviária.
+
+Pendências:
+- **Leitos originais quase todos sem mapa**: só Campinas–Jaguariúna (trem turístico da ABPF) e a
+  entrada de Ribeirão Preto estão no OSM. O resto do tronco original está desenhado sobre a linha atual
+  ou como reta (Casa Branca), por isso a quilometragem não bate: o tronco de 1938 media 312,5 km de
+  Campinas a Ribeirão Preto, cerca de 30 km a mais que a linha atual.
+- **Datas sem fonte primária**: Casa Branca (14/1/1878, o relatório de 1878 não está no acervo) e
+  Ribeirão Preto (23/11/1883; o relatório de 1884 também falta). Ler o relatório de 1879 e o de 1885
+  completos.
+- **Variantes com data só em Giesbrecht**: 1929, 1945 (Guanabara–Guedes, não modelada), 1948, 1961–65,
+  1971, 1977, 1979; conferir nos relatórios de 1929–1931 e em fontes da FEPASA.
+- **Posições das estações velhas** (Mogi Mirim, Casa Branca, São Simão, Cravinhos) estimadas pelos
+  centros das cidades.
+- **Ramais**: Amparo (1875), Penha (30/7/1882), Mococa, Serrana, Sertãozinho.
+
 ## Próximas linhas
 
 A malha paulista inteira já aparece em violeta (OpenStreetMap). Candidatas a ganhar história, pela

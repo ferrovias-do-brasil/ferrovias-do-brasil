@@ -58,7 +58,7 @@ nodes:
     name: Jundiaí (SPR)
     kind: station
     station: jundiai-spr
-    coords: [ -46.87233, -23.19527 ]
+    coords: [ -46.871873, -23.195298 ]
     note: Ponto final da SPR e início da Companhia Paulista (1872).
 
 segments:

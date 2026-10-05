@@ -1,0 +1,312 @@
+# Companhia Mogiana de Estradas de Ferro — tronco Campinas → Ribeirão Preto (1875–1883)
+#
+# Bitola métrica. O tronco original foi quase todo substituído por variantes entre 1929 e 1979;
+# a linha atual (FCA/VLI) é a soma delas. Onde o leito original não está no OpenStreetMap, ele é
+# desenhado como aproximado ou esquemático. Datas de abertura dos relatórios da própria Mogiana
+# (Arquivo Público do Estado / Memória Ferroviária), conferidas com Giesbrecht.
+
+line: mogiana
+name: Companhia Mogiana — tronco Campinas–Ribeirão Preto
+bbox: [ -47.95, -22.95, -46.85, -21.10 ]
+osm_cache: malha-sp
+
+nodes:
+  - id: campinas
+    name: Campinas
+    kind: station
+    snap: old
+    coords: [ -47.068286, -22.908944 ]
+    note: A Mogiana partia da estação da Paulista em Campinas.
+  - id: boa-vista
+    name: Boa Vista (Campinas)
+    kind: junction
+    coords: [ -47.139896, -22.87596 ]
+    note: Início da Variante Boa Vista–Guedes (1977), na linha da Paulista.
+  - id: jaguari
+    name: Jaguari (Jaguariúna)
+    kind: station
+    station: jaguariuna
+    snap: old
+    coords: [ -46.994685, -22.703783 ]
+  - id: guedes
+    name: Guedes
+    kind: junction
+    coords: [ -46.975124, -22.666777 ]
+    note: Ponto aproximado onde a Variante Boa Vista–Guedes encontra o tronco.
+  - id: mogi-mirim
+    name: Mogi Mirim
+    kind: station
+    station: mogi-mirim
+    snap: old
+    coords: [ -46.941251, -22.44952 ]
+    note: Ponto APROXIMADO, no trilho mais próximo do centro de Mogi Mirim; a estação original ficava no centro.
+  - id: mato-seco
+    name: Mato Seco (aproximado)
+    kind: junction
+    coords: [ -46.960988, -22.266932 ]
+    note: Ponto aproximado onde a Variante Guedes–Mato Seco (1979) reencontra o tronco, ao norte de Mogi Guaçu.
+  - id: lagoa-branca
+    name: Lagoa Branca
+    kind: station
+    coords: [ -47.034946, -21.892267 ]
+    note: Início da Variante Lagoa–Tambaú (1948).
+  - id: casa-branca-velha
+    name: Casa Branca (estação original)
+    kind: station
+    station: casa-branca
+    snap: none
+    coords: [ -47.08521, -21.77431 ]
+    note: Posição APROXIMADA, pelo centro da cidade; a estação de 1878 virou ponta do Ramal de Mococa.
+  - id: tambau
+    name: Tambaú
+    kind: junction
+    coords: [ -47.271345, -21.697135 ]
+  - id: bento-quirino
+    name: Bento Quirino
+    kind: junction
+    coords: [ -47.58458, -21.460665 ]
+  - id: ribeirao-preto-velha
+    name: Ribeirão Preto (estação original)
+    kind: station
+    station: ribeirao-preto
+    snap: old
+    coords: [ -47.815585, -21.160187 ]
+    note: Área da antiga estação (1883–1968), hoje Terminal Rodoviário.
+  - id: ribeirao-preto-nova
+    name: Ribeirão Preto (estação de 1965)
+    kind: station
+    coords: [ -47.78392, -21.149035 ]
+
+segments:
+  # ------------------------------------------------------------------ Campinas → Jaguari (1875)
+  - id: mog-campinas-jaguari
+    name: Campinas – Anhumas – Carlos Gomes – Jaguari
+    from: campinas
+    to: jaguari
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.02985, -22.85869 ] ] }
+    geometry_confidence: medium
+    geometry_note: >-
+      Leito do trem turístico Campinas–Jaguariúna (ABPF), que segue o tronco original já com a retificação Desembargador Furtado–Jaguari de 18/11/1929 (nova Carlos Gomes, a cerca de 1 km da velha).
+    status_history:
+      - status: open
+        from: '1875-05-03'
+        sources: [ cmef-rel-1876 ]
+        note: '"Abriu-se o trafego até à estação do Jaguary no dia 3 de Maio de 1875."'
+      - status: closed
+        from: '1977'
+        sources: [ giesbrecht-jaguariuna ]
+        note: O tráfego passa para a Variante Boa Vista–Guedes. Desde 1981 o trecho recebe o trem turístico da ABPF.
+
+  - id: mog-variante-boa-vista-guedes
+    name: Variante Boa Vista – Guedes (1977)
+    from: boa-vista
+    to: guedes
+    alignment: variant
+    replaces: [ mog-campinas-jaguari, mog-jaguari-guedes ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1977'
+        sources: [ giesbrecht-jaguariuna ]
+      - &mog-freight
+        status: freight_only
+        from: '1997-08-11'
+        sources: [ giesbrecht-ribeirao-preto-nova ]
+        note: '"Recebeu passageiros até 11 de agosto de 1997, quando estes trens foram suprimidos."'
+
+  # ------------------------------------------------------------------ Jaguari → Mogi Mirim (1875) → Casa Branca (1878)
+  - id: mog-jaguari-guedes
+    name: Jaguari – Guedes
+    from: jaguari
+    to: guedes
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: low
+    geometry_note: Leito original não mapeado; desenhado pelo caminho mais curto sobre os trilhos existentes.
+    status_history:
+      - &mm-open
+        status: open
+        from: '1875-08-27'
+        sources: [ cmef-rel-1876 ]
+        note: '"E em 27 de Agosto até Mogy-mirim."'
+      - status: closed
+        from: '1977'
+        sources: [ giesbrecht-jaguariuna ]
+        note: Com a Variante Boa Vista–Guedes, os trens deixam de passar por Jaguariúna.
+
+  - id: mog-guedes-mogi-mirim
+    name: Guedes – Mogi Mirim (aproximado)
+    from: guedes
+    to: mogi-mirim
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600 }
+    geometry_confidence: low
+    geometry_note: Leito original não mapeado; desenhado pelo caminho mais curto até o centro de Mogi Mirim.
+    status_history:
+      - *mm-open
+      - status: removed
+        from: '1979'
+        sources: [ giesbrecht-mogi-mirim ]
+        note: '"Os trilhos foram retirados, em 1979, com a construção da variante Guedes–Mato Seco."'
+
+  - id: mog-mogi-mirim-mato-seco
+    name: Mogi Mirim – Mogi Guaçu – Mato Seco (aproximado)
+    from: mogi-mirim
+    to: mato-seco
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -46.9425, -22.37222 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito original não mapeado; passa pelo centro de Mogi Guaçu.
+    status_history:
+      - status: open
+        from:
+          - { value: '1878-01-14', source: giesbrecht-casa-branca, note: Data da chegada a Casa Branca; Mogi Guaçu pode ter sido aberta antes. }
+      - status: removed
+        from: '1979'
+        sources: [ giesbrecht-mogi-mirim ]
+
+  - id: mog-variante-guedes-mato-seco
+    name: Variante Guedes – Mato Seco (1979)
+    from: guedes
+    to: mato-seco
+    alignment: variant
+    replaces: [ mog-guedes-mogi-mirim, mog-mogi-mirim-mato-seco ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1979'
+        sources: [ giesbrecht-mogi-mirim ]
+        note: Contorna Mogi Mirim e Mogi Guaçu, com estações novas fora das cidades.
+      - *mog-freight
+
+  - id: mog-mato-seco-lagoa
+    name: Mato Seco – Lagoa Branca (aproximado)
+    from: mato-seco
+    to: lagoa-branca
+    alignment: original
+    geometry: { method: osm-current }
+    geometry_confidence: low
+    geometry_note: Desenhado sobre a linha atual; o tronco original pode ter tido outro traçado neste trecho.
+    status_history:
+      - status: open
+        from: '1878-01-14'
+        sources: [ giesbrecht-casa-branca ]
+      - *mog-freight
+
+  # ------------------------------------------------------------------ Casa Branca (1878) → São Simão (1882) → Ribeirão Preto (1883)
+  - id: mog-lagoa-casa-branca
+    name: Lagoa Branca – Casa Branca (estação original, esquemático)
+    from: lagoa-branca
+    to: casa-branca-velha
+    alignment: original
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Linha reta até o centro de Casa Branca; o leito original não está mapeado.
+    status_history:
+      - status: open
+        from: '1878-01-14'
+        sources: [ giesbrecht-casa-branca ]
+        note: Ponta da linha até 1882.
+      - status: closed
+        from: '1948-12'
+        sources: [ giesbrecht-casa-branca ]
+        note: A Variante Lagoa–Tambaú tira o tronco da cidade; a velha estação vira ponta do Ramal de Mococa até 1988.
+
+  - id: mog-casa-branca-tambau
+    name: Casa Branca – Tambaú (esquemático)
+    from: casa-branca-velha
+    to: tambau
+    alignment: original
+    geometry: { method: waypoints, points: [] }
+    geometry_confidence: low
+    geometry_note: Linha reta; o leito original não está mapeado.
+    status_history:
+      - &ss-open
+        status: open
+        from: '1882-08-16'
+        sources: [ cmef-rel-1882 ]
+        note: '"Concessão para a abertura ao trafego até á Villa de S. Simão, no dia 16 d''Agosto próximo passado foi ella inaugurada."'
+      - status: closed
+        from: '1948-12'
+        sources: [ giesbrecht-casa-branca ]
+
+  - id: mog-variante-lagoa-tambau
+    name: Variante Lagoa – Casa Branca – Tambaú (1948)
+    from: lagoa-branca
+    to: tambau
+    alignment: variant
+    replaces: [ mog-lagoa-casa-branca, mog-casa-branca-tambau ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1948-12'
+        sources: [ giesbrecht-casa-branca ]
+        note: A nova estação de Casa Branca, na variante, é de 1951.
+      - *mog-freight
+
+  - id: mog-tambau-sao-simao-original
+    name: Tambaú – São Simão (centro) – Bento Quirino, linha original (aproximado)
+    from: tambau
+    to: bento-quirino
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.5523, -21.47987 ] ] }
+    geometry_confidence: low
+    geometry_note: O leito original pelo centro de São Simão virou avenida e não está mapeado como ferrovia.
+    status_history:
+      - *ss-open
+      - status: closed
+        from: '1971-02-25'
+        sources: [ giesbrecht-sao-simao ]
+        note: '"Desativada em 25/02/1971, quando uma nova estação foi entregue na linha nova, fora do centro da cidade e na variante Tambaú–Bento Quirino."'
+
+  - id: mog-variante-tambau-bento-quirino
+    name: Variante Tambaú – Bento Quirino (1971)
+    from: tambau
+    to: bento-quirino
+    alignment: variant
+    replaces: [ mog-tambau-sao-simao-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from: '1971-02-25'
+        sources: [ giesbrecht-sao-simao ]
+      - *mog-freight
+
+  - id: mog-bento-quirino-ribeirao-original
+    name: Bento Quirino – Cravinhos – Ribeirão Preto, linha original (aproximado)
+    from: bento-quirino
+    to: ribeirao-preto-velha
+    alignment: original
+    geometry: { method: osm-old, max_gap_m: 600, via: [ [ -47.72944, -21.34027 ] ] }
+    geometry_confidence: low
+    geometry_note: Leito original mapeado só na entrada de Ribeirão Preto ("Linha Tronco antiga (Mogiana)"); o resto, pelo centro de Cravinhos, é aproximado.
+    status_history:
+      - status: open
+        from:
+          - { value: '1883-11-23', source: giesbrecht-ribeirao-preto, preferred: true }
+          - { value: '1883', source: cmef-rel-1885, note: 'O relatório de 1885 confirma que no 1.º semestre de 1883 o tráfego ia "somente até a estação de S. Simão"; o relatório de 1884, que traria a data, não está no acervo.' }
+      - status: closed
+        from: '1964-05-01'
+        sources: [ giesbrecht-cravinhos ]
+        note: Desativada a estação de Cravinhos; a velha estação de Ribeirão Preto passa a ser "Ribeirão Preto-ramal" em 1965 e é erradicada em 1968–1969.
+
+  - id: mog-variante-bento-quirino-entroncamento
+    name: Variante Bento Quirino – Entroncamento (Ribeirão Preto, 1961–1965)
+    from: bento-quirino
+    to: ribeirao-preto-nova
+    alignment: variant
+    replaces: [ mog-bento-quirino-ribeirao-original ]
+    geometry: { method: osm-current }
+    geometry_confidence: high
+    status_history:
+      - status: open
+        from:
+          - { value: '1964-05-01', source: giesbrecht-cravinhos, preferred: true, note: Passageiros transferidos para a variante. }
+          - { value: '1961', source: giesbrecht-ribeirao-preto, note: Variante concluída no fim de 1961. }
+        note: A nova estação de Ribeirão Preto é de 1/6/1965.
+      - *mog-freight

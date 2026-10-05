@@ -1,0 +1,12 @@
+name: Companhia Mogiana de Estradas de Ferro
+short: Mogiana
+color: '#a8326e'
+gauge_mm: 1000
+network: mogiana
+summary: >-
+  Ferrovia de bitola métrica que partiu de Campinas em 1875 rumo ao nordeste paulista: Mogi Mirim
+  (1875), Casa Branca (1878), São Simão (1882) e Ribeirão Preto (1883), a capital do café da Alta
+  Mogiana. Nesta etapa, só o tronco até Ribeirão Preto.
+operators:
+  - { company: cia-mogiana, from: '1875', to: '1971', source: wikipedia-pt-mogiana }
+  - { company: fepasa, from: '1971', source: wikipedia-pt-mogiana }
